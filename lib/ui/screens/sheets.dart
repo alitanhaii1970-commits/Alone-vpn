@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../core/i18n.dart';
 import '../../core/icons.dart';
 import '../../core/scope.dart';
@@ -34,10 +35,10 @@ Future<void> showImport(BuildContext context) {
               busy = false;
               err = r.dup > 0 ? tr('dup_only') : tr('bad_link');
             });
-            Hx.fail();
+            HapticFeedback.heavyImpact();
             return;
           }
-          Hx.ok();
+          HapticFeedback.lightImpact();
           Navigator.of(ctx).pop();
           snack(tr('imported', {'n': '${r.added}'}), tone: 'ok');
         }
