@@ -1,0 +1,120 @@
+name: Build ALONE VPN APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alone-vpn-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    name: Build Android APK (Xray + sing-box)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Set up Flutter stable
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Set up Android SDK and NDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install native build utilities and NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y jq unzip zip
+          sdkmanager --install 'platform-tools' 'ndk;28.2.13676358'
+          echo "ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/28.2.13676358" >> "$GITHUB_ENV"
+          flutter --version
+          java -version
+          go version
+
+      - name: Generate Android project
+        run: flutter create .
+
+      - name: Resolve Flutter dependencies
+        run: flutter pub get
+
+      - name: Patch Android manifest and Gradle for VPN services
+        run: python3 scripts/patch_android_for_vpn.py
+
+      - name: Patch Android permission cancellation handling
+        run: python3 scripts/patch_v2ray_box_android.py
+
+      - name: Locate and prepare native engine build scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          xray_script="$(find "$HOME/.pub-cache" -type f -path '*/example/scripts/build_android_libxray.sh' -print -quit 2>/dev/null || true)"
+          singbox_script="$(find "$HOME/.pub-cache" -type f -path '*/example/scripts/build_android_libsingbox.sh' -print -quit 2>/dev/null || true)"
+          test -n "$xray_script" || { echo 'Could not locate the pinned v2ray_box Xray build script.'; exit 1; }
+          test -n "$singbox_script" || { echo 'Could not locate the pinned v2ray_box sing-box build script.'; exit 1; }
+          mkdir -p scripts
+          cp "$xray_script" scripts/build_android_libxray.sh
+          cp "$singbox_script" scripts/build_android_libsingbox.sh
+          chmod +x scripts/build_android_libxray.sh scripts/build_android_libsingbox.sh
+
+      - name: Build Xray native library
+        run: bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.9.30 --android-abis arm64-v8a,x86_64
+
+      - name: Build sing-box native library
+        run: bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
+
+      - name: Build installable debug APK
+        id: build_apk
+        run: flutter build apk --debug
+
+      # Validation is run after APK creation so an analysis/test issue does not
+      # prevent the already-built installable APK from being uploaded below.
+      - name: Analyze Dart code
+        if: always() && steps.build_apk.outcome == 'success'
+        id: analyze
+        continue-on-error: true
+        run: flutter analyze --no-pub
+
+      - name: Run Flutter tests
+        if: always() && steps.build_apk.outcome == 'success'
+        continue-on-error: true
+        run: flutter test --no-pub
+
+      - name: Upload APK artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alone-vpn-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: warn
+          retention-days: 14

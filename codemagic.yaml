@@ -1,0 +1,60 @@
+workflows:
+  android-debug-apk:
+    name: Build Android APK (Xray + sing-box VPN engines)
+    max_build_duration: 120
+    environment:
+      flutter: stable
+      java: 17
+      ndk: r28
+    scripts:
+      - name: Generate Android platform folder
+        script: flutter create .
+      - name: Patch AndroidManifest.xml + Gradle for the real VPN engine
+        script: python3 scripts/patch_android_for_vpn.py
+      - name: Resolve Flutter packages
+        script: flutter pub get
+      - name: Patch native VPN permission cancellation and Android 13 permission results
+        script: python3 scripts/patch_v2ray_box_android.py
+      - name: Check Android native build tools
+        script: |
+          set -euo pipefail
+          command -v git
+          command -v go
+          command -v python3
+          command -v curl
+          command -v unzip
+          command -v zip
+          command -v jq
+          if [ -z "${ANDROID_NDK_HOME:-}" ] && [ -z "${ANDROID_NDK_ROOT:-}" ]; then
+            echo "WARNING: ANDROID_NDK_HOME/ANDROID_NDK_ROOT is not set; native build scripts will search the installed Android SDK."
+          fi
+      - name: Locate v2ray_box native build scripts
+        script: |
+          set -euo pipefail
+          PLUGIN_DIR=$(find "$HOME/.pub-cache/git" -maxdepth 2 -type d -iname '*v2ray_box*' 2>/dev/null | head -1)
+          if [ -z "$PLUGIN_DIR" ]; then
+            PLUGIN_DIR=$(find "$HOME/.pub-cache" -maxdepth 5 -type d -iname '*v2ray_box*' 2>/dev/null | head -1)
+          fi
+          if [ -z "$PLUGIN_DIR" ]; then
+            echo "ERROR: could not locate v2ray_box in the pub cache."
+            exit 1
+          fi
+          test -f "$PLUGIN_DIR/example/scripts/build_android_libxray.sh"
+          test -f "$PLUGIN_DIR/example/scripts/build_android_libsingbox.sh"
+          mkdir -p scripts
+          cp "$PLUGIN_DIR/example/scripts/build_android_libxray.sh" scripts/
+          cp "$PLUGIN_DIR/example/scripts/build_android_libsingbox.sh" scripts/
+          echo "v2ray_box build scripts copied from: $PLUGIN_DIR"
+      - name: Build the Xray Android library (AAR)
+        script: bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.9.30 --android-abis arm64-v8a,x86_64
+      - name: Build the sing-box Android engine
+        script: bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
+      - name: Analyze Dart code
+        script: flutter analyze --no-pub
+      - name: Run Flutter tests
+        script: flutter test --no-pub
+      - name: Build installable debug APK
+        script: flutter build apk --debug
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/mapping/**/mapping.txt

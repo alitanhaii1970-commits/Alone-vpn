@@ -1,0 +1,48 @@
+name: alone_vpn
+description: "ALONE VPN — VMess / VLESS / Shadowsocks / Trojan client with a real VpnService engine."
+publish_to: 'none'
+version: 1.2.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: ">=3.19.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  # local storage of settings, servers and history
+  shared_preferences: ^2.2.2
+  # fetching subscription links (base64 list of configs)
+  http: ^1.2.1
+  # real runtime permission request (notifications)
+  permission_handler: ^11.3.1
+  # the design's icon set, drawn as SVG
+  flutter_svg: ^2.0.10
+  # real VPN engine (sing-box via Android VpnService)
+  v2ray_box:
+    git:
+      url: https://github.com/pesaregorg/v2ray_box.git
+      ref: bc194f6a2fddee401d1c3b8141fec8d76c8d19f3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/
+  fonts:
+    - family: Vazirmatn
+      fonts:
+        - asset: assets/fonts/Vazirmatn-VF.ttf
+    - family: Geist
+      fonts:
+        - asset: assets/fonts/Geist-VF.ttf
+    - family: GeistMono
+      fonts:
+        - asset: assets/fonts/GeistMono-VF.ttf
+    - family: NotoNaskhArabic
+      fonts:
+        - asset: assets/fonts/NotoNaskhArabic-VF.ttf
