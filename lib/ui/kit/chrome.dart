@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../core/i18n.dart';
 import '../../core/icons.dart';
 import '../../core/oklch.dart';
+import '../../core/palette.dart';
 import '../../core/scope.dart';
 import '../../core/settings.dart';
 import '../../core/tokens.dart';

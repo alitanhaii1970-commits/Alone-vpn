@@ -8,6 +8,7 @@ import '../../data/stores.dart';
 import '../kit/base.dart';
 import '../kit/chrome.dart';
 import '../kit/inputs.dart';
+import '../kit/feedback.dart';
 
 /// Add-config sheet: paste share links or subscription URLs, validated on submit.
 Future<void> showImport(BuildContext context) {
