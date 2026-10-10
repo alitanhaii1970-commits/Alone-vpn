@@ -84,6 +84,36 @@ jobs:
           test -n "$singbox_script" || { echo 'Could not locate the pinned v2ray_box sing-box build script.'; exit 1; }
           mkdir -p scripts
           cp "$xray_script" scripts/build_android_libxray.sh
+          # Adapt v2ray_box to the current libXray response API.
+          python3 - <<PY
+          from pathlib import Path
+          p = Path("scripts/build_android_libxray.sh")
+          s = p.read_text(encoding="utf-8")
+          replacements = [
+              (
+                  "func MeasureOutboundDelay(configJSON string, url string, timeoutSec int64) string {\n\tvar response nodep.CallResponse[int64]\n",
+                  "func MeasureOutboundDelay(configJSON string, url string, timeoutSec int64) int64 {\n",
+              ),
+              (
+                  'return response.EncodeToBase64(nodep.PingDelayError, fmt.Errorf("empty config JSON"))',
+                  "return -1",
+              ),
+              (
+                  "return response.EncodeToBase64(nodep.PingDelayError, err)",
+                  "return -1",
+              ),
+              (
+                  "delay, err := measureDelayByCoreDial(inst, url, time.Duration(timeoutSec)*time.Second)\n\treturn response.EncodeToBase64(delay, err)",
+                  "delay, err := measureDelayByCoreDial(inst, url, time.Duration(timeoutSec)*time.Second)\n\tif err != nil {\n\t\treturn -1\n\t}\n\treturn delay",
+              ),
+          ]
+          for old, new in replacements:
+              if old not in s:
+                  raise SystemExit("ERROR: expected libXray compatibility code not found; refusing to patch.")
+              s = s.replace(old, new, 1)
+          p.write_text(s, encoding="utf-8")
+          print("Patched libXray helper for the current nodep API.")
+          PY
           cp "$singbox_script" scripts/build_android_libsingbox.sh
           chmod +x scripts/build_android_libxray.sh scripts/build_android_libsingbox.sh
 
