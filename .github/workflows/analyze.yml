@@ -1,0 +1,55 @@
+name: Analyze (fast compile check)
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [ci-logs]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: flutter analyze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Resolve dependencies
+        run: |
+          set +e
+          flutter --version 2>&1 | tee /tmp/pub.txt
+          flutter pub get 2>&1 | tee -a /tmp/pub.txt
+          exit ${PIPESTATUS[0]}
+
+      - name: Analyze (fails only on errors)
+        run: |
+          set +e
+          flutter analyze --no-pub --no-fatal-infos --no-fatal-warnings 2>&1 | tee /tmp/analyze.txt
+          code=${PIPESTATUS[0]}
+          echo "exit=$code" >> /tmp/analyze.txt
+          exit $code
+
+      - name: Publish log to the ci-logs branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=${GITHUB_SHA::7}
+          for f in pub analyze; do
+            [ -f /tmp/$f.txt ] || continue
+            path="ci-logs/${sha}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${f}.txt"
+            gh api -X PUT "repos/${GITHUB_REPOSITORY}/contents/${path}" \
+              -f message="ci: ${f} log ${sha}" -f branch=ci-logs \
+              -f content="$(base64 -w0 /tmp/$f.txt)" > /dev/null || echo "could not publish $path"
+          done
