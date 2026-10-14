@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: alone-vpn-android-${{ github.ref }}
@@ -125,7 +125,27 @@ jobs:
 
       - name: Build installable debug APK
         id: build_apk
-        run: flutter build apk --debug
+        run: |
+          set +e
+          flutter build apk --debug -v 2>&1 | tee /tmp/build.txt
+          exit ${PIPESTATUS[0]}
+
+      - name: Publish build log to the ci-logs branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=${GITHUB_SHA::7}
+          [ -f /tmp/build.txt ] || exit 0
+          # keep the interesting end of a very long verbose log (GitHub API limit ~1MB)
+          tail -c 700000 /tmp/build.txt > /tmp/build_tail.txt
+          grep -nE "FAILURE:|What went wrong|error:|Error:|e: |Execution failed|Could not|AAPT|Manifest merger|> Task .* FAILED" /tmp/build.txt | tail -60 > /tmp/build_errors.txt || true
+          for f in build_errors build_tail; do
+            path="ci-logs/${sha}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${f}.txt"
+            gh api -X PUT "repos/${GITHUB_REPOSITORY}/contents/${path}" \
+              -f message="ci: ${f} ${sha}" -f branch=ci-logs \
+              -f content="$(base64 -w0 /tmp/${f}.txt)" > /dev/null || echo "could not publish $path"
+          done
 
       # Validation is run after APK creation so an analysis/test issue does not
       # prevent the already-built installable APK from being uploaded below.
