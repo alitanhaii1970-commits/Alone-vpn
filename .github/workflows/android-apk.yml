@@ -113,6 +113,12 @@ jobs:
             sed -i 's#\["go", "get", "golang.org/x/mobile/cmd/gomobile"\]#["go", "get", "golang.org/x/mobile@40bd9ace6ce4"]#' "$LIBXRAY_DIR/build/app/build.py"
             grep -n "40bd9ace6ce4" "$LIBXRAY_DIR/build/app/build.py"
             test "$(grep -c 40bd9ace6ce4 "$LIBXRAY_DIR/build/app/build.py")" -eq 2
+            # `gomobile init` runs `go install gobind@latest` (needs Go 1.26): install both tools pinned and skip it.
+            go install golang.org/x/mobile/cmd/gomobile@40bd9ace6ce4
+            go install golang.org/x/mobile/cmd/gobind@40bd9ace6ce4
+            export PATH="$(go env GOPATH)/bin:$PATH"
+            sed -i 's#\["gomobile", "init"\]#["gomobile", "version"]#' "$LIBXRAY_DIR/build/app/build.py"
+            grep -n '"gomobile", "version"' "$LIBXRAY_DIR/build/app/build.py"
             bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-dir "$LIBXRAY_DIR" --android-abis arm64-v8a,x86_64
           } 2>&1 | tee /tmp/xray.txt
           exit ${PIPESTATUS[0]}
