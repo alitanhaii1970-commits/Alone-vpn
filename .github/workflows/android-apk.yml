@@ -97,12 +97,23 @@ jobs:
           cache: false
 
       - name: Build Xray native library
+        env:
+          GOTOOLCHAIN: local
         run: |
           set +e
           {
             go version
-            go env GOTOOLCHAIN GOFLAGS GOVERSION
-            bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.1.23 --android-abis arm64-v8a,x86_64
+            # libXray's build script runs `go get golang.org/x/mobile` (latest), which needs Go >= 1.26
+            # and makes Go switch toolchains; the Jan-2026 gVisor pinned by libXray v26.1.23 does not
+            # compile on Go 1.26. Pin x/mobile to a Jan-2026 commit (needs only Go 1.24).
+            set -e
+            LIBXRAY_DIR="$RUNNER_TEMP/libXray"
+            git clone --depth 1 --branch v26.1.23 https://github.com/XTLS/libXray.git "$LIBXRAY_DIR"
+            sed -i 's#golang.org/x/mobile/cmd/gomobile@latest#golang.org/x/mobile/cmd/gomobile@40bd9ace6ce4#' "$LIBXRAY_DIR/build/app/build.py"
+            sed -i 's#\["go", "get", "golang.org/x/mobile/cmd/gomobile"\]#["go", "get", "golang.org/x/mobile@40bd9ace6ce4"]#' "$LIBXRAY_DIR/build/app/build.py"
+            grep -n "40bd9ace6ce4" "$LIBXRAY_DIR/build/app/build.py"
+            test "$(grep -c 40bd9ace6ce4 "$LIBXRAY_DIR/build/app/build.py")" -eq 2
+            bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-dir "$LIBXRAY_DIR" --android-abis arm64-v8a,x86_64
           } 2>&1 | tee /tmp/xray.txt
           exit ${PIPESTATUS[0]}
 
