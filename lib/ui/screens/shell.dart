@@ -19,6 +19,7 @@ class AppShell extends StatefulWidget {
 
 class _AppShellState extends State<AppShell> {
   int _i = 0;
+  static const List<Widget> _tabs = [HomeTab(), ServersTab(), UsageTab(), SettingsTab()];
 
   @override
   void initState() {
@@ -42,7 +43,9 @@ class _AppShellState extends State<AppShell> {
           Positioned.fill(
             child: IndexedStack(
               index: _i,
-              children: const [HomeTab(), ServersTab(), UsageTab(), SettingsTab()],
+              children: [
+                for (var k = 0; k < _tabs.length; k++) TickerMode(enabled: _i == k, child: _tabs[k]),
+              ],
             ),
           ),
           Positioned(

@@ -12,7 +12,7 @@ Future<T?> pushScreen<T>(BuildContext context, Widget screen) {
 class _SpringRoute<T> extends PageRouteBuilder<T> {
   _SpringRoute(Widget screen)
       : super(
-          opaque: false,
+          opaque: true,
           transitionDuration: Tk.spatialSlow,
           reverseTransitionDuration: Tk.spatial,
           pageBuilder: (context, a, b) => _Pushed(child: screen),

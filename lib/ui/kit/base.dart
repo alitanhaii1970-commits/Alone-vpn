@@ -1,4 +1,3 @@
-import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import '../../core/icons.dart';
 import '../../core/oklch.dart';
@@ -91,7 +90,9 @@ class Glass extends StatelessWidget {
     final p = context.pal;
     final saver = context.st.saver;
     final br = BorderRadius.circular(radius);
-    final fillA = saver ? .94 : p.glassA;
+    // No BackdropFilter: a live blur over the animated ambient background re-renders every
+    // frame and is what made the UI janky. A denser translucent fill gives the same glass look.
+    final fillA = saver ? .94 : (p.glassA < .74 ? .74 : p.glassA);
     final c1 = Color.lerp(p.glassHi, alpha(p.containerHigh, fillA), .78)!;
     final c2 = alpha(p.containerHigh, fillA);
     final c3 = alpha(p.containerHigh, fillA * .84);
@@ -111,9 +112,6 @@ class Glass extends StatelessWidget {
         child: padding == null ? child : Padding(padding: padding!, child: child),
       ),
     );
-    if (!saver) {
-      body = BackdropFilter(filter: ImageFilter.blur(sigmaX: Tk.blurGlass, sigmaY: Tk.blurGlass), child: body);
-    }
     return CustomPaint(
       painter: _OuterShadow(radius, shadows ?? elev(p, 2)),
       child: ClipRRect(borderRadius: br, child: body),

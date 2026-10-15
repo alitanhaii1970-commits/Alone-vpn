@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/palette.dart';
@@ -11,11 +12,35 @@ import 'ui/shell_state.dart';
 import 'ui/screens/splash.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await AppSettings.I.load();
-  ServerStore.I.load();
-  SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
-  runApp(const AloneVpnApp());
+  await runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    // If a widget throws, show the message on screen instead of a blank/grey page.
+    ErrorWidget.builder = (details) => Directionality(
+          textDirection: TextDirection.ltr,
+          child: ColoredBox(
+            color: const Color(0xFF1B1B1F),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
+              child: Text('ALONE VPN - UI error\n\n${details.exceptionAsString()}',
+                  style: const TextStyle(color: Color(0xFFFFB4AB), fontSize: 12, decoration: TextDecoration.none)),
+            ),
+          ),
+        );
+    FlutterError.onError = (d) => debugPrint('FlutterError: ${d.exceptionAsString()}');
+    // Never let startup I/O keep the first frame from appearing.
+    try {
+      await AppSettings.I.load().timeout(const Duration(seconds: 4));
+    } catch (e) {
+      debugPrint('settings load failed: $e');
+    }
+    try {
+      ServerStore.I.load();
+    } catch (e) {
+      debugPrint('server store load failed: $e');
+    }
+    SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
+    runApp(const AloneVpnApp());
+  }, (error, stack) => debugPrint('Uncaught: $error'));
 }
 
 class AloneVpnApp extends StatefulWidget {

@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import '../../core/i18n.dart';
 import '../../core/icons.dart';
@@ -79,7 +78,7 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
       );
     }
 
-    return Stack(
+    final bg = Stack(
       fit: StackFit.expand,
       children: [
         ColoredBox(color: p.surface),
@@ -116,6 +115,12 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
             ),
           ),
         ),
+      ],
+    );
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        RepaintBoundary(child: bg),
         widget.child,
       ],
     );
@@ -498,10 +503,7 @@ Future<T?> showSheet<T>(BuildContext context, {required String title, String? bo
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => Navigator.of(ctx).pop(),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: Tk.blurScrim * anim.value, sigmaY: Tk.blurScrim * anim.value),
-                child: ColoredBox(color: alpha(p.scrim, anim.value)),
-              ),
+              child: ColoredBox(color: alpha(p.scrim, anim.value)),
             ),
           ),
           Positioned(
@@ -584,10 +586,7 @@ Future<T?> showGlassDialog<T>(BuildContext context, {required WidgetBuilder buil
       return Stack(
         children: [
           Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: Tk.blurScrim * anim.value, sigmaY: Tk.blurScrim * anim.value),
-              child: ColoredBox(color: alpha(p.scrim, anim.value)),
-            ),
+            child: ColoredBox(color: alpha(p.scrim, anim.value)),
           ),
           Center(
             child: Opacity(

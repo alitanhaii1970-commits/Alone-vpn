@@ -74,6 +74,20 @@ jobs:
       - name: Patch Android permission cancellation handling
         run: python3 scripts/patch_v2ray_box_android.py
 
+      - name: Prepare release signing key
+        env:
+          KS_B64: ${{ secrets.ALONE_KEYSTORE_B64 }}
+          STORE_PASS: ${{ secrets.ALONE_STORE_PASS }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/alone.p12"
+            echo "ALONE_KEYSTORE=$RUNNER_TEMP/alone.p12" >> "$GITHUB_ENV"
+            echo "ALONE_STORE_PASS=$STORE_PASS" >> "$GITHUB_ENV"
+            ALONE_KEYSTORE="$RUNNER_TEMP/alone.p12" python3 scripts/patch_release_signing.py
+          else
+            echo "No signing secrets: release will use the default debug signature."
+          fi
+
       - name: Locate and prepare native engine build scripts
         shell: bash
         run: |
@@ -148,11 +162,12 @@ jobs:
       - name: Build sing-box native library
         run: bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
 
-      - name: Build installable debug APK
+      - name: Build release APK
         id: build_apk
         run: |
           set +e
-          flutter build apk --debug -v 2>&1 | tee /tmp/build.txt
+          # --no-shrink: the Xray/sing-box bridges use reflection, so R8 must not strip them
+          flutter build apk --release --no-shrink --target-platform android-arm64 -v 2>&1 | tee /tmp/build.txt
           exit ${PIPESTATUS[0]}
 
       - name: Publish build log to the ci-logs branch
@@ -189,7 +204,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: alone-vpn-debug-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: alone-vpn-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: warn
           retention-days: 14

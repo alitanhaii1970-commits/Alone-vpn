@@ -40,13 +40,20 @@ jobs:
           echo "exit=$code" >> /tmp/analyze.txt
           exit $code
 
+      - name: Smoke test (boots the UI)
+        continue-on-error: true
+        run: |
+          set +e
+          flutter test --no-pub 2>&1 | tee /tmp/test.txt
+          exit ${PIPESTATUS[0]}
+
       - name: Publish log to the ci-logs branch
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           sha=${GITHUB_SHA::7}
-          for f in pub analyze; do
+          for f in pub analyze test; do
             [ -f /tmp/$f.txt ] || continue
             path="ci-logs/${sha}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${f}.txt"
             gh api -X PUT "repos/${GITHUB_REPOSITORY}/contents/${path}" \
