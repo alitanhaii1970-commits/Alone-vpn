@@ -119,6 +119,9 @@ jobs:
             export PATH="$(go env GOPATH)/bin:$PATH"
             sed -i 's#\["gomobile", "init"\]#["gomobile", "version"]#' "$LIBXRAY_DIR/build/app/build.py"
             grep -n '"gomobile", "version"' "$LIBXRAY_DIR/build/app/build.py"
+            # `go get google.golang.org/genproto` (latest) also needs Go 1.26; libXray's go.mod already pins one.
+            sed -i 's#\["go", "get", "google.golang.org/genproto"\]#["go", "get", "golang.org/x/mobile@40bd9ace6ce4"]#' "$LIBXRAY_DIR/build/app/build.py"
+            ! grep -q 'google.golang.org/genproto"' "$LIBXRAY_DIR/build/app/build.py"
             bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-dir "$LIBXRAY_DIR" --android-abis arm64-v8a,x86_64
           } 2>&1 | tee /tmp/xray.txt
           exit ${PIPESTATUS[0]}
