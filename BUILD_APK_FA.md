@@ -21,7 +21,7 @@ python3 scripts/patch_v2ray_box_android.py
 PLUGIN_DIR="$(find "$HOME/.pub-cache" -type f -path '*/example/scripts/build_android_libxray.sh' -print -quit | sed 's#/example/scripts/build_android_libxray.sh$##')"
 cp "$PLUGIN_DIR/example/scripts/build_android_libxray.sh" scripts/
 cp "$PLUGIN_DIR/example/scripts/build_android_libsingbox.sh" scripts/
-bash scripts/build_android_libxray.sh --project-root "$PWD" --libxray-ref v26.9.30 --android-abis arm64-v8a,x86_64
+bash scripts/build_android_libxray.sh --project-root "$PWD" --libxray-ref v26.1.23 --android-abis arm64-v8a,x86_64
 bash scripts/build_android_libsingbox.sh --project-root "$PWD" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
 flutter analyze --no-pub
 flutter test --no-pub

@@ -14,7 +14,7 @@ PLUGIN_DIR=$(find "$HOME/.pub-cache/git" -maxdepth 2 -type d -iname '*v2ray_box*
 mkdir -p scripts
 cp "$PLUGIN_DIR/example/scripts/build_android_libxray.sh" scripts/
 cp "$PLUGIN_DIR/example/scripts/build_android_libsingbox.sh" scripts/
-bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.9.30 --android-abis arm64-v8a,x86_64
+bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.1.23 --android-abis arm64-v8a,x86_64
 bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
 flutter analyze --no-pub
 flutter test --no-pub

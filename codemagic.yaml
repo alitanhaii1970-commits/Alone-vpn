@@ -46,7 +46,7 @@ workflows:
           cp "$PLUGIN_DIR/example/scripts/build_android_libsingbox.sh" scripts/
           echo "v2ray_box build scripts copied from: $PLUGIN_DIR"
       - name: Build the Xray Android library (AAR)
-        script: bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.9.30 --android-abis arm64-v8a,x86_64
+        script: bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.1.23 --android-abis arm64-v8a,x86_64
       - name: Build the sing-box Android engine
         script: bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
       - name: Analyze Dart code
