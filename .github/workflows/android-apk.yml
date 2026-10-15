@@ -90,8 +90,20 @@ jobs:
           cp "$singbox_script" scripts/build_android_libsingbox.sh
           chmod +x scripts/build_android_libxray.sh scripts/build_android_libsingbox.sh
 
+      - name: Use Go 1.25.6 for libXray (its gVisor dependency breaks on newer Go)
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.6'
+          cache: false
+
       - name: Build Xray native library
         run: bash scripts/build_android_libxray.sh --project-root "$(pwd)" --libxray-ref v26.1.23 --android-abis arm64-v8a,x86_64
+
+      - name: Use newest Go for sing-box
+        uses: actions/setup-go@v5
+        with:
+          go-version: stable
+          cache: false
 
       - name: Build sing-box native library
         run: bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
