@@ -1,0 +1,18 @@
+package: com.example.alone_vpn
+== phase 1: release APK launch test
+Performing Streamed Install
+Success
+release pid: 2327
+release FATAL count: 0
+Total frames rendered: 1
+Janky frames: 1 (100.00%)
+Janky frames (legacy): 1 (100.00%)
+50th percentile: 350ms
+90th percentile: 350ms
+95th percentile: 350ms
+99th percentile: 350ms
+50th gpu percentile: 4950ms
+90th gpu percentile: 4950ms
+95th gpu percentile: 4950ms
+99th gpu percentile: 4950ms
+== phase 2: UI walkthrough (flutter drive, debug mode)
