@@ -585,21 +585,32 @@ class Segmented extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    return Container(
-      padding: const EdgeInsets.all(3),
-      decoration: BoxDecoration(
-        color: alpha(p.containerLowest, .8),
-        borderRadius: BorderRadius.circular(Tk.rFull),
-        border: Border.all(color: p.outlineVariant),
-      ),
-      child: Row(
-        children: [
-          for (var i = 0; i < items.length; i++) ...[
-            if (i > 0) const SizedBox(width: 3),
-            Expanded(child: _SegBtn(item: items[i], on: items[i].id == value, onTap: () => onChanged(items[i].id))),
-          ],
-        ],
-      ),
+    // Used both full-width and as a Row's trailing control (unbounded width): Expanded children
+    // are only legal when the width is bounded, otherwise the control was never laid out.
+    return LayoutBuilder(
+      builder: (context, c) {
+        final bounded = c.maxWidth.isFinite;
+        return Container(
+          padding: const EdgeInsets.all(3),
+          decoration: BoxDecoration(
+            color: alpha(p.containerLowest, .8),
+            borderRadius: BorderRadius.circular(Tk.rFull),
+            border: Border.all(color: p.outlineVariant),
+          ),
+          child: Row(
+            mainAxisSize: bounded ? MainAxisSize.max : MainAxisSize.min,
+            children: [
+              for (var i = 0; i < items.length; i++) ...[
+                if (i > 0) const SizedBox(width: 3),
+                if (bounded)
+                  Expanded(child: _SegBtn(item: items[i], on: items[i].id == value, onTap: () => onChanged(items[i].id)))
+                else
+                  _SegBtn(item: items[i], on: items[i].id == value, onTap: () => onChanged(items[i].id)),
+              ],
+            ],
+          ),
+        );
+      },
     );
   }
 }
