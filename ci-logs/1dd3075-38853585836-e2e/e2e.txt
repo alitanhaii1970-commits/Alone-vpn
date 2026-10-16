@@ -1,0 +1,36 @@
+Running Gradle task 'assembleDebug'...                          
+WARNING: Your app uses the following plugins that apply Kotlin Gradle Plugin (KGP): v2ray_box
+Future versions of Flutter will fail to build if your app uses plugins that apply KGP.
+
+Please check the changelogs of these plugins and upgrade to a version that supports Built-in Kotlin.
+If no such version exists, report the issue to the plugin. If necessary, here is a guide on filing
+an issue against a plugin: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers#report-incompatible-kotlin-gradle-plugin-usage-to-plugin-authors
+
+If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+Running Gradle task 'assembleDebug'...                             72.8s
+✓ Built build/app/outputs/flutter-apk/app-debug.apk
+Installing build/app/outputs/flutter-apk/app-debug.apk...        1,806ms
+I/Choreographer( 2505): Skipped 38 frames!  The application may be doing too much work on its main thread.
+D/FlutterJNI( 2505): Sending viewport metrics to the engine.
+VMServiceFlutterDriver: Connecting to Flutter application at http://127.0.0.1:46183/4a7bvM5asCI=/
+VMServiceFlutterDriver: Isolate found with number: 4262975233986579
+VMServiceFlutterDriver: Isolate 4262975233986579 is runnable.
+VMServiceFlutterDriver: Isolate is paused at start.
+VMServiceFlutterDriver: Attempting to resume isolate
+I/flutter ( 2505): 00:00 +0: ALONE VPN walkthrough
+VMServiceFlutterDriver: Connected to Flutter application.
+I/flutter ( 2505): FlutterError: MissingPluginException(No implementation found for method convertFlutterSurfaceToImage on channel plugins.flutter.io/integration_test)
+I/flutter ( 2505): 00:00 +0: ALONE VPN walkthrough [E]
+I/flutter ( 2505):   'package:flutter_test/src/binding.dart': Failed assertion: line 1912 pos 9: '_pendingExceptionDetails != null': A test overrode FlutterError.onError but either failed to return it to its original state, or had unexpected additional errors that it could not handle. Typically, this is caused by using expect() before restoring FlutterError.onError.
+I/flutter ( 2505):   dart:core-patch/errors_patch.dart 67:4         _AssertionError._doThrowNew
+I/flutter ( 2505):   dart:core-patch/errors_patch.dart 49:5         _AssertionError._throwNew
+I/flutter ( 2505):   package:flutter_test/src/binding.dart 1912:9   TestWidgetsFlutterBinding._runTest.handleUncaughtError
+I/flutter ( 2505):   package:flutter_test/src/binding.dart 1921:13  TestWidgetsFlutterBinding._runTest.<fn>
+I/flutter ( 2505):   dart:async/zone.dart 563:30                    _Zone._processUncaughtError
+I/flutter ( 2505):   dart:async/zone.dart 789:5                     _CustomZone.handleUncaughtError
+I/flutter ( 2505):   dart:async/future_impl.dart 886:24             Future._propagateToListeners
+I/flutter ( 2505):   dart:async/future_impl.dart 738:5              Future._completeErrorObject
+I/flutter ( 2505):   dart:async/future_impl.dart 742:5              Future._completeError
+I/flutter ( 2505):   
+D/ProfileInstaller( 2505): Installing profile for com.example.alone_vpn
+VMServiceFlutterDriver: request_data message is taking a long time to complete...
