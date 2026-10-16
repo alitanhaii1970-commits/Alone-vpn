@@ -140,9 +140,14 @@ class Rise extends StatefulWidget {
 class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 560));
 
+  // Only the first screenful is staggered; long lists (hundreds of servers) must not
+  // fade in one by one for seconds, or the screen looks empty/slow.
+  bool get _plain => widget.i > 10;
+
   @override
   void initState() {
     super.initState();
+    if (_plain) return;
     Future<void>.delayed(Duration(milliseconds: 52 * widget.i), () {
       if (mounted) _c.forward();
     });
@@ -156,6 +161,7 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    if (_plain) return RepaintBoundary(child: widget.child);
     return AnimatedBuilder(
       animation: _c,
       builder: (context, child) {
@@ -168,7 +174,7 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
           ),
         );
       },
-      child: widget.child,
+      child: RepaintBoundary(child: widget.child),
     );
   }
 }

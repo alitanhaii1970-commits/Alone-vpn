@@ -258,9 +258,20 @@ class ServerStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  Timer? _soon;
+
+  /// Coalesce bursts of updates (probing many servers) into at most ~8 UI rebuilds per second.
+  void _notifySoon() {
+    if (_soon != null) return;
+    _soon = Timer(const Duration(milliseconds: 120), () {
+      _soon = null;
+      notifyListeners();
+    });
+  }
+
   Future<void> probeOne(Server s) async {
     probing.add(s.id);
-    notifyListeners();
+    _notifySoon();
     int? ms;
     if (AppSettings.I.probe == 'url' && Engine.real) {
       ms = await Engine.I.coreDelay(s.link);
@@ -269,7 +280,7 @@ class ServerStore extends ChangeNotifier {
     }
     lat[s.id] = ms;
     probing.remove(s.id);
-    notifyListeners();
+    _notifySoon();
   }
 
   Future<void> probeAll() async {
