@@ -332,6 +332,14 @@ class Conn extends ChangeNotifier {
   Completer<void>? _stopped;
   int _gen = 0;
   bool _attached = false;
+  Timer? _stopGrace;
+  Timer? _permGrace;
+  bool _sawStart = false; // the engine reported starting/started during this attempt
+  DateTime _noAdoptUntil = DateTime.fromMillisecondsSinceEpoch(0);
+
+  /// Subscribe to the engine as soon as the app starts, so the UI follows the real tunnel
+  /// state even if the app is reopened while it is running.
+  void listenEngine() => _attach();
 
   int get secs => since == null ? 0 : DateTime.now().difference(since!).inSeconds;
   bool get busy => state == CS.connecting || state == CS.disconnecting;
@@ -346,15 +354,40 @@ class Conn extends ChangeNotifier {
   }
 
   void _onStatus(vb.VpnStatus s) {
+    if (s == vb.VpnStatus.starting) {
+      _sawStart = true;
+      return;
+    }
     if (s == vb.VpnStatus.started) {
-      final tunnel = _tunnel;
-      if (state == CS.connecting && hs >= 2 && tunnel != null && !tunnel.isCompleted) {
-        tunnel.complete(true);
+      _sawStart = true;
+      _stopGrace?.cancel();
+      _permGrace?.cancel();
+      if (state == CS.connecting) {
+        final tunnel = _tunnel;
+        if (tunnel != null && !tunnel.isCompleted) tunnel.complete(true);
+      } else if (state == CS.failed || state == CS.off) {
+        // The engine is the source of truth. It came up after we gave up (late VPN-consent
+        // dialog, service restart) or the app was reopened while it was running -> follow it.
+        final srv = server;
+        if (srv == null) return;
+        if (DateTime.now().isBefore(_noAdoptUntil)) {
+          unawaited(Engine.I.stop()); // the user cancelled / disconnected a moment ago
+          return;
+        }
+        _gen++; // invalidate any connect() still in flight
+        _up(srv);
       }
     } else if (s == vb.VpnStatus.stopped) {
       if (state == CS.connecting) {
-        final tunnel = _tunnel;
-        if (tunnel != null && !tunnel.isCompleted) tunnel.complete(false);
+        // A stop *before* the engine ever started is just the initial state (or the consent
+        // dialog still being open). A stop *after* it started may be a service restart, so
+        // give it a few seconds to come back before calling it a failure.
+        if (!_sawStart) return;
+        _stopGrace?.cancel();
+        _stopGrace = Timer(const Duration(seconds: 9), () {
+          final tunnel = _tunnel;
+          if (state == CS.connecting && tunnel != null && !tunnel.isCompleted) tunnel.complete(false);
+        });
       } else if (state == CS.on) {
         _down(user: false);
         snack(tr('sn_disc'), tone: 'warn');
@@ -371,8 +404,13 @@ class Conn extends ChangeNotifier {
     final alert = event['alert']?.toString();
     if (alert != 'RequestVPNPermission' && alert != 'RequestNotificationPermission') return;
     LogStore.I.add('warn', 'permission', event['message']?.toString() ?? alert!);
-    final tunnel = _tunnel;
-    if (tunnel != null && !tunnel.isCompleted) tunnel.complete(false);
+    // The permission may still be granted a moment later, and a late "started" is adopted
+    // anyway, so wait a few seconds instead of failing instantly.
+    _permGrace?.cancel();
+    _permGrace = Timer(const Duration(seconds: 4), () {
+      final tunnel = _tunnel;
+      if (state == CS.connecting && tunnel != null && !tunnel.isCompleted) tunnel.complete(false);
+    });
   }
 
   void _onStats(vb.VpnStats s) {
@@ -406,6 +444,9 @@ class Conn extends ChangeNotifier {
       return;
     }
     final gen = ++_gen;
+    _sawStart = false;
+    _stopGrace?.cancel();
+    _permGrace?.cancel();
     state = CS.connecting;
     hs = 0;
     failStep = -1;
@@ -432,14 +473,20 @@ class Conn extends ChangeNotifier {
     hs = 1;
     notifyListeners();
 
-    // 2 · tcp
-    final ms = await Engine.tcpPing(srv.host, srv.port, timeoutMs: 4500);
-    if (!alive()) return;
-    if (ms == null) {
-      _fail(1, srv);
-      return;
+    // 2 · tcp (UDP-based protocols such as Hysteria/TUIC/WireGuard have no TCP port to probe)
+    final udp = RegExp(r'^(hysteria2?|hy2|tuic|wireguard|wg)://', caseSensitive: false).hasMatch(srv.link.trim());
+    int? ms;
+    if (!udp) {
+      ms = await Engine.tcpPing(srv.host, srv.port, timeoutMs: 4500);
+      if (!alive()) return;
+      ms ??= await Engine.tcpPing(srv.host, srv.port, timeoutMs: 6000); // one retry before giving up
+      if (!alive()) return;
+      if (ms == null) {
+        _fail(1, srv);
+        return;
+      }
+      ServerStore.I.lat[srv.id] = ms;
     }
-    ServerStore.I.lat[srv.id] = ms;
     LogStore.I.add('ok', 'tcp', tr('log_step_ok', {'s': tr('hs_tcp')}));
     hs = 2;
     notifyListeners();
@@ -535,6 +582,7 @@ class Conn extends ChangeNotifier {
   Future<void> disconnect() async {
     if (state != CS.on) return;
     state = CS.disconnecting;
+    _noAdoptUntil = DateTime.now().add(const Duration(seconds: 20));
     notifyListeners();
     Hx.tap();
     _stopped = Completer<void>();
@@ -563,6 +611,9 @@ class Conn extends ChangeNotifier {
   void cancel() {
     if (state != CS.connecting) return;
     _gen++;
+    _noAdoptUntil = DateTime.now().add(const Duration(seconds: 20));
+    _stopGrace?.cancel();
+    _permGrace?.cancel();
     unawaited(Engine.I.stop());
     final tunnel = _tunnel;
     if (tunnel != null && !tunnel.isCompleted) tunnel.complete(false);

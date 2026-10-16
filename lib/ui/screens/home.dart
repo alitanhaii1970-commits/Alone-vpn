@@ -30,8 +30,8 @@ class ConnectDial extends StatefulWidget {
 class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin {
   late final AnimationController _bob = AnimationController(vsync: this, duration: const Duration(seconds: 7))..repeat();
   late final AnimationController _glow = AnimationController(vsync: this, duration: const Duration(milliseconds: 4800))..repeat();
-  late final AnimationController _spin = AnimationController(vsync: this, duration: const Duration(seconds: 22))..repeat();
-  late final AnimationController _pulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 3200))..repeat();
+  late final AnimationController _spin = AnimationController(vsync: this, duration: const Duration(seconds: 28))..repeat();
+  late final AnimationController _pulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 3200));
   late final AnimationController _wave = AnimationController(vsync: this, duration: const Duration(milliseconds: 1050));
   late final AnimationController _shake = AnimationController(vsync: this, duration: const Duration(milliseconds: 760));
   late final AnimationController _burst = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
@@ -52,11 +52,16 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
     if (s == CS.on) {
       _wave.forward(from: 0);
       _burst.forward(from: 0);
-    } else if (s == CS.failed && was != null) {
-      _shake.forward(from: 0);
+      _pulse.repeat(); // the pulses only run while connected
+    } else {
+      _pulse.stop();
+      if (s == CS.failed && was != null) _shake.forward(from: 0);
     }
   }
 
+  // Performance rule for this widget: everything that moves every frame is a static picture
+  // inside its own RepaintBoundary, and only its transform / opacity is animated. The GPU then
+  // just re-composites cached layers instead of re-drawing blurred shadows and gradients.
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
@@ -68,111 +73,197 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
         final on = c.state == CS.on;
         final failed = c.state == CS.failed;
         final busy = c.busy;
-        final ring = on ? p.ok : (failed ? p.error : p.primary);
+        final accent = on ? p.ok : (failed ? p.error : p.primary);
         final sweep = c.state == CS.connecting
             ? (c.hs + 1) / 4
             : on
                 ? 1.0
                 : 0.0;
-        final energy = on ? 1.0 : .35;
         return SizedBox(
           height: 212,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              // dot field
-              Positioned.fill(
-                child: IgnorePointer(
+              // slowly turning dotted halo
+              IgnorePointer(
+                child: SizedBox(
+                  width: 236,
+                  height: 236,
                   child: AnimatedBuilder(
                     animation: _spin,
-                    builder: (context, _) => Transform.rotate(
-                      angle: _spin.value * 6.2832 * (1 / 6),
-                      child: CustomPaint(painter: _DotField(p.primary)),
+                    child: RepaintBoundary(child: CustomPaint(painter: _DotField(p.primary))),
+                    builder: (context, child) => Transform.rotate(angle: _spin.value * 6.2832 / 6, child: child),
+                  ),
+                ),
+              ),
+              // soft coloured glow under the button, breathing
+              IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: _glow,
+                  child: RepaintBoundary(
+                    child: TweenAnimationBuilder<Color?>(
+                      tween: ColorTween(end: accent),
+                      duration: const Duration(milliseconds: 500),
+                      builder: (context, col, _) => Container(
+                        width: 150,
+                        height: 150,
+                        decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [glow(col ?? accent, on ? .42 : .30, blur: 54, spread: -4)]),
+                      ),
+                    ),
+                  ),
+                  builder: (context, child) {
+                    final g = Curves.easeInOut.transform(_glow.value);
+                    return Opacity(opacity: .72 + .28 * g, child: Transform.scale(scale: .96 + .1 * g, child: child));
+                  },
+                ),
+              ),
+              // progress ring (handshake steps)
+              IgnorePointer(
+                child: RepaintBoundary(
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0, end: sweep),
+                    duration: const Duration(milliseconds: 1350),
+                    curve: Tk.standard,
+                    builder: (context, v, _) => CustomPaint(
+                      size: const Size(196, 196),
+                      painter: _Ring(v, accent, p.onSurface, on ? 1 : 0),
                     ),
                   ),
                 ),
               ),
-              // track + sweep ring
-              Container(
-                width: 196,
-                height: 196,
-                alignment: Alignment.center,
-                child: TweenAnimationBuilder<double>(
-                  tween: Tween(begin: 0, end: sweep),
-                  duration: const Duration(milliseconds: 1350),
-                  curve: Tk.standard,
-                  builder: (context, v, _) => CustomPaint(
-                    size: const Size(196, 196),
-                    painter: _Ring(v, ring, p.onSurface, on ? 1 : 0),
-                  ),
-                ),
-              ),
-              // pulses + orbit (connected)
-              for (final off in [0.0, 1.05, 2.1])
-                AnimatedBuilder(
-                  animation: _pulse,
-                  builder: (context, _) {
-                    final t = ((_pulse.value - off / 3.2) % 1.0 + 1.0) % 1.0;
-                    if (!on) return const SizedBox.shrink();
-                    return Opacity(
-                      opacity: t < .18 ? t / .18 * .6 : (1 - t) * .6 * (1 - t) / .82 + .0,
-                      child: Transform.scale(
-                        scale: .97 + .73 * t,
+              // expanding pulses while connected
+              if (on)
+                for (final off in const [0.0, 1.05, 2.1])
+                  IgnorePointer(
+                    child: AnimatedBuilder(
+                      animation: _pulse,
+                      child: RepaintBoundary(
                         child: Container(
                           width: 160,
                           height: 160,
                           decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: alpha(p.ok, .46), width: 1)),
                         ),
                       ),
-                    );
-                  },
-                ),
-              AnimatedOpacity(
-                opacity: on ? 1 : 0,
-                duration: const Duration(milliseconds: 380),
-                child: AnimatedBuilder(
-                  animation: _spin,
-                  builder: (context, _) => Transform.rotate(
-                    angle: _spin.value * 6.2832,
-                    child: SizedBox(
-                      width: 228,
-                      height: 228,
-                      child: Stack(children: [
-                        for (final a in [0.0, 120.0, 238.0])
-                          Align(
-                            alignment: Alignment.center,
-                            child: Transform.translate(
-                              offset: Offset(0, -114),
-                              child: Transform.rotate(
-                                angle: a * 3.1415926 / 180,
-                                child: Container(width: 5, height: 5, decoration: BoxDecoration(shape: BoxShape.circle, color: p.ok, boxShadow: [BoxShadow(color: p.ok, blurRadius: 11)])),
+                      builder: (context, child) {
+                        final t = ((_pulse.value - off / 3.2) % 1.0 + 1.0) % 1.0;
+                        final o = (t < .18 ? t / .18 * .6 : (1 - t) * .6 * (1 - t) / .82).clamp(0.0, 1.0);
+                        return Opacity(opacity: o, child: Transform.scale(scale: .97 + .73 * t, child: child));
+                      },
+                    ),
+                  ),
+              // orbiting dots while connected
+              IgnorePointer(
+                child: AnimatedOpacity(
+                  opacity: on ? 1 : 0,
+                  duration: const Duration(milliseconds: 380),
+                  child: AnimatedBuilder(
+                    animation: _spin,
+                    child: RepaintBoundary(
+                      child: SizedBox(
+                        width: 228,
+                        height: 228,
+                        child: Stack(children: [
+                          for (final a in const [0.0, 120.0, 238.0])
+                            Align(
+                              alignment: Alignment.center,
+                              child: Transform.translate(
+                                offset: const Offset(0, -114),
+                                child: Transform.rotate(
+                                  angle: a * 3.1415926 / 180,
+                                  child: Container(width: 5, height: 5, decoration: BoxDecoration(shape: BoxShape.circle, color: p.ok, boxShadow: [BoxShadow(color: p.ok, blurRadius: 9)])),
+                                ),
                               ),
                             ),
-                          ),
-                      ]),
+                        ]),
+                      ),
                     ),
+                    builder: (context, child) => Transform.rotate(angle: _spin.value * 6.2832 * 2.4, child: child),
                   ),
                 ),
               ),
-              // wave on success
-              AnimatedBuilder(
-                animation: _wave,
-                builder: (context, _) {
-                  final t = _wave.value;
-                  if (t == 0 || t >= 1) return const SizedBox.shrink();
-                  return Opacity(
-                    opacity: (t < .6 ? .9 - .5 * (t / .6) : .3 * (1 - (t - .6) / .4)).clamp(0.0, 1.0),
-                    child: Transform.scale(
-                      scale: .94 + 1.46 * t,
-                      child: Container(width: 158, height: 158, decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: p.ok, width: 1.6))),
-                    ),
-                  );
-                },
+              // success wave
+              IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: _wave,
+                  child: RepaintBoundary(
+                    child: Container(width: 158, height: 158, decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: p.ok, width: 1.6))),
+                  ),
+                  builder: (context, child) {
+                    final t = _wave.value;
+                    if (t == 0 || t >= 1) return const SizedBox.shrink();
+                    return Opacity(
+                      opacity: (t < .6 ? .9 - .5 * (t / .6) : .3 * (1 - (t - .6) / .4)).clamp(0.0, 1.0),
+                      child: Transform.scale(scale: .94 + 1.46 * t, child: child),
+                    );
+                  },
+                ),
               ),
-              // the button
+              // the button: floats, shakes on failure, pops on success
               AnimatedBuilder(
                 animation: Listenable.merge([_bob, _shake, _burst]),
+                child: RepaintBoundary(
+                  child: Press(
+                    radius: 130,
+                    pressScale: .92,
+                    haptic: false,
+                    onTap: () => Conn.I.toggle(),
+                    child: TweenAnimationBuilder<Color?>(
+                      tween: ColorTween(end: accent),
+                      duration: const Duration(milliseconds: 450),
+                      builder: (context, col, _) {
+                        final cc = col ?? accent;
+                        return Container(
+                          width: 158,
+                          height: 158,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: alpha(cc, .46), width: 1.2),
+                            gradient: RadialGradient(
+                              center: const Alignment(-.32, -.5),
+                              radius: .8,
+                              colors: [alpha(cc, .5), alpha(cc, .06)],
+                            ),
+                            color: alpha(p.containerHigh, .7),
+                            boxShadow: [BoxShadow(color: alpha(p.glassHi, .9), offset: const Offset(0, 1))],
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // glassy highlight
+                              Positioned.fill(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: const Alignment(.15, .15),
+                                      colors: [alpha(Colors.white, .15), alpha(Colors.white, 0)],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 380),
+                                switchInCurve: Tk.bouncy,
+                                child: busy
+                                    ? RepaintBoundary(
+                                        key: const ValueKey('busy'),
+                                        child: SizedBox(
+                                          width: 30,
+                                          height: 30,
+                                          child: CircularProgressIndicator(strokeWidth: 2.4, color: p.onSurface),
+                                        ),
+                                      )
+                                    : AppIcon(on ? Ic.shield : Ic.power, key: ValueKey(on), size: 58, color: p.onSurface),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
                 builder: (context, child) {
                   final b = Curves.easeInOut.transform(_bob.value);
                   final s = _shake.value;
@@ -184,72 +275,6 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                     child: Transform.scale(scale: bScale, child: child),
                   );
                 },
-                child: Press(
-                  radius: 130,
-                  pressScale: .9,
-                  haptic: false,
-                  onTap: () => Conn.I.toggle(),
-                  child: Container(
-                    width: 158,
-                    height: 158,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: on ? alpha(p.ok, .44) : failed ? alpha(p.error, .48) : alpha(p.primary, .34)),
-                      gradient: RadialGradient(
-                        center: const Alignment(-.32, -.48),
-                        radius: .66,
-                        colors: [alpha(on ? p.ok : (failed ? p.error : p.primary), .46), alpha(p.primary, 0)],
-                      ),
-                      color: alpha(p.containerHigh, .62),
-                      boxShadow: [
-                        if (on) glow(p.ok, .34, blur: 46, spread: -8) else glow(p.primary, .30 * energy, blur: 46, spread: -8),
-                        BoxShadow(color: alpha(p.glassHi, .9), offset: const Offset(0, 1)),
-                      ],
-                    ),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        AnimatedBuilder(
-                          animation: _glow,
-                          builder: (context, _) {
-                            final g = Curves.easeInOut.transform(_glow.value);
-                            return Transform.scale(
-                              scale: .985 + .095 * g,
-                              child: Opacity(
-                                opacity: .7 + .3 * g,
-                                child: Container(
-                                  width: 158,
-                                  height: 158,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: RadialGradient(colors: [alpha(on ? p.ok : p.primary, .2), alpha(p.primary, 0)], stops: const [0, .68]),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 380),
-                          switchInCurve: Tk.bouncy,
-                          child: busy
-                              ? SizedBox(
-                                  key: const ValueKey('busy'),
-                                  width: 30,
-                                  height: 30,
-                                  child: CircularProgressIndicator(strokeWidth: 2.4, color: p.primary),
-                                )
-                              : AppIcon(
-                                  on ? Ic.shield : Ic.power,
-                                  key: ValueKey(on),
-                                  size: 58,
-                                  color: p.onSurface,
-                                ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
             ],
           ),

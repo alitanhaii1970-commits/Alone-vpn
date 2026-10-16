@@ -36,6 +36,7 @@ Future<void> main() async {
     }
     try {
       ServerStore.I.load();
+      Conn.I.listenEngine();
     } catch (e) {
       debugPrint('server store load failed: $e');
     }
