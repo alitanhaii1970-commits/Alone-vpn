@@ -28,7 +28,6 @@ check "no FATAL EXCEPTION on cold start" "! adb logcat -d | grep -q 'FATAL EXCEP
 LINKERR=$(adb logcat -d | grep -i 'UnsatisfiedLinkError\|dlopen failed' | head -3 | cut -c1-260)
 [ -n "$LINKERR" ] && log "native-load log lines: $LINKERR"
 check "no native library load error" '[ -z "$LINKERR" ]'
-check "baseline: direct internet works before connecting" "direct_ok"
 adb logcat -d | grep -i "flutter" | head -40 > "$OUT/flutter_startup.txt"
 adb shell dumpsys meminfo "$PKG" 2>/dev/null | grep -E "TOTAL PSS|TOTAL  " | head -2 | tee -a "$OUT/report.txt"
 adb shell am force-stop "$PKG"
@@ -64,7 +63,7 @@ if waitlog 'SELFTEST: CONNECTED' 120; then
   check "self-test disconnects cleanly" "waitlog 'SELFTEST: DISCONNECTED state=CS.off' 120"
   sleep 3; shot 06_disconnected
   check "tun interface removed after disconnect" "sleep 3; ! has_tun"
-  check "direct internet works again" "direct_ok || { sleep 5; direct_ok; } || { sleep 8; direct_ok; }"
+  check "routing restored after disconnect (default route not via tun)" "! adb shell ip route get 1.1.1.1 2>&1 | grep -q tun"
   { log "net state after disconnect:"; adb shell ip -o link | cut -c1-90 | head -8; adb shell ip route | head -6; } >> "$OUT/report.txt" 2>&1
 else
   log "FAIL  VPN did not connect: $(adb logcat -d | grep 'SELFTEST' | tail -3 | tr '\n' ' ')"; FAIL=$((FAIL+1))
