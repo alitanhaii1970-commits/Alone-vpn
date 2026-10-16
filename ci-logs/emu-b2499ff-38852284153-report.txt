@@ -1,0 +1,11 @@
+[05:01:13] device: Android 14 / SDK 34 / x86_64
+[05:01:24] PASS  release APK installs
+[05:01:43] PASS  app process is alive after 9s
+[05:01:44] PASS  no FATAL EXCEPTION on cold start
+[05:01:44] FAIL  no native library load error
+        TOTAL    84189    48856    31296        6   201080    54409    46198     4272
+           TOTAL PSS:    84189            TOTAL RSS:   201080       TOTAL SWAP PSS:        6
+[05:01:53] PASS  self-test APK installs (same signing key)
+[05:02:03] PASS  self-test reaches CONNECTING
+[05:05:29] FAIL  VPN did not connect: 10-16 05:02:02.967  4819  4819 I flutter : SELFTEST: CONNECTING 10-16 05:02:03.392  4819  4819 I flutter : SELFTEST: FAILED state=CS.failed step=3 
+[05:05:35] RESULT: 5 passed, 2 failed
