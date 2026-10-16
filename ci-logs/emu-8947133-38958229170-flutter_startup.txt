@@ -1,0 +1,10 @@
+10-16 20:12:36.092  3506  3576 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-16 20:12:36.437  3506  3606 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-16 20:12:37.538  3506  3506 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 1
+10-16 20:12:37.541  3506  3506 W FlutterJNI: Tried to send a platform message to Flutter, but FlutterJNI was detached from native C++. Could not send. Channel: v2ray_box/status. Response ID: 9
+10-16 20:12:37.541  3506  3506 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 4
+10-16 20:12:37.541  3506  3506 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 5
+10-16 20:12:37.541  3506  3506 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 6
+10-16 20:12:37.541  3506  3506 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 10
+10-16 20:12:37.541  3506  3506 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 11
+10-16 20:12:37.542  3506  3506 E ActivityThread: 	at io.flutter.plugins.GeneratedPluginRegistrant.registerWith(r8-map-id-c4c92014859ceb4aaf050fbc53f05127494165a3b76bc72316a9682f70f4b703:53)
