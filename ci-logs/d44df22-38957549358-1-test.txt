@@ -1,0 +1,614 @@
+4:50)
+#25     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#26     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#27     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#28     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#29     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#30     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#31     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#32     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#33     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#34     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#35     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#36     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#37     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#38     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#39     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#40     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#41     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#42     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#43     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#44     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#45     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#46     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#47     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#48     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#49     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#50     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#51     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#52     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#53     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#54     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#55     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#56     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#57     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#58     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#59     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#60     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#61     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#62     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#63     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#64     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#65     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#66     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#67     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#68     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#69     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#70     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1489:25)
+#71     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1653:15)
+#72     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2445:35)
+#73     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:558:5)
+#74     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#75     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#76     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:2261:9)
+#79     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#80     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:2250:27)
+#81     WidgetTester.pump.<anonymous closure> (package:flutter_test/src/widget_tester.dart:652:53)
+#84     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#85     WidgetTester.pump (package:flutter_test/src/widget_tester.dart:652:27)
+#86     _pumpFor (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:10:13)
+<asynchronous suspension>
+#87     main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:46:5)
+<asynchronous suspension>
+#88     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#89     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from class _AssertionError, dart:async, and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY SCHEDULER LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during a scheduler callback:
+'package:flutter/src/rendering/object.dart': Failed assertion: line 6018 pos 14:
+'!childSemantics.renderObject._needsLayout': is not true.
+
+Either the assertion indicates an error in the framework itself, or we should provide substantially
+more information in this error message to help you determine and fix the underlying cause.
+In either case, please report this assertion by filing a bug on GitHub:
+  https://github.com/flutter/flutter/issues/new?template=02_bug.yml
+
+When the exception was thrown, this was the stack:
+#2      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6018:14)
+#3      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#4      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#5      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#6      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#7      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#8      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#9      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#10     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#11     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#12     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#13     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#14     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#15     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#16     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#17     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#18     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#19     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#20     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#21     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#22     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#23     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#24     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#25     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#26     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#27     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#28     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#29     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#30     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#31     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#32     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#33     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#34     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#35     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#36     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#37     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#38     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#39     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#40     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#41     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#42     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#43     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#44     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#45     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#46     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#47     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#48     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#49     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#50     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#51     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#52     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#53     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#54     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#55     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#56     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#57     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#58     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#59     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#60     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#61     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#62     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#63     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#64     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#65     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#66     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#67     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#68     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#69     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#70     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1489:25)
+#71     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1653:15)
+#72     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2445:35)
+#73     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:558:5)
+#74     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#75     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#76     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:2261:9)
+#79     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#80     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:2250:27)
+#81     WidgetTester.pump.<anonymous closure> (package:flutter_test/src/widget_tester.dart:652:53)
+#84     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#85     WidgetTester.pump (package:flutter_test/src/widget_tester.dart:652:27)
+#86     _pumpFor (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:10:13)
+<asynchronous suspension>
+#87     main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:46:5)
+<asynchronous suspension>
+#88     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#89     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from class _AssertionError, dart:async, and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY SCHEDULER LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during a scheduler callback:
+'package:flutter/src/rendering/object.dart': Failed assertion: line 6018 pos 14:
+'!childSemantics.renderObject._needsLayout': is not true.
+
+Either the assertion indicates an error in the framework itself, or we should provide substantially
+more information in this error message to help you determine and fix the underlying cause.
+In either case, please report this assertion by filing a bug on GitHub:
+  https://github.com/flutter/flutter/issues/new?template=02_bug.yml
+
+When the exception was thrown, this was the stack:
+#2      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6018:14)
+#3      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#4      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#5      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#6      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#7      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#8      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#9      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#10     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#11     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#12     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#13     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#14     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#15     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#16     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#17     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#18     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#19     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#20     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#21     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#22     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#23     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#24     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#25     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#26     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#27     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#28     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#29     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#30     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#31     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#32     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#33     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#34     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#35     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#36     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#37     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#38     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#39     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#40     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#41     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#42     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#43     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#44     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#45     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#46     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#47     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#48     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#49     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#50     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#51     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#52     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#53     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#54     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#55     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#56     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#57     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#58     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#59     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#60     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#61     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#62     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#63     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#64     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#65     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#66     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#67     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#68     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#69     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#70     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1489:25)
+#71     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1653:15)
+#72     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2445:35)
+#73     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:558:5)
+#74     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#75     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#76     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:2261:9)
+#79     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#80     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:2250:27)
+#81     WidgetTester.pump.<anonymous closure> (package:flutter_test/src/widget_tester.dart:652:53)
+#84     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#85     WidgetTester.pump (package:flutter_test/src/widget_tester.dart:652:27)
+#86     _pumpFor (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:10:13)
+<asynchronous suspension>
+#87     main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:46:5)
+<asynchronous suspension>
+#88     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#89     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from class _AssertionError, dart:async, and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY SCHEDULER LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during a scheduler callback:
+'package:flutter/src/rendering/object.dart': Failed assertion: line 6018 pos 14:
+'!childSemantics.renderObject._needsLayout': is not true.
+
+Either the assertion indicates an error in the framework itself, or we should provide substantially
+more information in this error message to help you determine and fix the underlying cause.
+In either case, please report this assertion by filing a bug on GitHub:
+  https://github.com/flutter/flutter/issues/new?template=02_bug.yml
+
+When the exception was thrown, this was the stack:
+#2      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6018:14)
+#3      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#4      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#5      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#6      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#7      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#8      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#9      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#10     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#11     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#12     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#13     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#14     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#15     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#16     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#17     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#18     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#19     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#20     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#21     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#22     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#23     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#24     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#25     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#26     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#27     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#28     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#29     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#30     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#31     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#32     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#33     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#34     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#35     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#36     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#37     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#38     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#39     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#40     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#41     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#42     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#43     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#44     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#45     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#46     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#47     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#48     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#49     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#50     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#51     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#52     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#53     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#54     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#55     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#56     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#57     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#58     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#59     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#60     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#61     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#62     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#63     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#64     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#65     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#66     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#67     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#68     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#69     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#70     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1489:25)
+#71     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1653:15)
+#72     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2445:35)
+#73     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:558:5)
+#74     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#75     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#76     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:2261:9)
+#79     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#80     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:2250:27)
+#81     WidgetTester.pump.<anonymous closure> (package:flutter_test/src/widget_tester.dart:652:53)
+#84     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#85     WidgetTester.pump (package:flutter_test/src/widget_tester.dart:652:27)
+#86     _pumpFor (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:10:13)
+<asynchronous suspension>
+#87     main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:46:5)
+<asynchronous suspension>
+#88     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#89     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from class _AssertionError, dart:async, and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY SCHEDULER LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during a scheduler callback:
+'package:flutter/src/rendering/object.dart': Failed assertion: line 6018 pos 14:
+'!childSemantics.renderObject._needsLayout': is not true.
+
+Either the assertion indicates an error in the framework itself, or we should provide substantially
+more information in this error message to help you determine and fix the underlying cause.
+In either case, please report this assertion by filing a bug on GitHub:
+  https://github.com/flutter/flutter/issues/new?template=02_bug.yml
+
+When the exception was thrown, this was the stack:
+#2      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6018:14)
+#3      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#4      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#5      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#6      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#7      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#8      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#9      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#10     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#11     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#12     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#13     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#14     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#15     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#16     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#17     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#18     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#19     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#20     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#21     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#22     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#23     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#24     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#25     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#26     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#27     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#28     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#29     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#30     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#31     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#32     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#33     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#34     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#35     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#36     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#37     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#38     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#39     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#40     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#41     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#42     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#43     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#44     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#45     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#46     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#47     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#48     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#49     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#50     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#51     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#52     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#53     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#54     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#55     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#56     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#57     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#58     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#59     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#60     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#61     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#62     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#63     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#64     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#65     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#66     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#67     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#68     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#69     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#70     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1489:25)
+#71     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1653:15)
+#72     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2445:35)
+#73     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:558:5)
+#74     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#75     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#76     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:2261:9)
+#79     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#80     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:2250:27)
+#81     WidgetTester.pump.<anonymous closure> (package:flutter_test/src/widget_tester.dart:652:53)
+#84     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#85     WidgetTester.pump (package:flutter_test/src/widget_tester.dart:652:27)
+#86     _pumpFor (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:10:13)
+<asynchronous suspension>
+#87     main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:46:5)
+<asynchronous suspension>
+#88     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#89     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from class _AssertionError, dart:async, and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY SCHEDULER LIBRARY ╞═════════════════════════════════════════════════════════
+The following assertion was thrown during a scheduler callback:
+'package:flutter/src/rendering/object.dart': Failed assertion: line 6018 pos 14:
+'!childSemantics.renderObject._needsLayout': is not true.
+
+Either the assertion indicates an error in the framework itself, or we should provide substantially
+more information in this error message to help you determine and fix the underlying cause.
+In either case, please report this assertion by filing a bug on GitHub:
+  https://github.com/flutter/flutter/issues/new?template=02_bug.yml
+
+When the exception was thrown, this was the stack:
+#2      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6018:14)
+#3      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#4      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#5      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#6      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#7      _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#8      _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#9      _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#10     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#11     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#12     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#13     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#14     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#15     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#16     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#17     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#18     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#19     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#20     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#21     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#22     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#23     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#24     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#25     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#26     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#27     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#28     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#29     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#30     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#31     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#32     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#33     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#34     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#35     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#36     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#37     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#38     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#39     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#40     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#41     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#42     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#43     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#44     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#45     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#46     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#47     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#48     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#49     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#50     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#51     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#52     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#53     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#54     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#55     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#56     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#57     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#58     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#59     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#60     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#61     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#62     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#63     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#64     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#65     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#66     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#67     _RenderObjectSemantics._didUpdateParentData (package:flutter/src/rendering/object.dart:6095:5)
+#68     _RenderObjectSemantics._collectChildMergeUpAndSiblingGroup (package:flutter/src/rendering/object.dart:6019:22)
+#69     _RenderObjectSemantics.updateChildren (package:flutter/src/rendering/object.dart:5844:50)
+#70     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1489:25)
+#71     PipelineOwner.flushSemantics (package:flutter/src/rendering/object.dart:1653:15)
+#72     AutomatedTestWidgetsFlutterBinding.drawFrame (package:flutter_test/src/binding.dart:2445:35)
+#73     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:558:5)
+#74     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1430:15)
+#75     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1345:9)
+#76     AutomatedTestWidgetsFlutterBinding.pump.<anonymous closure> (package:flutter_test/src/binding.dart:2261:9)
+#79     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#80     AutomatedTestWidgetsFlutterBinding.pump (package:flutter_test/src/binding.dart:2250:27)
+#81     WidgetTester.pump.<anonymous closure> (package:flutter_test/src/widget_tester.dart:652:53)
+#84     TestAsyncUtils.guard (package:flutter_test/src/test_async_utils.dart:74:41)
+#85     WidgetTester.pump (package:flutter_test/src/widget_tester.dart:652:27)
+#86     _pumpFor (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:10:13)
+<asynchronous suspension>
+#87     main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:46:5)
+<asynchronous suspension>
+#88     testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#89     TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided 7 frames from class _AssertionError, dart:async, and package:stack_trace)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Choose your language": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:47:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart line 47
+The test description was:
+  fresh install: language screen -> pick English -> next onboarding page
+════════════════════════════════════════════════════════════════════════════════════════════════════
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following message was thrown:
+Multiple exceptions (37) were detected during the running of the current test, and at least one was
+unexpected.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Test failed. See exception logs above.
+The test description was: fresh install: language screen -> pick English -> next onboarding page
+
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+::endgroup::
+
+::error::5 tests passed, 4 failed.
