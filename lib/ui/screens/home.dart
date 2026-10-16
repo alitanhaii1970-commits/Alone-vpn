@@ -621,7 +621,10 @@ class QuickTiles extends StatelessWidget {
               ),
             );
         final dnsLabel = !st.dnsOn ? 'off' : (st.activeDns?.name ?? 'custom');
-        return Row(
+        // IntrinsicHeight: a stretching Row inside the scrolling Column gets an infinite height
+        // constraint otherwise, which breaks the layout of everything below it.
+        return IntrinsicHeight(
+          child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             tile(
@@ -641,6 +644,7 @@ class QuickTiles extends StatelessWidget {
               () => showImport(context),
             ),
           ],
+          ),
         );
       },
     );
