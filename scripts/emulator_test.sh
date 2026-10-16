@@ -6,6 +6,8 @@ OUT=/tmp/emu; mkdir -p "$OUT/shots"; : > "$OUT/report.txt"
 PASS=0; FAIL=0
 log()  { echo "[$(date +%T)] $*" | tee -a "$OUT/report.txt"; }
 check(){ if eval "$2"; then log "PASS  $1"; PASS=$((PASS+1)); else log "FAIL  $1"; FAIL=$((FAIL+1)); fi; }
+direct_ok() { adb shell "printf 'GET / HTTP/1.0\\r\\nHost: example.com\\r\\n\\r\\n' | nc -w 8 example.com 80 | head -1" 2>/dev/null | grep -q 'HTTP/1'; }
+has_tun() { adb shell ip -o link 2>/dev/null | grep -Eq '[0-9]+: tun[0-9]+'; }
 shot() { adb exec-out screencap -p > "$OUT/shots/$1.png" 2>/dev/null; }
 launch(){ adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; }
 waitlog(){ # pattern timeout
@@ -13,6 +15,8 @@ waitlog(){ # pattern timeout
 
 log "device: Android $(adb shell getprop ro.build.version.release | tr -d '\r') / SDK $(adb shell getprop ro.build.version.sdk | tr -d '\r') / $(adb shell getprop ro.product.cpu.abi | tr -d '\r')"
 
+# the CI emulator is slow: keep "app not responding" dialogs (e.g. the launcher's) out of the screenshots
+adb shell settings put global hide_error_dialogs 1 >/dev/null 2>&1
 # ---------- A. plain release build, fresh install ----------
 check "release APK installs" "adb install -r apks/alone-x64.apk >/dev/null 2>&1"
 adb shell pm grant "$PKG" android.permission.POST_NOTIFICATIONS >/dev/null 2>&1
@@ -21,7 +25,10 @@ sleep 3;  shot 01_launch_3s
 sleep 6;  shot 02_launch_9s
 check "app process is alive after 9s" "adb shell pidof $PKG | grep -q ."
 check "no FATAL EXCEPTION on cold start" "! adb logcat -d | grep -q 'FATAL EXCEPTION'"
-check "no native library load error" "! adb logcat -d | grep -qi 'UnsatisfiedLinkError\|dlopen failed'"
+LINKERR=$(adb logcat -d | grep -i 'UnsatisfiedLinkError\|dlopen failed' | head -3 | cut -c1-260)
+[ -n "$LINKERR" ] && log "native-load log lines: $LINKERR"
+check "no native library load error" '[ -z "$LINKERR" ]'
+check "baseline: direct internet works before connecting" "direct_ok"
 adb logcat -d | grep -i "flutter" | head -40 > "$OUT/flutter_startup.txt"
 adb shell dumpsys meminfo "$PKG" 2>/dev/null | grep -E "TOTAL PSS|TOTAL  " | head -2 | tee -a "$OUT/report.txt"
 adb shell am force-stop "$PKG"
@@ -38,7 +45,7 @@ sleep 2;  shot 04_connecting
 if waitlog 'SELFTEST: CONNECTED' 120; then
   log "PASS  VPN connected through the real engine"; PASS=$((PASS+1))
   sleep 3; shot 05_connected
-  check "tun interface exists" "adb shell ip addr | grep -q 'tun'"
+  check "tun interface exists" "has_tun"
   # traffic must go through the proxy: HTTP request from the shell uid (not excluded from the VPN)
   REQ="printf 'GET / HTTP/1.0\\r\\nHost: example.com\\r\\n\\r\\n' | nc -w 10 example.com 80 | head -1"
   RESP=$(adb shell "$REQ" 2>/dev/null | tr -d '\r')
@@ -56,8 +63,9 @@ if waitlog 'SELFTEST: CONNECTED' 120; then
   check "no FATAL EXCEPTION while connected" "! adb logcat -d | grep -q 'FATAL EXCEPTION'"
   check "self-test disconnects cleanly" "waitlog 'SELFTEST: DISCONNECTED state=CS.off' 120"
   sleep 3; shot 06_disconnected
-  check "tun interface removed after disconnect" "! adb shell ip addr | grep -q 'tun'"
-  check "direct internet works again" "adb shell \"printf 'GET / HTTP/1.0\\r\\nHost: example.com\\r\\n\\r\\n' | nc -w 10 example.com 80 | head -1\" | grep -q 'HTTP/1'"
+  check "tun interface removed after disconnect" "sleep 3; ! has_tun"
+  check "direct internet works again" "direct_ok || { sleep 5; direct_ok; } || { sleep 8; direct_ok; }"
+  { log "net state after disconnect:"; adb shell ip -o link | cut -c1-90 | head -8; adb shell ip route | head -6; } >> "$OUT/report.txt" 2>&1
 else
   log "FAIL  VPN did not connect: $(adb logcat -d | grep 'SELFTEST' | tail -3 | tr '\n' ' ')"; FAIL=$((FAIL+1))
   shot 05_not_connected

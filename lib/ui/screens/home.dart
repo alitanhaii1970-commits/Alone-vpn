@@ -218,14 +218,13 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                           height: 158,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: alpha(cc, .46), width: 1.2),
+                            border: Border.all(color: alpha(cc, .62), width: 1.4),
                             gradient: RadialGradient(
-                              center: const Alignment(-.32, -.5),
-                              radius: .8,
-                              colors: [alpha(cc, .5), alpha(cc, .06)],
+                              center: const Alignment(-.28, -.42),
+                              radius: 1.05,
+                              colors: [alpha(cc, .78), alpha(cc, .30), alpha(p.surface, .96)],
+                              stops: const [0, .55, 1],
                             ),
-                            color: alpha(p.containerHigh, .7),
-                            boxShadow: [BoxShadow(color: alpha(p.glassHi, .9), offset: const Offset(0, 1))],
                           ),
                           child: Stack(
                             alignment: Alignment.center,
@@ -238,7 +237,7 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                                     gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: const Alignment(.15, .15),
-                                      colors: [alpha(Colors.white, .15), alpha(Colors.white, 0)],
+                                      colors: [alpha(Colors.white, .30), alpha(Colors.white, 0)],
                                     ),
                                   ),
                                 ),
