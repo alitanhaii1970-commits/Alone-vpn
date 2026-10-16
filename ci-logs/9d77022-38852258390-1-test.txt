@@ -1,0 +1,10 @@
+
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+::endgroup::
+
+🎉 5 tests passed.
