@@ -1,0 +1,15 @@
+121:[  +12 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/build.gradle.kts' doesn't provide an AGP version. Checking settings.
+122:[        ] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/settings.gradle.kts' provides AGP version: 9.1.0
+142:[  +98 ms] The client will now receive all logging from the daemon (pid: 40345). The daemon log file: /home/runner/.gradle/daemon/9.3.1/daemon-40345.out.log
+3412:[        ] w: file:///home/runner/work/Alone-vpn/Alone-vpn/android/app/build.gradle.kts:7:1: 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+7972:[ +499 ms] w: file:///home/runner/.pub-cache/hosted/pub.dev/shared_preferences_android-2.4.28/android/build.gradle.kts:40:1: 'fun Project.android(configure: Action<LibraryExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.LibraryExtension.
+10016:[        ] If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+10135:[        ] [   +1 ms] aot_android_asset_bundle: Starting due to {}
+10143:[        ] [   +1 ms] aot_android_asset_bundle: Complete
+11467:[        ] Compilation mode: in-process compilation
+13627:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #0: starting
+15024:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #1: starting
+17774:[        ] Compilation mode: in-process compilation
+18088:[        ] Compilation mode: in-process compilation
+18816:[  +62 ms] AAPT2 aapt2-9.1.0-14792394-linux Daemon #0: shutdown
+18817:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #1: shutdown
