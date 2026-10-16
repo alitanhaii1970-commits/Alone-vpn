@@ -1,0 +1,7 @@
+124:[  +18 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/build.gradle.kts' doesn't provide an AGP version. Checking settings.
+125:[   +1 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/settings.gradle.kts' provides AGP version: 9.1.0
+136:[ +299 ms] The client will now receive all logging from the daemon (pid: 40323). The daemon log file: /home/runner/.gradle/daemon/9.3.1/daemon-40323.out.log
+137:[        ] Starting 2nd build in daemon [uptime: 4 mins 48.724 secs, performance: 99%, GC rate: 0.00/s, heap usage: 0% of 8 GiB, non-heap usage: 9% of 4 GiB]
+264:[        ] If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+386:[        ] [   +2 ms] aot_android_asset_bundle: Starting due to {}
+394:[        ] [   +1 ms] aot_android_asset_bundle: Complete
