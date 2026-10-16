@@ -1,0 +1,43 @@
+
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [en] splash -> home, then all four tabs render without exceptions
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [fa] splash -> home, then all four tabs render without exceptions
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/home_layout_test.dart: Home sections are laid out top-to-bottom (server present)
+LAYOUT {ConnectDial: 110..322 x 78..314, Telemetry: 392..448 x 16..377, ActiveServerCard: 448..507 x 16..377, QuickTiles: 519..738 x 16..377, RecentsPanel: 746..853 x 16..377}
+::endgroup::
+::group::❌ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: fresh install: language screen -> pick English -> next onboarding page (failed)
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: exactly one matching candidate
+  Actual: _TextWidgetFinder:<Found 0 widgets with text "Choose your language": []>
+   Which: means none were found but one was expected
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart:47:5)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart line 47
+The test description was:
+  fresh install: language screen -> pick English -> next onboarding page
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Test failed. See exception logs above.
+The test description was: fresh install: language screen -> pick English -> next onboarding page
+
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+::endgroup::
+
+::error::8 tests passed, 1 failed.
