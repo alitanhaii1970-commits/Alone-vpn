@@ -1,0 +1,6 @@
+
+::group::✅ Home sections are laid out top-to-bottom (server present)
+LAYOUT {ConnectDial: 110..322 x 78..314, Telemetry: 392..448 x 16..377, ActiveServerCard: 448..507 x 16..377, QuickTiles: 519..738 x 16..377, RecentsPanel: 746..853 x 16..377}
+::endgroup::
+
+🎉 1 test passed.
