@@ -58,5 +58,5 @@ jobs:
             path="ci-logs/${sha}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${f}.txt"
             gh api -X PUT "repos/${GITHUB_REPOSITORY}/contents/${path}" \
               -f message="ci: ${f} log ${sha}" -f branch=ci-logs \
-              -f content="$(base64 -w0 /tmp/$f.txt)" > /dev/null || echo "could not publish $path"
+              -f content="$(tail -c 60000 /tmp/$f.txt | base64 -w0)" > /dev/null || echo "could not publish $path"
           done

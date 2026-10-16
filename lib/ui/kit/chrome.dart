@@ -161,7 +161,7 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (_plain) return RepaintBoundary(child: widget.child);
+    if (_plain) return widget.child;
     return AnimatedBuilder(
       animation: _c,
       builder: (context, child) {
@@ -174,7 +174,7 @@ class _RiseState extends State<Rise> with SingleTickerProviderStateMixin {
           ),
         );
       },
-      child: RepaintBoundary(child: widget.child),
+      child: widget.child,
     );
   }
 }
