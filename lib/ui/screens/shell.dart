@@ -24,13 +24,18 @@ class _AppShellState extends State<AppShell> {
   @override
   void initState() {
     super.initState();
-    ShellState.onTopLevel.value = true;
-    ServerStore.I.load();
+    // Never notify listeners while the tree is being built: the snack host in main.dart listens to
+    // this notifier and is a sibling of the Navigator, so changing it synchronously here is a
+    // "setState() called during build" error (it left parts of the Home screen half laid out).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ShellState.onTopLevel.value = true;
+      ServerStore.I.load();
+    });
   }
 
   @override
   void dispose() {
-    ShellState.onTopLevel.value = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) => ShellState.onTopLevel.value = false);
     super.dispose();
   }
 
