@@ -162,6 +162,12 @@ jobs:
       - name: Build sing-box native library
         run: bash scripts/build_android_libsingbox.sh --project-root "$(pwd)" --singbox-ref v1.14.3 --android-abis arm64-v8a,x86_64
 
+      - name: Build x86_64 release APK (emulator test only)
+        if: contains(github.event.head_commit.message, '[e2e]') || github.event_name == 'workflow_dispatch'
+        run: |
+          flutter build apk --release --no-shrink --target-platform android-x64
+          cp build/app/outputs/flutter-apk/app-release.apk /tmp/app-x64-release.apk
+
       - name: Build release APK
         id: build_apk
         run: |
@@ -222,6 +228,55 @@ jobs:
         if: always() && steps.build_apk.outcome == 'success'
         continue-on-error: true
         run: flutter test --no-pub
+
+      - name: Enable KVM for the emulator
+        if: contains(github.event.head_commit.message, '[e2e]') || github.event_name == 'workflow_dispatch'
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Emulator test (release launch + UI walkthrough)
+        if: contains(github.event.head_commit.message, '[e2e]') || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: false
+          emulator-boot-timeout: 900
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -camera-front none
+          script: bash scripts/run_e2e.sh
+
+      - name: Publish emulator results to the ci-logs branch
+        if: always() && (contains(github.event.head_commit.message, '[e2e]') || github.event_name == 'workflow_dispatch')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64, glob, json, os, subprocess, tempfile
+          sha = os.environ["GITHUB_SHA"][:7]; run = os.environ["GITHUB_RUN_ID"]; repo = os.environ["GITHUB_REPOSITORY"]
+          files = glob.glob("screenshots/*.png") + [f for f in ["/tmp/e2e_meta.txt", "/tmp/e2e.txt", "/tmp/logcat_release.txt", "/tmp/logcat_walkthrough.txt"] if os.path.isfile(f)]
+          for f in files:
+              data = open(f, "rb").read()
+              if f.endswith(".txt") and len(data) > 600000:
+                  data = data[-600000:]
+              body = {"message": "ci: e2e " + os.path.basename(f), "branch": "ci-logs", "content": base64.b64encode(data).decode()}
+              tmp = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False); json.dump(body, tmp); tmp.close()
+              path = f"ci-logs/{sha}-{run}-e2e/{os.path.basename(f)}"
+              r = subprocess.run(["gh", "api", "-X", "PUT", f"repos/{repo}/contents/{path}", "--input", tmp.name], capture_output=True, text=True)
+              print(path, "ok" if r.returncode == 0 else "FAILED " + r.stderr[:200])
+          PY
+
+      - name: Upload emulator screenshots
+        if: always() && (contains(github.event.head_commit.message, '[e2e]') || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-artifact@v4
+        with:
+          name: alone-vpn-e2e-screenshots
+          path: screenshots/
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload APK artifact
         if: always()
