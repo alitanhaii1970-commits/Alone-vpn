@@ -7,6 +7,7 @@ import 'core/settings.dart';
 import 'core/tokens.dart';
 import 'core/typography.dart';
 import 'data/stores.dart';
+import 'selftest.dart';
 import 'ui/kit/chrome.dart';
 import 'ui/shell_state.dart';
 import 'ui/screens/splash.dart';
@@ -38,8 +39,10 @@ Future<void> main() async {
     } catch (e) {
       debugPrint('server store load failed: $e');
     }
+    prepareSelfTest();
     SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
     runApp(const AloneVpnApp());
+    unawaited(runSelfTest());
   }, (error, stack) => debugPrint('Uncaught: $error'));
 }
 

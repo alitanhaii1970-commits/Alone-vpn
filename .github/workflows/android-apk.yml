@@ -187,6 +187,29 @@ jobs:
               -f content="$(base64 -w0 /tmp/${f}.txt)" > /dev/null || echo "could not publish $path"
           done
 
+      - name: Build x86_64 test APKs for the emulator job
+        id: build_x64
+        continue-on-error: true
+        run: |
+          set -e
+          mkdir -p /tmp/apks
+          cp build/app/outputs/flutter-apk/app-release.apk /tmp/alone-arm64.apk
+          flutter build apk --release --no-shrink --target-platform android-x64
+          cp build/app/outputs/flutter-apk/app-release.apk /tmp/apks/alone-x64.apk
+          flutter build apk --release --no-shrink --target-platform android-x64 \
+            --dart-define=ALONE_SELFTEST_LINK='ss://YWVzLTI1Ni1nY206Y2l0ZXN0cGFzcw==@10.0.2.2:18388#CI-Test'
+          cp build/app/outputs/flutter-apk/app-release.apk /tmp/apks/alone-x64-selftest.apk
+          # put the real arm64 APK back where the upload step expects it
+          cp /tmp/alone-arm64.apk build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload emulator test APKs
+        if: steps.build_x64.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: alone-test-apks
+          path: /tmp/apks
+          retention-days: 3
+
       # Validation is run after APK creation so an analysis/test issue does not
       # prevent the already-built installable APK from being uploaded below.
       - name: Analyze Dart code
@@ -208,3 +231,75 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: warn
           retention-days: 14
+
+  emulator-test:
+    name: Emulator end-to-end test (install, launch, connect VPN)
+    needs: build-android
+    if: always() && needs.build-android.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Download test APKs
+        uses: actions/download-artifact@v4
+        with:
+          name: alone-test-apks
+          path: apks
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Start a local Xray server (plays the VPN server)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/xr
+          gh release download --repo XTLS/Xray-core --pattern 'Xray-linux-64.zip' --dir /tmp/xr
+          unzip -o /tmp/xr/Xray-linux-64.zip -d /tmp/xr
+          cat > /tmp/xr/config.json <<'JSON'
+          {
+            "log": { "loglevel": "info", "access": "/tmp/xray-access.log" },
+            "inbounds": [{
+              "listen": "0.0.0.0", "port": 18388, "protocol": "shadowsocks",
+              "settings": { "method": "aes-256-gcm", "password": "citestpass", "network": "tcp,udp" }
+            }],
+            "outbounds": [{ "protocol": "freedom" }]
+          }
+          JSON
+          : > /tmp/xray-access.log
+          nohup /tmp/xr/xray run -c /tmp/xr/config.json > /tmp/xray-stdout.log 2>&1 &
+          sleep 3
+          ss -ltn | grep 18388 && echo "xray server is listening"
+
+      - name: Run the app on an Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: bash scripts/emulator_test.sh
+
+      - name: Publish report and screenshots to the ci-logs branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install -q pillow || true
+          tail -n 200 /tmp/xray-access.log > /tmp/emu/xray_access_tail.txt 2>/dev/null || true
+          python3 scripts/publish_ci_files.py "emu-${GITHUB_SHA::7}-${GITHUB_RUN_ID}" \
+            /tmp/emu/report.txt /tmp/emu/logcat_filtered.txt /tmp/emu/flutter_startup.txt /tmp/emu/xray_access_tail.txt /tmp/emu/shots/*.png
+
+      - name: Upload emulator results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: emulator-test-results
+          path: /tmp/emu
+          retention-days: 7
