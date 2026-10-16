@@ -1,0 +1,23 @@
+[09:56:05] device: Android 14 / SDK 34 / x86_64
+[09:56:14] PASS  release APK installs
+[09:56:32] PASS  app process is alive after 9s
+[09:56:33] PASS  no FATAL EXCEPTION on cold start
+[09:56:34] FAIL  no native library load error
+        TOTAL    77317    41812    30988      275   172184    47108    38908     4277
+           TOTAL PSS:    77317            TOTAL RSS:   172184       TOTAL SWAP PSS:      275
+[09:56:44] PASS  self-test APK installs (same signing key)
+[09:56:56] PASS  self-test reaches CONNECTING
+[09:57:01] PASS  VPN connected through the real engine
+[09:57:10] PASS  tun interface exists
+[09:57:11] HTTP via VPN -> 'HTTP/1.1 200 OK'
+[09:57:11] PASS  HTTP request works through the VPN
+[09:57:11] PASS  the proxy server saw the request (traffic really tunnelled)
+[09:57:15] throughput via VPN: 5001324 bytes in 3.9s = 10.2 Mbit/s (emulator + shared CI runner: indicative only)
+[09:57:15] PASS  download through the VPN completes (>=4 MB)
+        TOTAL   132711    72352    55932      230   230400    52429    43670     4568
+           TOTAL PSS:   132711            TOTAL RSS:   230400       TOTAL SWAP PSS:      230
+[09:57:18] PASS  no FATAL EXCEPTION while connected
+[09:58:08] PASS  self-test disconnects cleanly
+[09:58:14] FAIL  tun interface removed after disconnect
+[09:58:15] FAIL  direct internet works again
+[09:58:15] RESULT: 12 passed, 3 failed
