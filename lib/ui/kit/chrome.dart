@@ -379,7 +379,10 @@ class _NavItem extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
+            // FittedBox: with large system text the icon + label no longer fit the fixed 52 dp item
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
@@ -394,8 +397,9 @@ class _NavItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 2),
-                Text(label, style: context.ty(R.labelS, fg)),
+                Text(label, maxLines: 1, softWrap: false, style: context.ty(R.labelS, fg)),
               ],
+            ),
             ),
           ],
         ),
