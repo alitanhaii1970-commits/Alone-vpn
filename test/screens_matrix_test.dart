@@ -47,8 +47,10 @@ void main() {
             }
             var ex = tester.takeException();
             while (ex != null) {
-              final msg = ex.toString().split('\n').first;
-              problems.add('$what -> ${msg.length > 150 ? msg.substring(0, 150) : msg}');
+              final full = ex.toString();
+              final msg = full.split('\n').first;
+              final where = RegExp(r'lib/[^\s:]+:\d+').firstMatch(full)?.group(0) ?? '';
+              problems.add('$what -> ${msg.length > 120 ? msg.substring(0, 120) : msg} @ $where');
               ex = tester.takeException();
             }
           }
