@@ -34,6 +34,7 @@ void main() {
     };
     // ignore: avoid_print
     print('LAYOUT ${order.map((k, v) => MapEntry(k, '${v.top.round()}..${v.bottom.round()} x ${v.left.round()}..${v.right.round()}'))}');
+    expect(order['QuickTiles']!.height, lessThan(140), reason: 'quick tiles must be one compact row (a bad flex ratio made them 200+ dp tall)');
     final keys = order.keys.toList();
     for (var i = 1; i < keys.length; i++) {
       expect(order[keys[i]]!.top, greaterThanOrEqualTo(order[keys[i - 1]]!.bottom - 1), reason: '${keys[i]} must be below ${keys[i - 1]}');

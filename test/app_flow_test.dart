@@ -41,6 +41,7 @@ void main() {
   testWidgets('fresh install: language screen -> pick English -> next onboarding page', (tester) async {
     _phone(tester);
     SharedPreferences.setMockInitialValues({});
+    AppSettings.I.onboarded = false; // AppSettings is a singleton: undo what earlier tests set
     await AppSettings.I.load();
     await tester.pumpWidget(const AloneVpnApp());
     await _pumpFor(tester, const Duration(milliseconds: 3000));

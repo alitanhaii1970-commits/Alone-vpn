@@ -601,7 +601,7 @@ class QuickTiles extends StatelessWidget {
     return ListenableBuilder(
       listenable: Listenable.merge([Conn.I, ServerStore.I]),
       builder: (context, _) {
-        Widget tile(Ic icon, String label, Widget extra, VoidCallback onTap, {int flex = 1}) => Expanded(
+        Widget tile(Ic icon, String label, Widget extra, VoidCallback onTap, {int flex = 100}) => Expanded(
               flex: flex,
               child: CardX(
                 padding: const EdgeInsets.fromLTRB(7, 10, 7, 9),
