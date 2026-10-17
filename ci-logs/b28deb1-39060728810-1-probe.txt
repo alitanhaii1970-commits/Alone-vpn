@@ -1,0 +1,41 @@
+
+::group::✅ probe: Home overflow on 360x640 (en)
+PROBE_BEGIN
+PROBE ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞══════════════════════
+PROBE The following assertion was thrown during layout:
+PROBE A RenderFlex overflowed by 6.0 pixels on the bottom.
+PROBE 
+PROBE The relevant error-causing widget was:
+PROBE   Column
+PROBE   Column:file:///home/runner/work/Alone-vpn/Alone-vpn/lib/ui/kit/chrome.dart:382:13
+PROBE 
+PROBE The overflowing RenderFlex has an orientation of Axis.vertical.
+PROBE The edge of the RenderFlex that is overflowing has been marked in
+PROBE the rendering with a yellow and black striped pattern. This is
+PROBE usually caused by the contents being too big for the RenderFlex.
+PROBE Consider applying a flex factor (e.g. using an Expanded widget)
+PROBE to force the children of the RenderFlex to fit within the
+PROBE available space instead of being sized to their natural size.
+PROBE This is considered an error condition because it indicates that
+PROBE there is content that cannot be seen. If the content is
+PROBE legitimately bigger than the available space, consider clipping
+PROBE it with a ClipRect widget before putting it in the flex, or using
+PROBE a scrollable container rather than a Flex, like a ListView.
+PROBE The specific RenderFlex in question is: RenderFlex#87b54 relayoutBoundary=up1 OVERFLOWING:
+PROBE   parentData: not positioned; offset=Offset(0.0, 0.0) (can use
+PROBE     size)
+PROBE   constraints: BoxConstraints(0.0<=w<=80.5, 0.0<=h<=52.0)
+PROBE   size: Size(80.5, 52.0)
+PROBE   direction: vertical
+PROBE   mainAxisAlignment: start
+PROBE   mainAxisSize: min
+PROBE   crossAxisAlignment: center
+PROBE   verticalDirection: down
+PROBE   spacing: 0.0
+PROBE ◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+PROBE ═════════════════════════════════════════════════════════════════
+PROBE 
+PROBE_END
+::endgroup::
+
+🎉 1 test passed.
