@@ -13,6 +13,10 @@ void main() {
     tester.view.physicalSize = const Size(1080, 2400);
     tester.view.devicePixelRatio = 2.75;
     addTearDown(tester.view.reset);
+    // the test font (Ahem) is far wider than real fonts; shrink text so content is narrower than the
+    // slots, otherwise a card that wrongly shrinks to its content would still look full-width
+    tester.platformDispatcher.textScaleFactorTestValue = .4;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
     SharedPreferences.setMockInitialValues({
       'al.onboarded': true,
       'al.lang': 'en',

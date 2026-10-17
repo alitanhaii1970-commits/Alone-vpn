@@ -184,6 +184,8 @@ class _PressState extends State<Press> with TickerProviderStateMixin {
       },
       child: widget.ripple
           ? Stack(
+              // passthrough: a loose Stack let cards shrink to their content inside Expanded/stretch slots
+              fit: StackFit.passthrough,
               clipBehavior: Clip.none,
               children: [
                 widget.child,
