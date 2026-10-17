@@ -1,0 +1,18 @@
+
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [en] splash -> home, then all four tabs render without exceptions
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [fa] splash -> home, then all four tabs render without exceptions
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/home_layout_test.dart: Home sections are laid out top-to-bottom (server present)
+LAYOUT {ConnectDial: 110..322 x 78..314, Telemetry: 392..448 x 16..377, ActiveServerCard: 448..507 x 16..377, QuickTiles: 519..616 x 16..377, RecentsPanel: 624..731 x 16..377}
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: fresh install: language screen -> pick English -> next onboarding page
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+::endgroup::
+
+🎉 9 tests passed.
