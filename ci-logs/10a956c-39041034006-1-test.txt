@@ -1,0 +1,39 @@
+
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [en] splash -> home, then all four tabs render without exceptions
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [fa] splash -> home, then all four tabs render without exceptions
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: fresh install: language screen -> pick English -> next onboarding page
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/home_layout_test.dart: Home sections are laid out top-to-bottom (server present)
+LAYOUT {ConnectDial: 110..322 x 78..314, Telemetry: 392..448 x 16..377, ActiveServerCard: 448..507 x 16..377, QuickTiles: 519..616 x 16..377, RecentsPanel: 624..731 x 16..377}
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+::endgroup::
+::group::❌ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 100% (failed)
+SIZEPROBLEM [en | small 360x640 | text 100%] boot -> A RenderFlex overflowed by 6.0 pixels on the bottom. @ 
+'package:flutter_test/src/binding.dart': Failed assertion: line 1912 pos 9: '_pendingExceptionDetails != null': A test overrode FlutterError.onError but either failed to return it to its original state, or had unexpected additional errors that it could not handle. Typically, this is caused by using expect() before restoring FlutterError.onError.
+dart:core                                           _AssertionError._throwNew
+package:flutter_test/src/binding.dart 1912:9        TestWidgetsFlutterBinding._runTest.handleUncaughtError
+package:flutter_test/src/binding.dart 1921:13       TestWidgetsFlutterBinding._runTest.<fn>
+===== asynchronous gap ===========================
+dart:async                                          _CustomZone.registerBinaryCallback
+package:flutter_test/src/binding.dart 1942:5        TestWidgetsFlutterBinding._runTestBody
+dart:async                                          _CustomZone.runBinary
+package:flutter_test/src/binding.dart 1927:10       TestWidgetsFlutterBinding._runTest
+package:flutter_test/src/binding.dart 2490:24       AutomatedTestWidgetsFlutterBinding.runTest.<fn>
+package:fake_async/fake_async.dart 182:47           FakeAsync.run.<fn>.<fn>
+dart:async                                          runZoned
+package:clock/src/default.dart 52:10                withClock
+package:fake_async/fake_async.dart 182:15           FakeAsync.run.<fn>
+dart:async                                          runZoned
+package:fake_async/fake_async.dart 181:52           FakeAsync.run
+package:flutter_test/src/binding.dart 2487:15       AutomatedTestWidgetsFlutterBinding.runTest
+package:flutter_test/src/widget_tester.dart 184:24  testWidgets.<fn>
+TimeoutException after 0:10:00.000000: Test timed out after 10 minutes.
+dart:isolate  _RawReceivePort._handleMessage
+::endgroup::
