@@ -25,7 +25,7 @@ void main() {
     for (final se in sizes.entries) {
       for (final sc in scales.entries) {
         final combo = '$lang | ${se.key} | ${sc.key}';
-        testWidgets(combo, (tester) async {
+        testWidgets(combo, timeout: const Timeout(Duration(minutes: 2)), (tester) async {
           const dpr = 2.75;
           tester.view.physicalSize = Size(se.value.width * dpr, se.value.height * dpr);
           tester.view.devicePixelRatio = dpr;
@@ -42,25 +42,17 @@ void main() {
 
           final problems = <String>[];
           var current = 'boot';
-          final oldHandler = FlutterError.onError;
-          final seen = <String, int>{};
-          FlutterError.onError = (FlutterErrorDetails d) {
-            // The same error repeats every frame: format the (expensive) diagnostics only once.
-            final first = d.exceptionAsString().split('\n').first;
-            final key = '$current -> $first';
-            final n = seen[key] = (seen[key] ?? 0) + 1;
-            if (n > 1 || seen.length > 40) return;
-            final full = d.toString();
-            final where = RegExp(r'creator: [^\n]{0,230}').firstMatch(full)?.group(0) ?? '';
-            problems.add('$key @ $where');
-          };
-          addTearDown(() => FlutterError.onError = oldHandler);
+
           Future<void> look(String what) async {
             current = what;
             for (var i = 0; i < 8; i++) {
               await tester.pump(const Duration(milliseconds: 100));
             }
-            while (tester.takeException() != null) {}
+            final ex = tester.takeException();
+            if (ex != null) {
+              final msg = ex.toString().split('\n').where((l) => l.trim().isNotEmpty).take(2).join(' / ');
+              problems.add('$what -> ${msg.length > 160 ? msg.substring(0, 160) : msg}');
+            }
           }
 
           await tester.pumpWidget(const AloneVpnApp());

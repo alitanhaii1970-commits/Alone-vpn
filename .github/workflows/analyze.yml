@@ -40,8 +40,17 @@ jobs:
           echo "exit=$code" >> /tmp/analyze.txt
           exit $code
 
+      - name: Overflow probe (which widget overflows on a small phone)
+        continue-on-error: true
+        timeout-minutes: 6
+        run: |
+          set +e
+          flutter test --no-pub test/overflow_probe_test.dart 2>&1 | tee /tmp/probe.txt
+          exit ${PIPESTATUS[0]}
+
       - name: Smoke test (boots the UI)
         continue-on-error: true
+        timeout-minutes: 15
         run: |
           set +e
           flutter test --no-pub 2>&1 | tee /tmp/test.txt
@@ -53,7 +62,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           sha=${GITHUB_SHA::7}
-          for f in pub analyze test; do
+          for f in pub analyze probe test; do
             [ -f /tmp/$f.txt ] || continue
             path="ci-logs/${sha}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${f}.txt"
             gh api -X PUT "repos/${GITHUB_REPOSITORY}/contents/${path}" \
