@@ -1,0 +1,35 @@
+[09:47:24] device: Android 14 / SDK 34 / x86_64
+[09:47:35] PASS  release APK installs
+[09:47:52] PASS  app process is alive after 9s
+[09:47:55] PASS  no FATAL EXCEPTION on cold start
+[09:47:57] PASS  no native library load error
+        TOTAL    68961    41284    17236      244   171140    46258    38517     3875
+           TOTAL PSS:    68961            TOTAL RSS:   171140       TOTAL SWAP PSS:      244
+[09:48:12] PASS  self-test APK installs (same signing key)
+[09:48:22] PASS  self-test reaches CONNECTING
+[09:48:30] PASS  VPN connected through the real engine
+[09:48:36] PASS  tun interface exists
+[09:48:37] HTTP via VPN -> 'HTTP/1.1 200 OK'
+[09:48:37] PASS  HTTP request works through the VPN
+[09:48:37] PASS  the proxy server saw the request (traffic really tunnelled)
+[09:48:40] throughput via VPN: 5001315 bytes in 2.9s = 13.9 Mbit/s (emulator + shared CI runner: indicative only)
+[09:48:40] PASS  download through the VPN completes (>=4 MB)
+        TOTAL   134998    73724    57424      209   233236    52978    44153     4557
+           TOTAL PSS:   134998            TOTAL RSS:   233236       TOTAL SWAP PSS:      209
+[09:48:43] PASS  no FATAL EXCEPTION while connected
+[09:49:38] PASS  self-test disconnects cleanly
+[09:49:54] PASS  tun interface removed after disconnect
+[09:49:54] PASS  routing restored after disconnect (default route not via tun)
+[09:49:54] net state after disconnect:
+[09:49:54] net state after disconnect:
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group def
+2: dummy0: <BROADCAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN mode DEFAULT
+3: ifb0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 
+4: ifb1: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 
+5: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+6: gre0@NONE: <NOARP> mtu 1476 qdisc noop state DOWN mode DEFAULT group default qlen 1000\
+7: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group d
+8: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group d
+10.0.0.0/8 dev eth0 proto kernel scope link src 10.0.2.15 
+10.0.2.0/24 dev wlan0 proto kernel scope link src 10.0.2.16 
+[09:49:54] RESULT: 15 passed, 0 failed
