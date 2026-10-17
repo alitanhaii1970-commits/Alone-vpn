@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:alone_vpn/core/settings.dart';
 import 'package:alone_vpn/main.dart';
+import 'package:alone_vpn/ui/kit/base.dart';
 import 'package:alone_vpn/ui/screens/home.dart';
 
 /// Emulator screenshots showed the "Recent servers" card painted at the very top of the Home
@@ -35,6 +36,15 @@ void main() {
     // ignore: avoid_print
     print('LAYOUT ${order.map((k, v) => MapEntry(k, '${v.top.round()}..${v.bottom.round()} x ${v.left.round()}..${v.right.round()}'))}');
     expect(order['QuickTiles']!.height, lessThan(140), reason: 'quick tiles must be one compact row (a bad flex ratio made them 200+ dp tall)');
+    // each quick tile's visible background must fill its slot, and the row must reach the right edge
+    final tiles = find.descendant(of: find.byType(QuickTiles), matching: find.byType(CardX));
+    expect(tiles, findsNWidgets(3));
+    for (var i = 0; i < 3; i++) {
+      final slot = tester.getRect(tiles.at(i));
+      final bg = tester.getRect(find.descendant(of: tiles.at(i), matching: find.byType(DecoratedBox)).first);
+      expect(bg.width, closeTo(slot.width, 1), reason: 'tile $i background must fill its slot');
+    }
+    expect(tester.getRect(tiles.at(2)).right, closeTo(order['QuickTiles']!.right, 2));
     final keys = order.keys.toList();
     for (var i = 1; i < keys.length; i++) {
       expect(order[keys[i]]!.top, greaterThanOrEqualTo(order[keys[i - 1]]!.bottom - 1), reason: '${keys[i]} must be below ${keys[i - 1]}');

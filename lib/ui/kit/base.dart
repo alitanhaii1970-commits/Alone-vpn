@@ -306,7 +306,10 @@ class CardX extends StatelessWidget {
     if (selected) {
       sh = [BoxShadow(color: alpha(p.primary, .42), blurRadius: 18, offset: const Offset(0, 6), spreadRadius: -10)];
     }
+    // passthrough: when the parent gives the card a tight size (Expanded / stretch), the background
+    // must fill it; with the default loose fit it shrank to its content and looked misaligned.
     Widget body = Stack(
+      fit: StackFit.passthrough,
       children: [
         DecoratedBox(
           decoration: BoxDecoration(color: bg, borderRadius: br, border: border),

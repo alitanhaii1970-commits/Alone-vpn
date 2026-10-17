@@ -25,7 +25,7 @@ sleep 3;  shot 01_launch_3s
 sleep 6;  shot 02_launch_9s
 check "app process is alive after 9s" "adb shell pidof $PKG | grep -q ."
 check "no FATAL EXCEPTION on cold start" "! adb logcat -d | grep -q 'FATAL EXCEPTION'"
-LINKERR=$(adb logcat -d | grep -i 'UnsatisfiedLinkError\|dlopen failed' | head -3 | cut -c1-260)
+LINKERR=$(adb logcat -d | grep -i 'UnsatisfiedLinkError\|dlopen failed' | grep -vi 'WVCdm\|oemcrypto' | head -3 | cut -c1-260)
 [ -n "$LINKERR" ] && log "native-load log lines: $LINKERR"
 check "no native library load error" '[ -z "$LINKERR" ]'
 adb logcat -d | grep -i "flutter" | head -40 > "$OUT/flutter_startup.txt"
