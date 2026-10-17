@@ -48,8 +48,8 @@ void main() {
             var ex = tester.takeException();
             while (ex != null) {
               final full = ex is FlutterError ? ex.toStringDeep() : ex.toString();
-              final msg = full.split('\n').first;
-              final where = RegExp(r'[a-z_/]*lib/[^\s:]+:\d+').allMatches(full).map((m) => m.group(0)).take(2).join(' ');
+              final msg = full.split('\n').firstWhere((l) => l.contains('overflowed') || l.contains('constraints') || l.contains('Failed'), orElse: () => full.split('\n').first);
+              final where = RegExp(r'creator: [^\n]{0,230}').firstMatch(full)?.group(0) ?? '';
               problems.add('$what -> ${msg.length > 120 ? msg.substring(0, 120) : msg} @ $where');
               ex = tester.takeException();
             }
