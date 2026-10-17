@@ -107,9 +107,9 @@ class AppSettings extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _persist() {
-    final p = _p;
-    if (p == null) return;
+  Future<void> _persist() async {
+    // _p is still null if the first load timed out; never drop a write because of that
+    final p = _p ??= await SharedPreferences.getInstance();
     p.setString('al.lang', lang);
     p.setString('al.theme', theme);
     p.setString('al.mode', mode);

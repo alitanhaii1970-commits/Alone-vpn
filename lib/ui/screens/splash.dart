@@ -184,7 +184,13 @@ class LanguageScreen extends StatelessWidget {
 
   void _pick(BuildContext context, String lang) {
     final st = AppSettings.I;
-    st.update(() => st.lang = lang);
+    // First run is done the moment a language is picked. The rest of onboarding is optional
+    // (permissions are asked again when needed), so quitting half-way must never bring the
+    // language screen back on the next launch.
+    st.update(() {
+      st.lang = lang;
+      st.onboarded = true;
+    });
     if (Platform.isAndroid) {
       pushScreen<void>(context, const OnbNotif());
     } else {
@@ -424,7 +430,7 @@ class _OnbNotifState extends State<OnbNotif> {
   Future<void> _ask() async {
     var ok = true;
     try {
-      final s = await Permission.notification.request();
+      final s = await Permission.notification.request().timeout(const Duration(seconds: 40));
       ok = s.isGranted || s.isLimited || s.isProvisional;
     } catch (_) {
       ok = false;

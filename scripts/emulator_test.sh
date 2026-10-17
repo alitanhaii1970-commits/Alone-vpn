@@ -69,6 +69,24 @@ else
   log "FAIL  VPN did not connect: $(adb logcat -d | grep 'SELFTEST' | tail -3 | tr '\n' ' ')"; FAIL=$((FAIL+1))
   shot 05_not_connected
 fi
+# ---------- C. screen tour (screenshots only, for visual review; coordinates are for a 1080x2400 screen) ----------
+log "== screen tour"
+tap()  { adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
+back() { adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1; sleep 2; }
+swipeup() { adb shell input swipe 540 1900 540 500 450 >/dev/null 2>&1; sleep 1.5; }
+tap 418 2206; shot 07_servers
+tap 662 2206; shot 08_usage
+tap 908 2206; shot 09_settings
+swipeup; shot 10_settings_2
+swipeup; shot 11_settings_3
+swipeup; shot 12_settings_4
+tap 172 2206; sleep 1
+tap 984 296; shot 13_help; back
+tap 94 296;  shot 14_log; back
+tap 240 1580; shot 15_latency; back
+tap 600 1580; shot 16_dns; back
+tap 900 1580; shot 17_add_config; back
+shot 18_after_tour
 adb logcat -d > "$OUT/logcat_full.txt" 2>/dev/null
 adb logcat -d | grep -E "SELFTEST|FATAL EXCEPTION|AndroidRuntime|ALONE|v2ray|libbox|xray" | tail -150 > "$OUT/logcat_filtered.txt"
 log "RESULT: $PASS passed, $FAIL failed"
