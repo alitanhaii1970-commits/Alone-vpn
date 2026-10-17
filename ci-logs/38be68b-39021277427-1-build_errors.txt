@@ -1,0 +1,24 @@
+124:[  +24 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/build.gradle.kts' doesn't provide an AGP version. Checking settings.
+125:[        ] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/settings.gradle.kts' provides AGP version: 9.1.0
+145:[  +99 ms] The client will now receive all logging from the daemon (pid: 40449). The daemon log file: /home/runner/.gradle/daemon/9.3.1/daemon-40449.out.log
+3416:[        ] w: file:///home/runner/work/Alone-vpn/Alone-vpn/android/app/build.gradle.kts:7:1: 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+8086:[ +699 ms] w: file:///home/runner/.pub-cache/hosted/pub.dev/shared_preferences_android-2.5.0/android/build.gradle.kts:40:1: 'fun Project.android(configure: Action<LibraryExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.LibraryExtension.
+10130:[        ] If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+10251:[        ] [   +2 ms] aot_android_asset_bundle: Starting due to {}
+10259:[        ] [   +2 ms] aot_android_asset_bundle: Complete
+10319:[        ] C/C++: Parsing legacy package: /usr/local/lib/android/sdk/cmdline-tools/16.0
+10320:[        ] C/C++: Parsing legacy package: /usr/local/lib/android/sdk/cmdline-tools/latest
+10324:[        ] Parsing legacy package: /usr/local/lib/android/sdk/cmdline-tools/16.0
+10325:[        ] Parsing legacy package: /usr/local/lib/android/sdk/cmdline-tools/latest
+10384:[        ] Deleting stale output file: /home/runner/work/Alone-vpn/Alone-vpn/build/jni/intermediates/cxx/RelWithDebInfo/736al6p2/obj/arm64-v8a
+10466:[        ] Deleting stale output file: /home/runner/work/Alone-vpn/Alone-vpn/build/jni/intermediates/cxx/RelWithDebInfo/736al6p2/obj/armeabi-v7a
+10548:[        ] Deleting stale output file: /home/runner/work/Alone-vpn/Alone-vpn/build/jni/intermediates/cxx/RelWithDebInfo/736al6p2/obj/x86
+10630:[        ] Deleting stale output file: /home/runner/work/Alone-vpn/Alone-vpn/build/jni/intermediates/cxx/RelWithDebInfo/736al6p2/obj/x86_64
+11886:[        ] Compilation mode: in-process compilation
+12492:[        ] Compilation mode: in-process compilation
+14328:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #1: starting
+14329:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #0: starting
+18942:[        ] Compilation mode: in-process compilation
+19280:[        ] Compilation mode: in-process compilation
+19985:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #0: shutdown
+19986:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #1: shutdown
