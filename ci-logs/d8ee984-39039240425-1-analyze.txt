@@ -1,0 +1,31 @@
+Analyzing Alone-vpn...                                          
+
+   info • The import of 'package:flutter/widgets.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/core/settings.dart:4:8 • unnecessary_import
+warning • The value of the field '_statusSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:339:37 • unused_field
+warning • The value of the field '_statsSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:340:36 • unused_field
+warning • The value of the field '_alertsSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:341:45 • unused_field
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/kit/chrome.dart:8:8 • unused_import
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/kit/pickers.dart:7:8 • unused_import
+warning • Unused import: '../core/scope.dart'. Try removing the import directive • lib/ui/nav.dart:2:8 • unused_import
+warning • Unused import: 'dart:async'. Try removing the import directive • lib/ui/screens/home.dart:1:8 • unused_import
+warning • Unused import: '../../core/palette.dart'. Try removing the import directive • lib/ui/screens/home.dart:6:8 • unused_import
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/latency.dart:15:8 • unused_import
+warning • Unused import: '../../core/oklch.dart'. Try removing the import directive • lib/ui/screens/log.dart:4:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/log.dart:7:8 • unused_import
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/screens/servers.dart:5:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/servers.dart:6:8 • unused_import
+warning • Unused import: '../../core/typography.dart'. Try removing the import directive • lib/ui/screens/servers.dart:7:8 • unused_import
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/servers.dart:12:8 • unused_import
+warning • Unused import: '../../core/oklch.dart'. Try removing the import directive • lib/ui/screens/settings.dart:5:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/settings.dart:8:8 • unused_import
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/ui/screens/settings.dart:42:11 • unused_local_variable
+warning • Unused import: '../../core/scope.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:5:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:6:8 • unused_import
+warning • Unused import: '../../core/typography.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:7:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/shell.dart:3:8 • unused_import
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/ui/screens/shell.dart:44:11 • unused_local_variable
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/usage.dart:14:8 • unused_import
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • test/app_smoke_test.dart:1:8 • unused_import
+
+26 issues found. (ran in 8.5s)
+exit=0
