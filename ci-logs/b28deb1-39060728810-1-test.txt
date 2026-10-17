@@ -1,0 +1,124 @@
+
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [en] splash -> home, then all four tabs render without exceptions
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [fa] splash -> home, then all four tabs render without exceptions
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: fresh install: language screen -> pick English -> next onboarding page
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/home_layout_test.dart: Home sections are laid out top-to-bottom (server present)
+LAYOUT {ConnectDial: 110..322 x 78..314, Telemetry: 392..448 x 16..377, ActiveServerCard: 448..507 x 16..377, QuickTiles: 519..616 x 16..377, RecentsPanel: 624..731 x 16..377}
+::endgroup::
+::group::❌ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 100% (failed)
+SIZEPROBLEM [en | small 360x640 | text 100%] home -> A RenderFlex overflowed by 6.0 pixels on the bottom.
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: empty
+  Actual: ['home -> A RenderFlex overflowed by 6.0 pixels on the bottom.']
+1 layout problem(s) at en | small 360x640 | text 100%
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart:95:11)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart line 95
+The test description was:
+  en | small 360x640 | text 100%
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Test failed. See exception logs above.
+The test description was: en | small 360x640 | text 100%
+
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+::endgroup::
+::group::❌ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 130% (failed)
+SIZEPROBLEM [en | small 360x640 | text 130%] home -> A RenderFlex overflowed by 6.0 pixels on the bottom.
+══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════════════════════════════════
+The following TestFailure was thrown running a test:
+Expected: empty
+  Actual: ['home -> A RenderFlex overflowed by 6.0 pixels on the bottom.']
+1 layout problem(s) at en | small 360x640 | text 130%
+
+When the exception was thrown, this was the stack:
+#4      main.<anonymous closure> (file:///home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart:95:11)
+<asynchronous suspension>
+#5      testWidgets.<anonymous closure>.<anonymous closure> (package:flutter_test/src/widget_tester.dart:192:15)
+<asynchronous suspension>
+#6      TestWidgetsFlutterBinding._runTestBody (package:flutter_test/src/binding.dart:1953:5)
+<asynchronous suspension>
+<asynchronous suspension>
+(elided one frame from package:stack_trace)
+
+This was caught by the test expectation on the following line:
+  file:///home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart line 95
+The test description was:
+  en | small 360x640 | text 130%
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Test failed. See exception logs above.
+The test description was: en | small 360x640 | text 130%
+
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | normal 411x891 | text 100%
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/overflow_probe_test.dart: probe: Home overflow on 360x640 (en)
+PROBE_BEGIN
+PROBE ══╡ EXCEPTION CAUGHT BY RENDERING LIBRARY ╞══════════════════════
+PROBE The following assertion was thrown during layout:
+PROBE A RenderFlex overflowed by 6.0 pixels on the bottom.
+PROBE 
+PROBE The relevant error-causing widget was:
+PROBE   Column
+PROBE   Column:file:///home/runner/work/Alone-vpn/Alone-vpn/lib/ui/kit/chrome.dart:382:13
+PROBE 
+PROBE The overflowing RenderFlex has an orientation of Axis.vertical.
+PROBE The edge of the RenderFlex that is overflowing has been marked in
+PROBE the rendering with a yellow and black striped pattern. This is
+PROBE usually caused by the contents being too big for the RenderFlex.
+PROBE Consider applying a flex factor (e.g. using an Expanded widget)
+PROBE to force the children of the RenderFlex to fit within the
+PROBE available space instead of being sized to their natural size.
+PROBE This is considered an error condition because it indicates that
+PROBE there is content that cannot be seen. If the content is
+PROBE legitimately bigger than the available space, consider clipping
+PROBE it with a ClipRect widget before putting it in the flex, or using
+PROBE a scrollable container rather than a Flex, like a ListView.
+PROBE The specific RenderFlex in question is: RenderFlex#ab3e0 relayoutBoundary=up1 OVERFLOWING:
+PROBE   parentData: not positioned; offset=Offset(0.0, 0.0) (can use
+PROBE     size)
+PROBE   constraints: BoxConstraints(0.0<=w<=80.5, 0.0<=h<=52.0)
+PROBE   size: Size(80.5, 52.0)
+PROBE   direction: vertical
+PROBE   mainAxisAlignment: start
+PROBE   mainAxisSize: min
+PROBE   crossAxisAlignment: center
+PROBE   verticalDirection: down
+PROBE   spacing: 0.0
+PROBE ◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+PROBE ═════════════════════════════════════════════════════════════════
+PROBE 
+PROBE_END
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | normal 411x891 | text 130%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | large 600x960 | text 100%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | large 600x960 | text 130%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | small 360x640 | text 100%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | small 360x640 | text 130%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | normal 411x891 | text 100%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | normal 411x891 | text 130%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | large 600x960 | text 100%
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | large 600x960 | text 130%
+::endgroup::
+
+::error::20 tests passed, 2 failed.
