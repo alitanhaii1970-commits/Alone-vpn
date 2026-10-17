@@ -47,9 +47,9 @@ void main() {
             }
             var ex = tester.takeException();
             while (ex != null) {
-              final full = ex.toString();
+              final full = ex is FlutterError ? ex.toStringDeep() : ex.toString();
               final msg = full.split('\n').first;
-              final where = RegExp(r'lib/[^\s:]+:\d+').firstMatch(full)?.group(0) ?? '';
+              final where = RegExp(r'[a-z_/]*lib/[^\s:]+:\d+').allMatches(full).map((m) => m.group(0)).take(2).join(' ');
               problems.add('$what -> ${msg.length > 120 ? msg.substring(0, 120) : msg} @ $where');
               ex = tester.takeException();
             }
