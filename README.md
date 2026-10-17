@@ -58,7 +58,7 @@ ALONE VPN is **beta**. Honest summary:
 
 - ✅ Release APK builds in CI and installs.
 - ✅ On an Android 14 emulator in CI: the app starts, connects through the real engine, traffic is really tunnelled (a local Xray/Shadowsocks server sees the requests), a 5 MB download completes, disconnect removes the tunnel and restores routing. **15/15 checks** in the last run.
-- ✅ 9 automated UI/layout tests.
+- ✅ 22 automated UI/layout tests (every screen × 3 phone sizes × 2 text sizes × English/Persian).
 - ⚠️ Not yet verified on physical phones, on filtered networks, or with VMess / VLESS / Trojan / Hysteria servers (the end-to-end test uses Shadowsocks).
 - ⚠️ Kill switch and split tunneling are implemented but not covered by the automated tests.
 - ℹ️ Only Android has a real tunnel. On desktop the connect button is a preview.
