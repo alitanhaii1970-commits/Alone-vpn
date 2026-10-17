@@ -1,0 +1,21 @@
+10-17 19:25:38.099  3632  3775 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-17 19:25:38.579  3632  3632 I flutter : settings load failed: PlatformException(PlatformException, java.lang.NoSuchMethodError: no non-static method "Lio/flutter/plugins/sharedpreferences/SharedPreferencesApiRegistrar;.getAll(Ljava/lang/String;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;", Exception in Java: java.lang.NoSuchMethodError: no non-static method "Lio/flutter/plugins/sharedpreferences/SharedPreferencesApiRegistrar;.getAll(Ljava/lang/String;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;"
+10-17 19:25:38.579  3632  3632 I flutter : java.lang.NoSuchMethodError: no non-static method "Lio/flutter/plugins/sharedpreferences/SharedPreferencesApiRegistrar;.getAll(Ljava/lang/String;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;"
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.MessageQueue.nativePollOnce(Native Method)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.MessageQueue.next(MessageQueue.java:335)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.Looper.loopOnce(Looper.java:162)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.Looper.loop(Looper.java:294)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.app.ActivityThread.main(ActivityThread.java:8177)
+10-17 19:25:38.579  3632  3632 I flutter : 	at java.lang.reflect.Method.invoke(Native Method)
+10-17 19:25:38.579  3632  3632 I flutter : 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+10-17 19:25:38.579  3632  3632 I flutter : 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971)
+10-17 19:25:38.579  3632  3632 I flutter : , java.lang.NoSuchMethodError: no non-static method "Lio/flutter/plugins/sharedpreferences/SharedPreferencesApiRegistrar;.getAll(Ljava/lang/String;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;"
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.MessageQueue.nativePollOnce(Native Method)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.MessageQueue.next(MessageQueue.java:335)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.Looper.loopOnce(Looper.java:162)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.os.Looper.loop(Looper.java:294)
+10-17 19:25:38.579  3632  3632 I flutter : 	at android.app.ActivityThread.main(ActivityThread.java:8177)
+10-17 19:25:38.579  3632  3632 I flutter : 	at java.lang.reflect.Method.invoke(Native Method)
+10-17 19:25:38.579  3632  3632 I flutter : 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+10-17 19:25:38.579  3632  3632 I flutter : 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971)
+10-17 19:25:38.579  3632  3632 I flutter : )
