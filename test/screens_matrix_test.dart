@@ -43,11 +43,16 @@ void main() {
           final problems = <String>[];
           var current = 'boot';
           final oldHandler = FlutterError.onError;
+          final seen = <String, int>{};
           FlutterError.onError = (FlutterErrorDetails d) {
+            // The same error repeats every frame: format the (expensive) diagnostics only once.
+            final first = d.exceptionAsString().split('\n').first;
+            final key = '$current -> $first';
+            final n = seen[key] = (seen[key] ?? 0) + 1;
+            if (n > 1 || seen.length > 40) return;
             final full = d.toString();
-            final msg = full.split('\n').firstWhere((l) => l.contains('overflowed') || l.contains('constraints') || l.contains('Failed'), orElse: () => d.exceptionAsString().split('\n').first);
             final where = RegExp(r'creator: [^\n]{0,230}').firstMatch(full)?.group(0) ?? '';
-            problems.add('$current -> ${msg.trim()} @ $where');
+            problems.add('$key @ $where');
           };
           addTearDown(() => FlutterError.onError = oldHandler);
           Future<void> look(String what) async {
