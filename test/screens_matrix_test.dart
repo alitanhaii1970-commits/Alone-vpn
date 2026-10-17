@@ -41,18 +41,21 @@ void main() {
           await AppSettings.I.load();
 
           final problems = <String>[];
+          var current = 'boot';
+          final oldHandler = FlutterError.onError;
+          FlutterError.onError = (FlutterErrorDetails d) {
+            final full = d.toString();
+            final msg = full.split('\n').firstWhere((l) => l.contains('overflowed') || l.contains('constraints') || l.contains('Failed'), orElse: () => d.exceptionAsString().split('\n').first);
+            final where = RegExp(r'creator: [^\n]{0,230}').firstMatch(full)?.group(0) ?? '';
+            problems.add('$current -> ${msg.trim()} @ $where');
+          };
+          addTearDown(() => FlutterError.onError = oldHandler);
           Future<void> look(String what) async {
+            current = what;
             for (var i = 0; i < 8; i++) {
               await tester.pump(const Duration(milliseconds: 100));
             }
-            var ex = tester.takeException();
-            while (ex != null) {
-              final full = ex is FlutterError ? ex.toStringDeep() : ex.toString();
-              final msg = full.split('\n').firstWhere((l) => l.contains('overflowed') || l.contains('constraints') || l.contains('Failed'), orElse: () => full.split('\n').first);
-              final where = RegExp(r'creator: [^\n]{0,230}').firstMatch(full)?.group(0) ?? '';
-              problems.add('$what -> ${msg.length > 120 ? msg.substring(0, 120) : msg} @ $where');
-              ex = tester.takeException();
-            }
+            while (tester.takeException() != null) {}
           }
 
           await tester.pumpWidget(const AloneVpnApp());
