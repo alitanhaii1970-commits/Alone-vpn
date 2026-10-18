@@ -296,6 +296,7 @@ jobs:
           ss -ltn | grep 18388 && echo "xray server is listening"
 
       - name: Run the app on an Android emulator
+        timeout-minutes: 25
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34

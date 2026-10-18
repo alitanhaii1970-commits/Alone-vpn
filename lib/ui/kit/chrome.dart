@@ -1,3 +1,4 @@
+import '../shell_state.dart';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../../core/i18n.dart';
@@ -187,6 +188,13 @@ class StatusPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: ShellState.homeVisible,
+      builder: (context, onHome, _) => onHome ? const SizedBox.shrink() : _pill(context),
+    );
+  }
+
+  Widget _pill(BuildContext context) {
     return ListenableBuilder(
       listenable: Conn.I,
       builder: (context, _) {

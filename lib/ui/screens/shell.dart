@@ -44,13 +44,20 @@ class _AppShellState extends State<AppShell> with SingleTickerProviderStateMixin
   @override
   void dispose() {
     _swap.dispose();
-    WidgetsBinding.instance.addPostFrameCallback((_) => ShellState.onTopLevel.value = false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ShellState.onTopLevel.value = false;
+      ShellState.homeVisible.value = false;
+    });
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
+    final onHome = _i == 0 && (ModalRoute.of(context)?.isCurrent ?? true);
+    if (ShellState.homeVisible.value != onHome) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => ShellState.homeVisible.value = onHome);
+    }
     return AmbientBg(
       child: Stack(
         children: [

@@ -470,7 +470,7 @@ class DialLabel extends StatelessWidget {
           CS.off => tr('st_off'),
         };
         final support = switch (c.state) {
-          CS.on => c.server?.title ?? '',
+          CS.on => '${c.server?.title ?? ''} · ${mmss(c.secs)}',
           CS.connecting => tr(kHsSteps[c.hs.clamp(0, 3).toInt()]),
           CS.failed => tr('sn_fail', {'s': c.server?.title ?? '', 'd': tr(kHsSteps[c.failStep.clamp(0, 3).toInt()])}),
           _ => '',

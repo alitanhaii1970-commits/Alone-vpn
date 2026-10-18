@@ -8,7 +8,13 @@ log()  { echo "[$(date +%T)] $*" | tee -a "$OUT/report.txt"; }
 check(){ if eval "$2"; then log "PASS  $1"; PASS=$((PASS+1)); else log "FAIL  $1"; FAIL=$((FAIL+1)); fi; }
 direct_ok() { adb shell "printf 'GET / HTTP/1.0\\r\\nHost: example.com\\r\\n\\r\\n' | nc -w 8 example.com 80 | head -1" 2>/dev/null | grep -q 'HTTP/1'; }
 has_tun() { adb shell ip -o link 2>/dev/null | grep -Eq '[0-9]+: tun[0-9]+'; }
-shot() { adb exec-out screencap -p > "$OUT/shots/$1.png" 2>/dev/null; }
+shot() {
+  timeout 25 adb exec-out screencap -p > "$OUT/shots/$1.png" 2>/dev/null
+  if [ ! -s "$OUT/shots/$1.png" ]; then   # adb sometimes wedges on the CI emulator: restart it once and retry
+    log "screenshot $1 failed, restarting adb"; adb kill-server >/dev/null 2>&1; adb start-server >/dev/null 2>&1; sleep 3
+    timeout 25 adb exec-out screencap -p > "$OUT/shots/$1.png" 2>/dev/null
+  fi
+}
 launch(){ adb shell monkey -p "$PKG" -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; }
 waitlog(){ # pattern timeout
   for _ in $(seq 1 "$2"); do adb logcat -d 2>/dev/null | grep -q "$1" && return 0; sleep 1; done; return 1; }
@@ -71,9 +77,9 @@ else
 fi
 # ---------- C. screen tour (screenshots only, for visual review; coordinates are for a 1080x2400 screen) ----------
 log "== screen tour"
-tap()  { adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
-back() { adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1; sleep 2; }
-swipeup() { adb shell input swipe 540 1900 540 500 450 >/dev/null 2>&1; sleep 1.5; }
+tap()  { timeout 15 adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
+back() { timeout 15 adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1; sleep 2; }
+swipeup() { timeout 15 adb shell input swipe 540 1900 540 500 450 >/dev/null 2>&1; sleep 1.5; }
 tap 418 2206; shot 07_servers
 tap 662 2206; shot 08_usage
 tap 908 2206; shot 09_settings
