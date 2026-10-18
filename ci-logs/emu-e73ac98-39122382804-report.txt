@@ -1,0 +1,47 @@
+[11:45:01] device: Android 14 / SDK 34 / x86_64
+[11:45:07] PASS  release APK installs
+[11:45:24] PASS  app process is alive after 9s
+[11:45:25] PASS  no FATAL EXCEPTION on cold start
+[11:45:26] PASS  no native library load error
+        TOTAL    81550    46812    30996      284   174548    51484    43772     3815
+           TOTAL PSS:    81550            TOTAL RSS:   174548       TOTAL SWAP PSS:      284
+[11:45:33] PASS  self-test APK installs (same signing key)
+[11:45:43] PASS  self-test reaches CONNECTING
+[11:45:52] PASS  VPN connected through the real engine
+[11:45:58] PASS  tun interface exists
+[11:46:00] HTTP via VPN -> 'HTTP/1.1 200 OK'
+[11:46:00] PASS  HTTP request works through the VPN
+[11:46:00] PASS  the proxy server saw the request (traffic really tunnelled)
+[11:46:03] throughput via VPN: 5001324 bytes in 2.9s = 13.8 Mbit/s (emulator + shared CI runner: indicative only)
+[11:46:03] PASS  download through the VPN completes (>=4 MB)
+        TOTAL   133120    71432    57644      235   229268    51629    43099     4565
+           TOTAL PSS:   133120            TOTAL RSS:   229268       TOTAL SWAP PSS:      235
+[11:46:05] PASS  no FATAL EXCEPTION while connected
+[11:46:55] PASS  self-test disconnects cleanly
+[11:47:07] PASS  tun interface removed after disconnect
+[11:47:07] PASS  routing restored after disconnect (default route not via tun)
+[11:47:07] net state after disconnect:
+[11:47:07] net state after disconnect:
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group def
+2: dummy0: <BROADCAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN mode DEFAULT
+3: ifb0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 
+4: ifb1: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 
+5: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+6: gre0@NONE: <NOARP> mtu 1476 qdisc noop state DOWN mode DEFAULT group default qlen 1000\
+7: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group d
+8: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group d
+10.0.0.0/8 dev eth0 proto kernel scope link src 10.0.2.15 
+10.0.2.0/24 dev wlan0 proto kernel scope link src 10.0.2.16 
+[11:47:07] == screen tour
+[11:47:35] screenshot 07_servers failed, restarting adb
+[11:47:40] screenshot 08_usage failed, restarting adb
+[11:47:46] screenshot 09_settings failed, restarting adb
+[11:47:50] screenshot 10_settings_2 failed, restarting adb
+[11:47:55] screenshot 11_settings_3 failed, restarting adb
+[11:47:59] screenshot 12_settings_4 failed, restarting adb
+[11:48:09] screenshot 13_help failed, restarting adb
+[11:48:16] screenshot 14_log failed, restarting adb
+[11:48:24] screenshot 15_latency failed, restarting adb
+[11:48:31] screenshot 16_dns failed, restarting adb
+[11:48:39] screenshot 17_add_config failed, restarting adb
+[11:48:44] screenshot 18_after_tour failed, restarting adb
