@@ -13,8 +13,8 @@ class _SpringRoute<T> extends PageRouteBuilder<T> {
   _SpringRoute(Widget screen)
       : super(
           opaque: true,
-          transitionDuration: Tk.spatialSlow,
-          reverseTransitionDuration: Tk.spatial,
+          transitionDuration: Tk.spatial,
+          reverseTransitionDuration: Tk.spatialFast,
           pageBuilder: (context, a, b) => _Pushed(child: screen),
           transitionsBuilder: (context, anim, sec, child) {
             final t = Tk.snappy.transform(anim.value);

@@ -63,7 +63,7 @@ class _SplashState extends State<SplashScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _t = Timer(const Duration(milliseconds: 2100), _next);
+    _t = Timer(const Duration(milliseconds: 1700), _next);
   }
 
   void _next() {
