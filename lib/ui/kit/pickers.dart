@@ -36,6 +36,7 @@ class ThemeGrid extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 3,
       shrinkWrap: true,
+      padding: EdgeInsets.zero, // a GridView adds the status-bar inset as padding otherwise (empty band above it)
       physics: const NeverScrollableScrollPhysics(),
       mainAxisSpacing: 9,
       crossAxisSpacing: 9,
@@ -78,7 +79,7 @@ class _ThemeCell extends StatelessWidget {
               duration: const Duration(milliseconds: 460),
               curve: Tk.bouncy,
               child: AnimatedRotation(
-                turns: on ? -3 / 360 : 0.0,
+                turns: 0,
                 duration: const Duration(milliseconds: 460),
                 curve: Tk.snappy,
                 child: AspectRatio(
@@ -88,7 +89,7 @@ class _ThemeCell extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(on ? Tk.rL : Tk.rM),
                       gradient: LinearGradient(begin: const Alignment(-.5, -.87), end: const Alignment(.5, .87), colors: [a, b]),
-                      border: Border.all(color: p.glassHi),
+                      border: Border.all(color: on ? p.primary : p.glassHi, width: on ? 1.8 : 1),
                     ),
                     child: Align(
                       alignment: const Alignment(.64, -.56),

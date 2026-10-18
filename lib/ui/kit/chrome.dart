@@ -54,7 +54,7 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final p = context.pal;
     _sync(context.st.saver);
-    final op = p.dark ? .62 : .30;
+    final op = p.dark ? .44 : .22;
     Widget pool(AnimationController c, Color col, double size, Alignment at, Offset drift) {
       return Align(
         alignment: at,
@@ -68,8 +68,8 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
                 width: size,
                 height: size,
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(colors: [alpha(col, op), alpha(col, 0)], stops: const [0, .7]),
+                  // no clipped circle: the gradient already fades to 0, and a hard edge showed as a ring
+                  gradient: RadialGradient(colors: [alpha(col, op), alpha(col, op * .35), alpha(col, 0)], stops: const [0, .38, .7]),
                 ),
               ),
             );
@@ -513,7 +513,7 @@ Future<T?> showSheet<T>(BuildContext context, {required String title, String? bo
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => Navigator.of(ctx).pop(),
-              child: ColoredBox(color: alpha(p.scrim, anim.value)),
+              child: ColoredBox(color: alpha(p.scrim, .56 * anim.value)),
             ),
           ),
           Positioned(
@@ -596,7 +596,7 @@ Future<T?> showGlassDialog<T>(BuildContext context, {required WidgetBuilder buil
       return Stack(
         children: [
           Positioned.fill(
-            child: ColoredBox(color: alpha(p.scrim, anim.value)),
+            child: ColoredBox(color: alpha(p.scrim, .56 * anim.value)),
           ),
           Center(
             child: Opacity(

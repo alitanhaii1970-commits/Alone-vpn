@@ -142,7 +142,9 @@ class _DnsScreenState extends State<DnsScreen> {
           for (var i = 0; i < kDns.length; i++)
             Rise(
               i: i,
-              child: CardX(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: CardX(
                 selected: st.dnsSel == kDns[i].id,
                 padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
                 onTap: () => st.update(() => st.dnsSel = kDns[i].id),
@@ -160,6 +162,7 @@ class _DnsScreenState extends State<DnsScreen> {
                     AlRadio(on: st.dnsSel == kDns[i].id, onTap: () => st.update(() => st.dnsSel = kDns[i].id)),
                   ],
                 ),
+              ),
               ),
             ),
           SectionLabel(tr('dns_custom')),
