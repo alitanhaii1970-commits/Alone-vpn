@@ -66,7 +66,9 @@ class _SplashState extends State<SplashScreen> with TickerProviderStateMixin {
     _t = Timer(const Duration(milliseconds: 1700), _next);
   }
 
-  void _next() {
+  Future<void> _next() async {
+    // decide only once the stored settings are really loaded (a slow first read used to look like a first run)
+    await AppSettings.I.ready.timeout(const Duration(seconds: 8), onTimeout: () {});
     if (!mounted) return;
     final st = AppSettings.I;
     debugPrint('ALONE_ROUTE ${st.onboarded ? 'shell' : 'language'} lang=${st.lang}');

@@ -61,31 +61,60 @@ class AppSettings extends ChangeNotifier {
     return null;
   }
 
-  Future<void> load() async {
+  Future<void>? _loading;
+
+  /// Completes when the stored settings have been read (or immediately if load() was never called).
+  Future<void> get ready => _loading ?? Future<void>.value();
+
+  Future<void> load() => _loading = _load();
+
+  Future<void> _load() async {
     final p = _p = await SharedPreferences.getInstance();
-    lang = p.getString('al.lang') ?? lang;
-    theme = p.getString('al.theme') ?? theme;
-    mode = p.getString('al.mode') ?? mode;
-    font = p.getString('al.font') ?? font;
-    digits = p.getString('al.digits') ?? digits;
-    size = p.getInt('al.size') ?? size;
-    saver = p.getBool('al.saver') ?? saver;
-    haptics = p.getBool('al.haptics') ?? haptics;
-    onboarded = p.getBool('al.onboarded') ?? onboarded;
-    killswitch = p.getBool('al.kill') ?? killswitch;
-    splitMode = p.getString('al.splitMode') ?? splitMode;
-    splitApps = (p.getStringList('al.splitApps') ?? <String>[]).toSet();
-    dnsOn = p.getBool('al.dnsOn') ?? dnsOn;
-    dnsSel = p.getString('al.dnsSel') ?? dnsSel;
-    favs = (p.getStringList('al.favs') ?? <String>[]).toSet();
-    activeServer = p.getString('al.active') ?? activeServer;
-    probe = p.getString('al.probe') ?? probe;
-    serverLinks = p.getStringList('al.links') ?? <String>[];
+    // Every key is read on its own: one value of an unexpected type used to abort the whole load,
+    // which left the defaults in place (language screen on every launch) and then overwrote the
+    // good stored values with those defaults.
+    T pick<T>(String key, T fallback) {
+      try {
+        final v = p.get(key);
+        return v is T ? v : fallback;
+      } catch (_) {
+        return fallback;
+      }
+    }
+
+    List<String> list(String key) {
+      try {
+        return p.getStringList(key) ?? <String>[];
+      } catch (_) {
+        return <String>[];
+      }
+    }
+
+    lang = pick('al.lang', lang);
+    theme = pick('al.theme', theme);
+    mode = pick('al.mode', mode);
+    font = pick('al.font', font);
+    digits = pick('al.digits', digits);
+    size = pick('al.size', size);
+    saver = pick('al.saver', saver);
+    haptics = pick('al.haptics', haptics);
+    onboarded = pick('al.onboarded', onboarded);
+    killswitch = pick('al.kill', killswitch);
+    splitMode = pick('al.splitMode', splitMode);
+    splitApps = list('al.splitApps').toSet();
+    dnsOn = pick('al.dnsOn', dnsOn);
+    dnsSel = pick('al.dnsSel', dnsSel);
+    favs = list('al.favs').toSet();
+    activeServer = pick('al.active', activeServer);
+    probe = pick('al.probe', probe);
+    serverLinks = list('al.links');
     try {
       final cd = p.getString('al.customDns');
       if (cd != null) {
         customDns = [for (final m in (jsonDecode(cd) as List)) CustomDns(m['id'] as String, m['ip'] as String)];
       }
+    } catch (_) {}
+    try {
       final rs = p.getString('al.rules');
       if (rs != null) {
         final m = jsonDecode(rs) as Map<String, dynamic>;
@@ -93,6 +122,8 @@ class AppSettings extends ChangeNotifier {
           rules[k] = m[k] == true;
         }
       }
+    } catch (_) {}
+    try {
       final hs = p.getString('al.history');
       if (hs != null) {
         history = [for (final m in (jsonDecode(hs) as List)) Map<String, dynamic>.from(m as Map)];
@@ -108,7 +139,8 @@ class AppSettings extends ChangeNotifier {
   }
 
   Future<void> _persist() async {
-    // _p is still null if the first load timed out; never drop a write because of that
+    // never write the in-memory defaults over stored values: wait until they have been read
+    await _loading;
     final p = _p ??= await SharedPreferences.getInstance();
     p.setString('al.lang', lang);
     p.setString('al.theme', theme);
