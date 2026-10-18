@@ -34,6 +34,7 @@ Future<void> main() async {
     } catch (e) {
       debugPrint('settings load failed: $e');
     }
+    debugPrint('ALONE_BOOT onboarded=${AppSettings.I.onboarded} lang=${AppSettings.I.lang} links=${AppSettings.I.serverLinks.length}');
     try {
       ServerStore.I.load();
       Conn.I.listenEngine();

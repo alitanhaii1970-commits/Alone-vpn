@@ -69,6 +69,7 @@ class _SplashState extends State<SplashScreen> with TickerProviderStateMixin {
   void _next() {
     if (!mounted) return;
     final st = AppSettings.I;
+    debugPrint('ALONE_ROUTE ${st.onboarded ? 'shell' : 'language'} lang=${st.lang}');
     if (st.onboarded) {
       replaceAll(context, const AppShell());
     } else {

@@ -21,6 +21,7 @@ waitlog(){ # pattern timeout
 
 log "device: Android $(adb shell getprop ro.build.version.release | tr -d '\r') / SDK $(adb shell getprop ro.build.version.sdk | tr -d '\r') / $(adb shell getprop ro.product.cpu.abi | tr -d '\r')"
 
+tap() { timeout 15 adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
 # the CI emulator is slow: keep "app not responding" dialogs (e.g. the launcher's) out of the screenshots
 adb shell settings put global hide_error_dialogs 1 >/dev/null 2>&1
 # ---------- A. plain release build, fresh install ----------
@@ -36,6 +37,12 @@ LINKERR=$(adb logcat -d | grep -i 'UnsatisfiedLinkError\|dlopen failed' | grep -
 check "no native library load error" '[ -z "$LINKERR" ]'
 adb logcat -d | grep -i "flutter" | head -40 > "$OUT/flutter_startup.txt"
 adb shell dumpsys meminfo "$PKG" 2>/dev/null | grep -E "TOTAL PSS|TOTAL  " | head -2 | tee -a "$OUT/report.txt"
+# --- first-run persistence: choose a language, kill the app, start it again -> language screen must NOT return
+tap 540 1440; sleep 3; shot 02b_after_language_pick
+adb shell am force-stop "$PKG"; sleep 2
+adb logcat -c; launch; sleep 9; shot 02c_second_launch
+adb logcat -d | grep -E "ALONE_(BOOT|ROUTE)" | cut -c1-200 >> "$OUT/report.txt"
+check "language screen is NOT shown again after a language was chosen" "adb logcat -d | grep ALONE_ROUTE | tail -1 | grep -q 'ALONE_ROUTE shell'"
 adb shell am force-stop "$PKG"
 
 # ---------- B. self-test build: real VPN through the engine ----------
