@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alone_vpn/core/storage.dart';
 import 'package:alone_vpn/core/settings.dart';
 import 'package:alone_vpn/main.dart';
 import 'package:alone_vpn/ui/kit/base.dart';
@@ -17,7 +17,7 @@ void main() {
     // slots, otherwise a card that wrongly shrinks to its content would still look full-width
     tester.platformDispatcher.textScaleFactorTestValue = .4;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-    SharedPreferences.setMockInitialValues({
+    AppSettings.storage = MemoryStorage({
       'al.onboarded': true,
       'al.lang': 'en',
       'al.links': ['ss://YWVzLTI1Ni1nY206cGFzcw==@10.0.2.2:8388#CI-Test'],

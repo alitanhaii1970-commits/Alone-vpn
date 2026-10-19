@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:v2ray_box/v2ray_box.dart' as vb;
 import '../../core/i18n.dart';
+import '../../core/version.dart';
 import '../../core/icons.dart';
 import '../../core/oklch.dart';
 import '../../core/scope.dart';
@@ -151,7 +152,7 @@ class _SettingsBody extends StatelessWidget {
             icon: Ic.info,
             tone: Tone.primary,
             label: tr('about'),
-            sub: 'ALONE VPN · v1.2.0 beta',
+            sub: 'ALONE VPN · v$kAppVersion beta',
             chev: true,
             onTap: () => showSheet<void>(context, title: 'ALONE VPN', body: tr('about_b'), builder: (_) => const SizedBox.shrink()),
           ),

@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' show Brightness;
-import 'package:shared_preferences/shared_preferences.dart';
 import '../data/catalog.dart';
+import 'storage.dart';
 
 /// Everything the Settings / Appearance / Split / Routing screens edit.
-/// Persisted in SharedPreferences; any change notifies the whole UI.
+/// Persisted in a JSON file (see storage.dart); any change notifies the whole UI.
 class AppSettings extends ChangeNotifier {
   AppSettings._();
   static final AppSettings I = AppSettings._();
-  SharedPreferences? _p;
+  /// Tests replace this with a MemoryStorage before calling load().
+  static SettingsStorage storage = FileSettingsStorage();
+  Prefs? _p;
 
   String lang = 'fa';
   String theme = 'obsidian';
@@ -69,7 +71,7 @@ class AppSettings extends ChangeNotifier {
   Future<void> load() => _loading = _load();
 
   Future<void> _load() async {
-    final p = _p = await SharedPreferences.getInstance();
+    final p = _p = await Prefs.open(storage);
     // Every key is read on its own: one value of an unexpected type used to abort the whole load,
     // which left the defaults in place (language screen on every launch) and then overwrote the
     // good stored values with those defaults.
@@ -141,7 +143,7 @@ class AppSettings extends ChangeNotifier {
   Future<void> _persist() async {
     // never write the in-memory defaults over stored values: wait until they have been read
     await _loading;
-    final p = _p ??= await SharedPreferences.getInstance();
+    final p = _p ??= await Prefs.open(storage);
     p.setString('al.lang', lang);
     p.setString('al.theme', theme);
     p.setString('al.mode', mode);

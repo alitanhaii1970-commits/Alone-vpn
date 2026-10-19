@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alone_vpn/core/storage.dart';
 import 'package:alone_vpn/core/i18n.dart';
 import 'package:alone_vpn/core/settings.dart';
 import 'package:alone_vpn/main.dart';
@@ -32,7 +32,7 @@ void main() {
           tester.platformDispatcher.textScaleFactorTestValue = sc.value;
           addTearDown(tester.view.reset);
           addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-          SharedPreferences.setMockInitialValues({
+          AppSettings.storage = MemoryStorage({
             'al.onboarded': true,
             'al.lang': lang,
             'al.links': ['ss://YWVzLTI1Ni1nY206cGFzcw==@10.0.2.2:8388#CI-Test', 'vless://123e4567-e89b-12d3-a456-426614174000@example.com:443?security=tls#Second'],

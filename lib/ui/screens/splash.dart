@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../core/i18n.dart';
+import '../../core/version.dart';
 import '../../core/icons.dart';
 import '../../core/oklch.dart';
 import '../../core/scope.dart';
@@ -143,7 +144,7 @@ class _SplashState extends State<SplashScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: Tk.sp3),
-                  Text('v1.2.0 · beta', style: context.ty(R.labelL, p.onSurfaceVariant, true)),
+                  Text('v$kAppVersion · beta', style: context.ty(R.labelL, p.onSurfaceVariant, true)),
                   const SizedBox(height: 22),
                   Container(
                     width: 112,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alone_vpn/core/storage.dart';
 import 'package:alone_vpn/core/settings.dart';
 import 'package:alone_vpn/main.dart';
 import 'package:alone_vpn/ui/kit/chrome.dart';
@@ -22,7 +22,7 @@ void main() {
   for (final lang in ['en', 'fa']) {
     testWidgets('[$lang] splash -> home, then all four tabs render without exceptions', (tester) async {
       _phone(tester);
-      SharedPreferences.setMockInitialValues({'al.onboarded': true, 'al.lang': lang});
+      AppSettings.storage = MemoryStorage({'al.onboarded': true, 'al.lang': lang});
       await AppSettings.I.load();
       await tester.pumpWidget(const AloneVpnApp());
       await _pumpFor(tester, const Duration(milliseconds: 3500));
@@ -40,7 +40,7 @@ void main() {
 
   testWidgets('fresh install: language screen -> pick English -> next onboarding page', (tester) async {
     _phone(tester);
-    SharedPreferences.setMockInitialValues({});
+    AppSettings.storage = MemoryStorage({});
     AppSettings.I.onboarded = false; // AppSettings is a singleton: undo what earlier tests set
     await AppSettings.I.load();
     await tester.pumpWidget(const AloneVpnApp());

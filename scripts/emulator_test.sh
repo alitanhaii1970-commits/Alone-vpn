@@ -43,6 +43,8 @@ adb shell am force-stop "$PKG"; sleep 2
 adb logcat -c; launch; sleep 9; shot 02c_second_launch
 adb logcat -d | grep -E "ALONE_(BOOT|ROUTE)" | cut -c1-200 >> "$OUT/report.txt"
 check "language screen is NOT shown again after a language was chosen" "adb logcat -d | grep ALONE_ROUTE | tail -1 | grep -q 'ALONE_ROUTE shell'"
+check "settings file is writable" "adb logcat -d | grep -q 'ALONE_STORE path='"
+check "settings loaded without errors on the second launch" "! adb logcat -d | grep -q 'settings load failed'"
 adb shell am force-stop "$PKG"
 
 # ---------- B. self-test build: real VPN through the engine ----------
