@@ -56,34 +56,38 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
     final p = context.pal;
     _sync(context.st.saver);
     final op = p.dark ? .44 : .22;
+    // Each orb is a static picture in its own layer; only its position is animated, so the GPU just
+    // re-composites cached textures instead of re-drawing full-screen gradients every frame.
     Widget pool(AnimationController c, Color col, double size, Alignment at, Offset drift) {
+      final orb = RepaintBoundary(
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            // no clipped circle: the gradient already fades to 0, and a hard edge showed as a ring
+            gradient: RadialGradient(colors: [alpha(col, op), alpha(col, op * .35), alpha(col, 0)], stops: const [0, .38, .7]),
+          ),
+        ),
+      );
       return Align(
         alignment: at,
         child: AnimatedBuilder(
           animation: c,
-          builder: (context, _) {
+          child: orb,
+          builder: (context, child) {
             final t = Curves.easeInOut.transform(c.value);
-            return Transform.translate(
-              offset: Offset(drift.dx * t, drift.dy * t),
-              child: Container(
-                width: size,
-                height: size,
-                decoration: BoxDecoration(
-                  // no clipped circle: the gradient already fades to 0, and a hard edge showed as a ring
-                  gradient: RadialGradient(colors: [alpha(col, op), alpha(col, op * .35), alpha(col, 0)], stops: const [0, .38, .7]),
-                ),
-              ),
-            );
+            return Transform.translate(offset: Offset(drift.dx * t, drift.dy * t), child: child);
           },
         ),
       );
     }
 
-    final bg = Stack(
-      fit: StackFit.expand,
-      children: [
-        ColoredBox(color: p.surface),
-        DecoratedBox(
+    final base = RepaintBoundary(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          ColoredBox(color: p.surface),
+          DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
               center: const Alignment(0, -.24),
@@ -101,6 +105,13 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
             ),
           ),
         ),
+        ],
+      ),
+    );
+    final bg = Stack(
+      fit: StackFit.expand,
+      children: [
+        base,
         IgnorePointer(child: pool(_a, p.primary, 380, const Alignment(-1.1, -.95), const Offset(60, 90))),
         IgnorePointer(child: pool(_b, p.tertiary, 330, const Alignment(1.15, .15), const Offset(-70, 40))),
         IgnorePointer(child: pool(_c, p.secondary, 300, const Alignment(-.2, 1.15), const Offset(40, -80))),
@@ -121,7 +132,7 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
     return Stack(
       fit: StackFit.expand,
       children: [
-        RepaintBoundary(child: bg),
+        bg,
         widget.child,
       ],
     );
