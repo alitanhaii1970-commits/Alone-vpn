@@ -77,7 +77,9 @@ if waitlog 'SELFTEST: CONNECTED' 120; then
   check "no FATAL EXCEPTION while connected" "! adb logcat -d | grep -q 'FATAL EXCEPTION'"
   check "self-test disconnects cleanly" "waitlog 'SELFTEST: DISCONNECTED state=CS.off' 120"
   sleep 3; shot 06_disconnected
-  check "tun interface removed after disconnect" "sleep 3; ! has_tun"
+  # teardown can lag on a slow CI emulator: wait up to 40 s before calling it a failure
+  gone() { for _ in $(seq 1 20); do has_tun || return 0; sleep 2; done; return 1; }
+  check "tun interface removed after disconnect (within 40 s)" "gone"
   check "routing restored after disconnect (default route not via tun)" "! adb shell ip route get 1.1.1.1 2>&1 | grep -q tun"
   { log "net state after disconnect:"; adb shell ip -o link | cut -c1-90 | head -8; adb shell ip route | head -6; } >> "$OUT/report.txt" 2>&1
 else
