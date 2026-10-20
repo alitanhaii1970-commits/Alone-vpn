@@ -11,6 +11,8 @@ import 'servers.dart';
 
 /// Top-level frame: four tabs (home / servers / usage / settings) under a
 /// floating glass nav bar. Tabs are kept alive; switching only fades/scales.
+const bool _kTabFade = false;
+
 class AppShell extends StatefulWidget {
   const AppShell({super.key});
   @override
@@ -71,6 +73,9 @@ class _AppShellState extends State<AppShell> with SingleTickerProviderStateMixin
                 ],
               ),
               builder: (context, child) {
+                // Off: the whole-screen Opacity layer coincided with the emulator's GPU/adb hang after every
+                // tab switch (screenshots failed from the first tab change on). Re-enable only when proven safe.
+                if (!_kTabFade) return child!;
                 final v = Curves.easeOutCubic.transform(_swap.value);
                 return Opacity(opacity: .25 + .75 * v, child: Transform.translate(offset: Offset(0, 12 * (1 - v)), child: child));
               },
