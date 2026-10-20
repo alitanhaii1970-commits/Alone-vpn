@@ -24,6 +24,8 @@ log "device: Android $(adb shell getprop ro.build.version.release | tr -d '\r') 
 tap() { timeout 15 adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
 # the CI emulator is slow: keep "app not responding" dialogs (e.g. the launcher's) out of the screenshots
 adb shell settings put global hide_error_dialogs 1 >/dev/null 2>&1
+wake() { adb shell svc power stayon true >/dev/null 2>&1; adb shell settings put system screen_off_timeout 1800000 >/dev/null 2>&1; adb shell input keyevent KEYCODE_WAKEUP >/dev/null 2>&1; adb shell wm dismiss-keyguard >/dev/null 2>&1; }
+wake
 # ---------- A. plain release build, fresh install ----------
 check "release APK installs" "adb install -r apks/alone-x64.apk >/dev/null 2>&1"
 adb shell pm grant "$PKG" android.permission.POST_NOTIFICATIONS >/dev/null 2>&1
@@ -88,6 +90,7 @@ else
 fi
 # ---------- C. screen tour (screenshots only, for visual review; coordinates are for a 1080x2400 screen) ----------
 log "== screen tour"
+wake; sleep 2
 tap()  { timeout 15 adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
 back() { timeout 15 adb shell input keyevent KEYCODE_BACK >/dev/null 2>&1; sleep 2; }
 swipeup() { timeout 15 adb shell input swipe 540 1900 540 500 450 >/dev/null 2>&1; sleep 1.5; }
@@ -104,7 +107,7 @@ tap 240 1580; shot 15_latency; back
 tap 600 1580; shot 16_dns; back
 tap 900 1580; shot 17_add_config; back
 shot 18_after_tour
-adb logcat -d > "$OUT/logcat_full.txt" 2>/dev/null
+timeout 60 adb logcat -d > "$OUT/logcat_full.txt" 2>/dev/null
 adb logcat -d | grep -E "SELFTEST|FATAL EXCEPTION|AndroidRuntime|ALONE|v2ray|libbox|xray" | tail -150 > "$OUT/logcat_filtered.txt"
 log "RESULT: $PASS passed, $FAIL failed"
 exit 0
