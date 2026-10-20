@@ -108,7 +108,7 @@ class Glass extends StatelessWidget {
         ),
       ),
       child: CustomPaint(
-        foregroundPainter: _InsetEdges(radius, p.glassHi, const Color(0x2E000000)),
+        foregroundPainter: _InsetEdges(radius, alpha(p.glassHi, .55), const Color(0x1F000000)),
         child: padding == null ? child : Padding(padding: padding!, child: child),
       ),
     );
@@ -535,8 +535,9 @@ class Btn extends StatelessWidget {
         sh = [...elev(p, 1), glow(p.primary, .58)];
         break;
       case Bv.tonal:
-        bg = p.primaryContainer;
-        fg = p.onPrimaryContainer;
+        bg = alpha(p.primary, p.dark ? .14 : .12);
+        fg = p.primary;
+        border = Border.all(color: alpha(p.primary, .28));
         break;
       case Bv.outlined:
         bg = const Color(0x00000000);
@@ -548,8 +549,9 @@ class Btn extends StatelessWidget {
         fg = p.primary;
         break;
       case Bv.danger:
-        bg = p.errorContainer;
-        fg = p.onErrorContainer;
+        bg = alpha(p.error, p.dark ? .14 : .10);
+        fg = p.error;
+        border = Border.all(color: alpha(p.error, .30));
         break;
     }
     final h = variant == Bv.text ? 40.0 : (tall ? 52.0 : 46.0);

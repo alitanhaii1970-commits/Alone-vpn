@@ -292,12 +292,12 @@ class _DotField extends CustomPainter {
     final cx = size.width / 2;
     final cy = size.height / 2;
     final maxR = size.width / 2;
-    for (double y = 0; y <= size.height; y += 16) {
-      for (double x = 0; x <= size.width; x += 16) {
+    for (double y = 0; y <= size.height; y += 20) {
+      for (double x = 0; x <= size.width; x += 20) {
         final d = Offset(x - cx, y - cy).distance / maxR;
         if (d < .34 || d > .96) continue;
         final a = d > .74 ? (1 - (d - .74) / .22) : 1.0;
-        paint.color = alpha(c, .5 * a * .62);
+        paint.color = alpha(c, .5 * a * .38);
         canvas.drawCircle(Offset(x, y), 1, paint);
       }
     }

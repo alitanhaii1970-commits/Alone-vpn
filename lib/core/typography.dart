@@ -39,6 +39,7 @@ class Ty {
   factory Ty.of(AppSettings s) => Ty(s.fa, s.font, s.textScale);
 
   List<String> get _uiFallback {
+    if (!fa && font != 'naskh' && font != 'system') return const ['Vazirmatn'];
     switch (font) {
       case 'geist':
         return const ['Vazirmatn'];
@@ -50,6 +51,8 @@ class Ty {
   }
 
   String? get _uiFamily {
+    // English UI: Geist is far more refined than the Latin glyphs inside Vazirmatn
+    if (!fa && font != 'naskh' && font != 'system') return 'Geist';
     switch (font) {
       case 'naskh':
         return 'NotoNaskhArabic';

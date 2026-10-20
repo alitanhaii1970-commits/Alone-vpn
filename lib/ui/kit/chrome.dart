@@ -55,7 +55,7 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final p = context.pal;
     _sync(context.st.saver);
-    final op = p.dark ? .44 : .22;
+    final op = p.dark ? .38 : .20;
     // Each orb is a static picture in its own layer; only its position is animated, so the GPU just
     // re-composites cached textures instead of re-drawing full-screen gradients every frame.
     Widget pool(AnimationController c, Color col, double size, Alignment at, Offset drift) {
@@ -65,7 +65,10 @@ class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
           height: size,
           decoration: BoxDecoration(
             // no clipped circle: the gradient already fades to 0, and a hard edge showed as a ring
-            gradient: RadialGradient(colors: [alpha(col, op), alpha(col, op * .35), alpha(col, 0)], stops: const [0, .38, .7]),
+            gradient: RadialGradient(
+              colors: [for (final m in const [1.0, .86, .66, .45, .26, .1, 0.0]) alpha(col, op * m)],
+              stops: const [0, .12, .24, .36, .48, .6, .72],
+            ),
           ),
         ),
       );
