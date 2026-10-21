@@ -40,7 +40,7 @@ Grab the latest APK from **[Releases](https://github.com/alitanhaii1970-commits/
 | | |
 |---|---|
 | **Protocols** | VMess, VLESS, Shadowsocks, Trojan. Hysteria / Hysteria2, TUIC, WireGuard, SOCKS and SSH links are also recognised by the importer and passed to the engine (untested). |
-| **Import** | Paste a share link or a subscription URL. Servers are saved on the device. |
+| **Import** | Paste a share link or a subscription URL (a **Paste** button reads the clipboard), or open such a link / share text / open a text file of links from any other app. Base64 subscription files work. Servers are saved on the device. |
 | **Real VPN tunnel** | Android `VpnService` with the official system consent dialog. Xray and sing-box are bundled as native libraries. |
 | **Latency test** | TCP or URL probe per server, favourites, sparkline on the home screen. |
 | **DNS** | Cloudflare, Google, Quad9, Electro (gaming) presets and custom resolvers. |
@@ -61,6 +61,7 @@ ALONE VPN is **beta**. Honest summary:
 - ✅ 25 automated tests (every screen × 3 phone sizes × 2 text sizes × English/Persian, plus settings persistence).
 - ⚠️ Not yet verified on physical phones, on filtered networks, or with VMess / VLESS / Trojan / Hysteria servers (the end-to-end test uses Shadowsocks).
 - ⚠️ Kill switch and split tunneling are implemented but not covered by the automated tests.
+- ❌ **OpenVPN (.ovpn) and NPV Tunnel (.npv4) files are not supported**: the Xray and sing-box engines do not run OpenVPN, and .npv4 files are encrypted. The app explains this if you try to open one.
 - ℹ️ Only Android has a real tunnel. On desktop the connect button is a preview.
 - ℹ️ Usage shows live traffic; per-day / per-month statistics are not shown because the engine does not provide them.
 

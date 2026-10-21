@@ -1,6 +1,12 @@
 ## ALONE VPN — beta
 
-**What's new in 1.2.2**
+**What's new in 1.3.0**
+- **Open links and files from other apps:** tapping a vless:// vmess:// ss:// trojan:// … link, using *Share → ALONE VPN* on text, or opening a text file full of links now imports the servers (checked on an Android 14 emulator: link while the app runs, link that starts the app, shared text). Base64 subscription files work too, and the add-config sheet has a **Paste** button.
+- **OpenVPN (.ovpn) and NPV Tunnel (.npv4) files are not supported** — the Xray and sing-box engines don't run OpenVPN and .npv4 files are encrypted. The app now says so clearly instead of a generic error.
+- A cleaner look: Geist typeface for the English UI, calmer tonal buttons instead of heavy dark ones, softer card edges and background, nearly solid bottom bar, sheets and dialogs so nothing shows through them.
+- The add-config text no longer promises features that did not exist (QR scanning).
+
+**Earlier: 1.2.2**
 - **Fixed the real cause of the language screen appearing on every launch:** on Android nothing was ever saved (the storage plugin crashed at runtime). Settings, language and saved servers are now kept in a file in the app's private folder. Checked on an Android 14 emulator: choose a language, close the app, open it again — it goes straight to the app.
 - Smoother background animation, quicker page transitions and a short fade when switching tabs.
 - Dialogs and sheets dim the screen instead of turning it black; the theme picker no longer has an empty band or a tilted tile; DNS list spacing fixed.
@@ -26,7 +32,13 @@ You bring your own server: ALONE VPN is a client and does not provide any.
 
 ---
 
-**تازه‌های ۱.۲.۲**
+**تازه‌های ۱.۳.۰**
+- **باز کردن لینک و فایل از برنامه‌های دیگه:** زدن روی یه لینک vless:// vmess:// ss:// trojan:// …، «اشتراک‌گذاری» متن به ALONE VPN، یا باز کردن یه فایل متنی پر از لینک، سرورها رو وارد می‌کنه (روی امولاتور اندروید ۱۴ تأیید شد: لینک وقتی برنامه بازه، لینکی که برنامه رو راه می‌ندازه، و متن اشتراک‌گذاری‌شده). فایل اشتراک base64 هم کار می‌کنه و توی شیت افزودن کانفیگ دکمه‌ی **چسباندن** هست.
+- **فایل OpenVPN (‎.ovpn) و NPV Tunnel (‎.npv4) پشتیبانی نمی‌شه** — هسته‌های Xray و sing-box OpenVPN اجرا نمی‌کنن و فایل‌های .npv4 رمزگذاری‌شده‌ان. برنامه الان به‌جای خطای کلی، همین رو واضح می‌گه.
+- ظاهر تمیزتر: فونت Geist برای رابط انگلیسی، دکمه‌های ثانویه‌ی سبک به‌جای دکمه‌های تیره‌ی سنگین، لبه‌ها و پس‌زمینه‌ی آرام‌تر، و نوار پایین، شیت‌ها و دیالوگ‌های تقریباً مات تا چیزی از پشتشون دیده نشه.
+- متن افزودن کانفیگ دیگه قابلیتی که وجود نداشت (اسکن QR) رو وعده نمی‌ده.
+
+**قبلی: ۱.۲.۲**
 - **علت واقعی ظاهر شدن صفحه‌ی زبان در هر بار اجرا درست شد:** روی اندروید هیچ‌چیز ذخیره نمی‌شد (پلاگین ذخیره‌سازی موقع اجرا کرش می‌کرد). تنظیمات، زبان و سرورهای ذخیره‌شده حالا توی یه فایل توی پوشه‌ی خصوصی برنامه نگه‌داری می‌شن. روی امولاتور اندروید ۱۴ تأیید شد: زبان رو انتخاب می‌کنی، برنامه رو می‌بندی و دوباره باز می‌کنی؛ مستقیم میره توی برنامه.
 - انیمیشن پس‌زمینه روان‌تر، جابه‌جایی صفحه‌ها سریع‌تر و موقع عوض کردن تب یه محو شدن کوتاه.
 - پشت شیت‌ها و دیالوگ‌ها به‌جای سیاه شدن کم‌رنگ می‌شه؛ انتخاب تم دیگه فاصله‌ی خالی و کاشی کج نداره؛ فاصله‌ی ردیف‌های DNS درست شد.

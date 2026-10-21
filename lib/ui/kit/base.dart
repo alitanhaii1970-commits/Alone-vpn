@@ -83,7 +83,11 @@ class Glass extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final List<BoxShadow>? shadows;
   final Color? edge;
-  const Glass({super.key, required this.child, this.radius = Tk.rL, this.padding, this.shadows, this.edge});
+
+  /// Minimum opacity of the fill. Surfaces that sit over other content (bottom bar, sheets,
+  /// dialogs) use a nearly solid fill so what is behind them does not show through.
+  final double minFill;
+  const Glass({super.key, required this.child, this.radius = Tk.rL, this.padding, this.shadows, this.edge, this.minFill = .74});
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +96,10 @@ class Glass extends StatelessWidget {
     final br = BorderRadius.circular(radius);
     // No BackdropFilter: a live blur over the animated ambient background re-renders every
     // frame and is what made the UI janky. A denser translucent fill gives the same glass look.
-    final fillA = saver ? .94 : (p.glassA < .74 ? .74 : p.glassA);
+    final fillA = saver ? .94 : (p.glassA < minFill ? minFill : p.glassA);
     final c1 = Color.lerp(p.glassHi, alpha(p.containerHigh, fillA), .78)!;
     final c2 = alpha(p.containerHigh, fillA);
-    final c3 = alpha(p.containerHigh, fillA * .84);
+    final c3 = alpha(p.containerHigh, minFill >= .9 ? fillA : fillA * .84);
     Widget body = DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: br,

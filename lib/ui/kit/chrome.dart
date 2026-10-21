@@ -346,7 +346,7 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    return Glass(
+    return Glass(minFill: .95, 
       radius: Tk.rXl,
       shadows: elev(p, 3),
       child: SizedBox(
@@ -552,7 +552,7 @@ Future<T?> showSheet<T>(BuildContext context, {required String title, String? bo
                     constraints: BoxConstraints(maxHeight: MediaQuery.of(ctx).size.height * .78),
                     child: Material(
                       type: MaterialType.transparency,
-                      child: Glass(
+                      child: Glass(minFill: .95, 
                         radius: Tk.rXl,
                         shadows: elev(p, 5),
                         padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
@@ -633,7 +633,7 @@ Future<T?> showGlassDialog<T>(BuildContext context, {required WidgetBuilder buil
                       type: MaterialType.transparency,
                       child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 270),
-                        child: Glass(
+                        child: Glass(minFill: .95, 
                           radius: Tk.rXl,
                           shadows: elev(p, 5),
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
