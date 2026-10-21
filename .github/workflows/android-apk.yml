@@ -75,6 +75,9 @@ jobs:
       - name: Patch Android permission cancellation handling
         run: python3 scripts/patch_v2ray_box_android.py
 
+      - name: Patch Android to receive links, shared text and files from other apps
+        run: python3 scripts/patch_incoming_intents.py
+
       - name: Prepare release signing key
         env:
           KS_B64: ${{ secrets.ALONE_KEYSTORE_B64 }}

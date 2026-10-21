@@ -2,6 +2,9 @@
 // define under these names. Written to match the design's voice (fa / en).
 // Keys that exist in the design are never overridden here.
 const Map<String, String> kFaExtra = {
+  'paste': 'چسباندن',
+  'foreign_ovpn': 'فایل OpenVPN (‎.ovpn) پشتیبانی نمی‌شه: هسته‌های این برنامه (Xray و sing-box) OpenVPN اجرا نمی‌کنن. با برنامه‌ی OpenVPN بازش کن.',
+  'foreign_npv': 'فایل NPV Tunnel (‎.npv4) رمزگذاری‌شده‌ست و این برنامه نمی‌تونه بازش کنه. اگه مشخصات سرور رو به‌صورت لینک (vless، vmess …) داری، همون رو اضافه کن.',
   'al_appearance': 'ظاهر',
   'al_display': 'نمایش',
   'al_vpn': 'تانل و شبکه',
@@ -88,6 +91,9 @@ const Map<String, String> kFaExtra = {
 };
 
 const Map<String, String> kEnExtra = {
+  'paste': 'Paste',
+  'foreign_ovpn': "OpenVPN files (.ovpn) can't be used: this app's engines (Xray and sing-box) don't run OpenVPN. Open it with the OpenVPN app instead.",
+  'foreign_npv': "NPV Tunnel files (.npv4) are encrypted and can't be opened here. If you have the server details as a link (vless, vmess …), add that instead.",
   'al_appearance': 'Appearance',
   'al_display': 'Display',
   'al_vpn': 'Tunnel & network',

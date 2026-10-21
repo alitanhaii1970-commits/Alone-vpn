@@ -5,6 +5,7 @@ import '../../core/icons.dart';
 import '../../core/scope.dart';
 import '../../core/tokens.dart';
 import '../../core/typography.dart';
+import '../../data/foreign.dart';
 import '../../data/stores.dart';
 import '../kit/base.dart';
 import '../kit/chrome.dart';
@@ -28,7 +29,16 @@ Future<void> showImport(BuildContext context) {
             busy = true;
             err = null;
           });
-          final r = await ServerStore.I.addText(ctrl.text);
+          final foreign = classifyForeign(ctrl.text);
+          if (foreign != null) {
+            set(() {
+              busy = false;
+              err = tr(foreign == ForeignConfig.openvpn ? 'foreign_ovpn' : 'foreign_npv');
+            });
+            HapticFeedback.heavyImpact();
+            return;
+          }
+          final r = await ServerStore.I.addText(expandBase64Links(ctrl.text));
           if (!ctx.mounted) return;
           if (r.added == 0) {
             set(() {
@@ -50,7 +60,21 @@ Future<void> showImport(BuildContext context) {
             AlField(controller: ctrl, hint: 'vless:// · vmess:// · https://…', maxLines: 4, onSubmit: (_) => go()),
             if (err != null) ...[const SizedBox(height: 8), Notice(err!, icon: Ic.alert, tone: Tone.bad)],
             const SizedBox(height: 14),
-            Btn(busy ? tr('importing') : tr('import_cta'), icon: Ic.plus, wide: true, onTap: go),
+            Row(
+              children: [
+                Expanded(
+                  child: Btn(tr('paste'), variant: Bv.tonal, wide: true, onTap: () async {
+                    final d = await Clipboard.getData(Clipboard.kTextPlain);
+                    final txt = d?.text ?? '';
+                    if (txt.trim().isEmpty) return;
+                    ctrl.text = txt.trim();
+                    set(() => err = null);
+                  }),
+                ),
+                const SizedBox(width: 8),
+                Expanded(flex: 2, child: Btn(busy ? tr('importing') : tr('import_cta'), icon: Ic.plus, wide: true, onTap: go)),
+              ],
+            ),
           ],
         );
       },

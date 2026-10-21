@@ -47,6 +47,20 @@ adb logcat -d | grep -E "ALONE_(BOOT|ROUTE)" | cut -c1-200 >> "$OUT/report.txt"
 check "language screen is NOT shown again after a language was chosen" "adb logcat -d | grep ALONE_ROUTE | tail -1 | grep -q 'ALONE_ROUTE shell'"
 check "settings file is writable" "adb logcat -d | grep -q 'ALONE_STORE path='"
 check "settings loaded without errors on the second launch" "! adb logcat -d | grep -q 'settings load failed'"
+
+# --- links / shared text arriving from other apps (the manifest filters + MainActivity patch)
+open_link() { adb shell "am start -a android.intent.action.VIEW -d '$1' -p $PKG" >/dev/null 2>&1; }
+adb logcat -c
+open_link 'ss://YWVzLTI1Ni1nY206cGFzcw==@10.0.2.2:8388#FromLink'; sleep 6; shot 02d_link_opened_running
+check "a ss:// link opened from another app is imported (app already running)" "adb logcat -d | grep -q 'ALONE_INTENT imported=1'"
+adb shell am force-stop "$PKG"; sleep 2; adb logcat -c
+open_link 'vless://123e4567-e89b-12d3-a456-426614174000@example.com:443?security=tls#ColdStart'; sleep 14; shot 02e_link_opened_cold
+check "a link that starts the app is imported (cold start)" "adb logcat -d | grep -q 'ALONE_INTENT imported=1'"
+adb logcat -c
+adb shell "am start -a android.intent.action.SEND -t text/plain -p $PKG --es android.intent.extra.TEXT 'Check this: trojan://secret@example.org:443#Shared'" >/dev/null 2>&1
+sleep 6; shot 02f_text_shared
+check "text shared to the app is imported" "adb logcat -d | grep -q 'ALONE_INTENT imported=1'"
+adb logcat -d | grep -E "ALONE_INTENT" | cut -c1-200 >> "$OUT/report.txt"
 adb shell am force-stop "$PKG"
 
 # ---------- B. self-test build: real VPN through the engine ----------

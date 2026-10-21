@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/scope.dart';
 import '../../core/tokens.dart';
 import '../../data/stores.dart';
+import '../../services/incoming.dart';
 import '../kit/chrome.dart';
 import '../shell_state.dart';
 import 'home.dart';
@@ -40,6 +41,7 @@ class _AppShellState extends State<AppShell> with SingleTickerProviderStateMixin
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ShellState.onTopLevel.value = true;
       ServerStore.I.load();
+      IncomingService.start();
     });
   }
 
