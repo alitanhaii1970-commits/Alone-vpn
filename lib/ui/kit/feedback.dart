@@ -17,10 +17,12 @@ class RowTile extends StatelessWidget {
   final bool chev;
   final bool compact;
   final bool selected;
+  final bool grouped;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
   const RowTile({
     super.key,
+    this.grouped = false,
     this.icon,
     this.tone = Tone.primary,
     required this.label,
@@ -37,6 +39,36 @@ class RowTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
+    if (grouped) {
+      return Press(
+        radius: 0,
+        onTap: onTap,
+        onLongPress: onLongPress,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 32),
+            child: Row(
+              children: [
+                if (leading != null) ...[leading!, const SizedBox(width: 12)] else if (icon != null) ...[ChipIc(icon!, tone: tone, sm: compact), const SizedBox(width: 12)],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(label, style: context.ty(R.titleM, p.onSurface)),
+                      if (sub != null) Text(sub!, style: context.ty(R.bodyS, p.onSurfaceVariant)),
+                    ],
+                  ),
+                ),
+                if (trail != null) ...[const SizedBox(width: 8), trail!],
+                if (chev) ...[const SizedBox(width: 6), AppIcon(Ic.chev, size: 16, color: p.outline, flip: true)],
+              ],
+            ),
+          ),
+        ),
+      );
+    }
     return Padding(
       padding: EdgeInsets.only(bottom: compact ? 6 : 7),
       child: CardX(
@@ -63,6 +95,35 @@ class RowTile extends StatelessWidget {
               if (chev) ...[const SizedBox(width: 6), AppIcon(Ic.chev, size: 16, color: p.outline, flip: true)],
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A settings-style group: rows inside one flat card, separated by hairlines.
+class GroupCard extends StatelessWidget {
+  final List<Widget> children;
+  const GroupCard({super.key, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    final p = context.pal;
+    return Container(
+      decoration: BoxDecoration(
+        color: p.container,
+        borderRadius: BorderRadius.circular(Tk.rL),
+        border: Border.all(color: alpha(p.outlineVariant, .75)),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(Tk.rL - 1),
+        child: Column(
+          children: [
+            for (var i = 0; i < children.length; i++) ...[
+              if (i > 0) Divider(height: 1, thickness: 1, indent: 62, color: alpha(p.outlineVariant, .55)),
+              children[i],
+            ],
+          ],
         ),
       ),
     );

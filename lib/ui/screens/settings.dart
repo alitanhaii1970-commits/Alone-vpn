@@ -54,15 +54,16 @@ class _SettingsBody extends StatelessWidget {
             const SizedBox(height: 12),
             const ThemeGrid(),
           ])),
-          const SizedBox(height: 7),
-          RowTile(
+          const SizedBox(height: 10),
+          GroupCard(children: [
+          RowTile(grouped: true, 
             icon: Ic.type,
             label: tr('font'),
             sub: kFonts.firstWhere((f) => f.id == st.font, orElse: () => kFonts.first).label,
             chev: true,
             onTap: () => showSheet<void>(context, title: tr('font'), builder: (_) => const FontList()),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.lang,
             tone: Tone.plain,
             label: tr('al_lang'),
@@ -73,8 +74,10 @@ class _SettingsBody extends StatelessWidget {
               onChanged: (v) => st.update(() => st.lang = v),
             ),
           ),
+          ]),
           SectionLabel(tr('al_display')),
-          RowTile(
+          GroupCard(children: [
+          RowTile(grouped: true, 
             icon: Ic.textsize,
             label: tr('al_size'),
             sub: '${loc(st.size)}%',
@@ -86,7 +89,7 @@ class _SettingsBody extends StatelessWidget {
               onEnd: (_) {},
             )),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.textsize,
             tone: Tone.plain,
             label: tr('al_digits'),
@@ -97,50 +100,54 @@ class _SettingsBody extends StatelessWidget {
               onChanged: (v) => st.update(() => st.digits = v),
             ),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.batt,
             tone: Tone.ok,
             label: tr('al_saver'),
             sub: tr('al_saver_d'),
             trail: AlSwitch(on: st.saver, onChanged: (v) => st.update(() => st.saver = v)),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.vibrate,
             tone: Tone.plain,
             label: tr('al_haptics'),
             trail: AlSwitch(on: st.haptics, onChanged: (v) => st.update(() => st.haptics = v)),
           ),
+          ]),
           SectionLabel(tr('al_vpn')),
-          RowTile(
+          GroupCard(children: [
+          RowTile(grouped: true, 
             icon: Ic.shieldOff,
             tone: Tone.warn,
             label: tr('al_kill'),
             sub: tr('al_kill_d'),
             trail: AlSwitch(on: st.killswitch, onChanged: (v) => st.update(() => st.killswitch = v)),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.apps,
             label: tr('al_split'),
             sub: st.splitMode == 'off' ? tr('off') : '${st.splitMode} · ${loc(st.splitApps.length)}',
             chev: true,
             onTap: () => pushScreen<void>(context, const SplitScreen()),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.layers,
             label: tr('al_routing'),
             chev: true,
             onTap: () => pushScreen<void>(context, const RoutingScreen()),
           ),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.pulse,
             label: tr('al_probe'),
             sub: st.probe == 'url' ? 'URL' : 'TCP',
             chev: true,
             onTap: () => pushScreen<void>(context, const LatencyScreen()),
           ),
+          ]),
           SectionLabel(tr('al_data')),
-          RowTile(icon: Ic.terminal, tone: Tone.plain, label: tr('al_log'), chev: true, onTap: () => pushScreen<void>(context, const LogScreen())),
-          RowTile(icon: Ic.trash, tone: Tone.bad, label: tr('al_clear_servers'), onTap: () async {
+          GroupCard(children: [
+          RowTile(grouped: true, icon: Ic.terminal, tone: Tone.plain, label: tr('al_log'), chev: true, onTap: () => pushScreen<void>(context, const LogScreen())),
+          RowTile(grouped: true, icon: Ic.trash, tone: Tone.bad, label: tr('al_clear_servers'), onTap: () async {
             final ok = await confirm(context, title: tr('al_clear_servers'), body: tr('al_clear_servers_b'), yes: tr('al_clear_servers'));
             if (!ok) return;
             for (final s in [...ServerStore.I.items]) {
@@ -148,7 +155,7 @@ class _SettingsBody extends StatelessWidget {
             }
             Hx.ok();
           }),
-          RowTile(
+          RowTile(grouped: true, 
             icon: Ic.info,
             tone: Tone.primary,
             label: tr('about'),
@@ -156,6 +163,7 @@ class _SettingsBody extends StatelessWidget {
             chev: true,
             onTap: () => showSheet<void>(context, title: 'ALONE VPN', body: tr('about_b'), builder: (_) => const SizedBox.shrink()),
           ),
+          ]),
         ],
       ),
     );
