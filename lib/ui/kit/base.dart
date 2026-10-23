@@ -91,35 +91,20 @@ class Glass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Design v2: a flat, opaque surface with a hairline border. No gradients, inner highlights or
+    // blurs: it reads calmer, nothing shows through it, and it is cheap to draw.
     final p = context.pal;
-    final saver = context.st.saver;
     final br = BorderRadius.circular(radius);
-    // No BackdropFilter: a live blur over the animated ambient background re-renders every
-    // frame and is what made the UI janky. A denser translucent fill gives the same glass look.
-    final fillA = saver ? .94 : (p.glassA < minFill ? minFill : p.glassA);
-    final c1 = Color.lerp(p.glassHi, alpha(p.containerHigh, fillA), .78)!;
-    final c2 = alpha(p.containerHigh, fillA);
-    final c3 = alpha(p.containerHigh, minFill >= .9 ? fillA : fillA * .84);
-    Widget body = DecoratedBox(
+    final body = DecoratedBox(
       decoration: BoxDecoration(
+        color: p.container,
         borderRadius: br,
-        border: Border.all(color: alpha(edge ?? p.glassEdge, .62), width: 1),
-        gradient: LinearGradient(
-          begin: const Alignment(-.47, -.88),
-          end: const Alignment(.47, .88),
-          colors: [c1, c2, c3],
-          stops: const [0, .58, 1],
-        ),
+        border: Border.all(color: alpha(edge ?? p.outlineVariant, .75)),
       ),
-      child: CustomPaint(
-        foregroundPainter: _InsetEdges(radius, alpha(p.glassHi, .55), const Color(0x1F000000)),
-        child: padding == null ? child : Padding(padding: padding!, child: child),
-      ),
+      child: padding == null ? child : Padding(padding: padding!, child: child),
     );
-    return CustomPaint(
-      painter: _OuterShadow(radius, shadows ?? elev(p, 2)),
-      child: ClipRRect(borderRadius: br, child: body),
-    );
+    final sh = shadows ?? const <BoxShadow>[];
+    return sh.isEmpty ? ClipRRect(borderRadius: br, child: body) : CustomPaint(painter: _OuterShadow(radius, sh), child: ClipRRect(borderRadius: br, child: body));
   }
 }
 
@@ -290,104 +275,37 @@ class CardX extends StatelessWidget {
     final p = context.pal;
     final br = BorderRadius.circular(radius);
     Color bg;
-    List<BoxShadow> sh = const [];
     Border? border;
     switch (surf) {
       case Surf.card:
-        bg = selected ? alpha(p.primary, .14) : alpha(p.container, .88);
+        bg = selected ? Color.alphaBlend(alpha(p.primary, .13), p.container) : p.container;
+        border = Border.all(color: selected ? alpha(p.primary, .6) : alpha(p.outlineVariant, .75), width: selected ? 1.4 : 1);
         break;
       case Surf.tonal:
-        bg = alpha(p.primaryContainer, .92);
-        sh = elev(p, 1);
+        bg = p.primaryContainer;
         break;
       case Surf.filled:
         bg = p.primary;
-        sh = [...elev(p, 2), glow(p.primary, .58)];
         break;
       case Surf.outlined:
         bg = const Color(0x00000000);
         border = Border.all(color: p.outlineVariant);
         break;
     }
-    if (selected) {
-      sh = [BoxShadow(color: alpha(p.primary, .42), blurRadius: 18, offset: const Offset(0, 6), spreadRadius: -10)];
-    }
     // passthrough: when the parent gives the card a tight size (Expanded / stretch), the background
     // must fill it; with the default loose fit it shrank to its content and looked misaligned.
-    Widget body = Stack(
+    final body = Stack(
       fit: StackFit.passthrough,
       children: [
         DecoratedBox(
           decoration: BoxDecoration(color: bg, borderRadius: br, border: border),
-          child: CustomPaint(
-            foregroundPainter: selected
-                ? _RingPainter(radius, alpha(p.primary, .46))
-                : _InsetEdges(radius, alpha(p.glassHi, .45), null),
-            child: Padding(padding: padding, child: child),
-          ),
+          child: Padding(padding: padding, child: child),
         ),
-        if (selected)
-          PositionedDirectional(
-            start: 0,
-            top: 0,
-            bottom: 0,
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: FractionallySizedBox(
-                heightFactor: .52,
-                child: _Rail(color: p.primary),
-              ),
-            ),
-          ),
       ],
     );
-    body = CustomPaint(painter: _OuterShadow(radius, sh), child: body);
     if (onTap == null && onLongPress == null) return body;
     return Press(radius: radius, onTap: onTap, onLongPress: onLongPress, child: body);
   }
-}
-
-class _Rail extends StatelessWidget {
-  final Color color;
-  const _Rail({required this.color});
-  @override
-  Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0, end: 1),
-      duration: const Duration(milliseconds: 520),
-      curve: Tk.bouncy,
-      builder: (context, v, _) => Transform.scale(
-        scaleY: v,
-        child: Container(
-          width: 2.5,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(Tk.rFull),
-            boxShadow: [BoxShadow(color: alpha(color, .72), blurRadius: 9)],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _RingPainter extends CustomPainter {
-  final double radius;
-  final Color color;
-  const _RingPainter(this.radius, this.color);
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rr = RRect.fromRectAndRadius((Offset.zero & size).deflate(.6), Radius.circular(radius));
-    canvas.drawRRect(
-        rr,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.2
-          ..color = color);
-  }
-
-  @override
-  bool shouldRepaint(_RingPainter old) => old.color != color || old.radius != radius;
 }
 
 // ───────────── icon chip, icon button, badge ─────────────
@@ -470,7 +388,7 @@ class IconBtn extends StatelessWidget {
       height: 40,
       child: Center(child: AppIcon(icon, size: 19, color: color ?? p.onSurface, flip: flip)),
     );
-    if (glass) inner = Glass(radius: Tk.rM, shadows: elev(p, 1), child: inner);
+    if (glass) inner = Glass(radius: Tk.rM, child: inner);
     return Semantics(label: label, button: true, child: Press(radius: Tk.rM, onTap: onTap, child: inner));
   }
 }
@@ -490,7 +408,7 @@ class BadgeX extends StatelessWidget {
       curve: Tk.bouncy,
       builder: (context, v, child) => Opacity(
         opacity: v.clamp(0.0, 1.0),
-        child: Transform.scale(scale: .5 + .5 * v, child: Transform.rotate(angle: -.14 * (1 - v), child: child)),
+        child: Transform.scale(scale: .85 + .15 * v, child: child),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
@@ -531,12 +449,10 @@ class Btn extends StatelessWidget {
     Color bg;
     Color fg;
     Border? border;
-    List<BoxShadow> sh = const [];
     switch (variant) {
       case Bv.filled:
         bg = p.primary;
         fg = p.onPrimary;
-        sh = [...elev(p, 1), glow(p.primary, .58)];
         break;
       case Bv.tonal:
         bg = alpha(p.primary, p.dark ? .14 : .12);
@@ -567,16 +483,13 @@ class Btn extends StatelessWidget {
         Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.ty(R.titleS, fg))),
       ],
     );
-    final body = CustomPaint(
-      painter: _OuterShadow(Tk.rFull, sh),
-      child: Container(
-        height: h,
-        padding: EdgeInsets.symmetric(horizontal: variant == Bv.text ? 12 : 20),
-        decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(Tk.rFull), border: border),
-        child: Center(widthFactor: wide ? null : 1, child: row),
-      ),
+    final body = Container(
+      height: h,
+      padding: EdgeInsets.symmetric(horizontal: variant == Bv.text ? 12 : 20),
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(Tk.rM + 2), border: border),
+      child: Center(widthFactor: wide ? null : 1, child: row),
     );
-    return Press(radius: Tk.rFull, onTap: onTap, child: body);
+    return Press(radius: Tk.rM + 2, onTap: onTap, child: body);
   }
 }
 

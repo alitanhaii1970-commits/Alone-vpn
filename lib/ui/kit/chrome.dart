@@ -16,127 +16,47 @@ import 'base.dart';
 // ───────────── ambient background ─────────────
 /// Surface colour, two soft top/bottom glows, three slowly drifting colour
 /// pools (primary / tertiary / secondary) and a faint specular sheen.
-class AmbientBg extends StatefulWidget {
+/// Design v2 background: a flat surface with two very soft, static glows. Nothing animates, so
+/// it costs nothing per frame and never competes with the content.
+class AmbientBg extends StatelessWidget {
   final Widget child;
   const AmbientBg({super.key, required this.child});
-  @override
-  State<AmbientBg> createState() => _AmbientBgState();
-}
-
-class _AmbientBgState extends State<AmbientBg> with TickerProviderStateMixin {
-  late final AnimationController _a = AnimationController(vsync: this, duration: const Duration(seconds: 23));
-  late final AnimationController _b = AnimationController(vsync: this, duration: const Duration(seconds: 31));
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(seconds: 41));
-  bool _saver = false;
-
-  void _sync(bool saver) {
-    if (saver == _saver && _a.isAnimating == !saver) return;
-    _saver = saver;
-    if (saver) {
-      _a.stop();
-      _b.stop();
-      _c.stop();
-    } else {
-      _a.repeat(reverse: true);
-      _b.repeat(reverse: true);
-      _c.repeat(reverse: true);
-    }
-  }
-
-  @override
-  void dispose() {
-    _a.dispose();
-    _b.dispose();
-    _c.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    _sync(context.st.saver);
-    final op = p.dark ? .38 : .20;
-    // Each orb is a static picture in its own layer; only its position is animated, so the GPU just
-    // re-composites cached textures instead of re-drawing full-screen gradients every frame.
-    Widget pool(AnimationController c, Color col, double size, Alignment at, Offset drift) {
-      final orb = RepaintBoundary(
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            // no clipped circle: the gradient already fades to 0, and a hard edge showed as a ring
-            gradient: RadialGradient(
-              colors: [for (final m in const [1.0, .86, .66, .45, .26, .1, 0.0]) alpha(col, op * m)],
-              stops: const [0, .12, .24, .36, .48, .6, .72],
-            ),
-          ),
-        ),
-      );
-      return Align(
-        alignment: at,
-        child: AnimatedBuilder(
-          animation: c,
-          child: orb,
-          builder: (context, child) {
-            final t = Curves.easeInOut.transform(c.value);
-            return Transform.translate(offset: Offset(drift.dx * t, drift.dy * t), child: child);
-          },
-        ),
-      );
-    }
-
-    final base = RepaintBoundary(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          ColoredBox(color: p.surface),
-          DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(0, -.24),
-              radius: .9,
-              colors: [alpha(p.primary, p.dark ? .22 : .10), alpha(p.primary, 0)],
-            ),
-          ),
-        ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: const Alignment(.4, 1.05),
-              radius: .8,
-              colors: [alpha(p.tertiary, p.dark ? .12 : .06), alpha(p.tertiary, 0)],
-            ),
-          ),
-        ),
-        ],
-      ),
-    );
-    final bg = Stack(
-      fit: StackFit.expand,
-      children: [
-        base,
-        IgnorePointer(child: pool(_a, p.primary, 380, const Alignment(-1.1, -.95), const Offset(60, 90))),
-        IgnorePointer(child: pool(_b, p.tertiary, 330, const Alignment(1.15, .15), const Offset(-70, 40))),
-        IgnorePointer(child: pool(_c, p.secondary, 300, const Alignment(-.2, 1.15), const Offset(40, -80))),
-        IgnorePointer(
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: const Alignment(-.56, -.83),
-                end: const Alignment(.56, .83),
-                colors: [alpha(const Color(0xFFFFFFFF), .085), const Color(0x00FFFFFF), const Color(0x00FFFFFF), alpha(const Color(0xFFFFFFFF), .03)],
-                stops: const [0, .24, .76, 1],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+    final glowA = p.dark ? .13 : .08;
     return Stack(
       fit: StackFit.expand,
       children: [
-        bg,
-        widget.child,
+        RepaintBoundary(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              ColoredBox(color: p.surface),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: const Alignment(0, -1.1),
+                    radius: 1.05,
+                    colors: [alpha(p.primary, glowA), alpha(p.primary, glowA * .45), alpha(p.primary, 0)],
+                    stops: const [0, .45, 1],
+                  ),
+                ),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: const Alignment(1.0, 1.15),
+                    radius: .9,
+                    colors: [alpha(p.tertiary, glowA * .55), alpha(p.tertiary, 0)],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        child,
       ],
     );
   }

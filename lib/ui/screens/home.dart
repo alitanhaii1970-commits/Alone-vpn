@@ -85,18 +85,6 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              // slowly turning dotted halo
-              IgnorePointer(
-                child: SizedBox(
-                  width: 236,
-                  height: 236,
-                  child: AnimatedBuilder(
-                    animation: _spin,
-                    child: RepaintBoundary(child: CustomPaint(painter: _DotField(p.primary))),
-                    builder: (context, child) => Transform.rotate(angle: _spin.value * 6.2832 / 6, child: child),
-                  ),
-                ),
-              ),
               // soft coloured glow under the button, breathing
               IgnorePointer(
                 child: AnimatedBuilder(
@@ -281,30 +269,6 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
       },
     );
   }
-}
-
-class _DotField extends CustomPainter {
-  final Color c;
-  const _DotField(this.c);
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = alpha(c, .5);
-    final cx = size.width / 2;
-    final cy = size.height / 2;
-    final maxR = size.width / 2;
-    for (double y = 0; y <= size.height; y += 20) {
-      for (double x = 0; x <= size.width; x += 20) {
-        final d = Offset(x - cx, y - cy).distance / maxR;
-        if (d < .34 || d > .96) continue;
-        final a = d > .74 ? (1 - (d - .74) / .22) : 1.0;
-        paint.color = alpha(c, .5 * a * .38);
-        canvas.drawCircle(Offset(x, y), 1, paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DotField old) => old.c != c;
 }
 
 class _Ring extends CustomPainter {
