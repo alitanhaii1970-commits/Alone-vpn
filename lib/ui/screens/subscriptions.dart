@@ -117,7 +117,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
                     ),
                   ),
                 const SizedBox(height: 6),
-                Btn(tr('sub_update_all'), icon: Ic.refresh, wide: true, busy: _all, onTap: _updateAll),
+                Btn(_all ? tr('sub_updating') : tr('sub_update_all'), icon: Ic.refresh, wide: true, onTap: _updateAll),
               ],
             ],
           ),
