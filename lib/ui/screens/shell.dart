@@ -1,3 +1,4 @@
+import '../../core/i18n.dart';
 import 'package:flutter/material.dart';
 import '../../core/scope.dart';
 import '../../core/tokens.dart';

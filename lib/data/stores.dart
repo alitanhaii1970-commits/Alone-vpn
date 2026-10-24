@@ -891,7 +891,11 @@ class Conn extends ChangeNotifier {
     _noAdoptUntil = DateTime.now().add(const Duration(seconds: 20));
     _stopGrace?.cancel();
     _permGrace?.cancel();
-    if (server?.isOvpn ?? false) unawaited(OvpnEngine.stop()) else unawaited(Engine.I.stop());
+    if (server?.isOvpn ?? false) {
+      unawaited(OvpnEngine.stop());
+    } else {
+      unawaited(Engine.I.stop());
+    }
     final c = _ovpnUp;
     if (c != null && !c.isCompleted) c.complete(false);
     final tunnel = _tunnel;
