@@ -1,0 +1,74 @@
+go version go1.25.6 linux/amd64
+Cloning into '/home/runner/work/_temp/libXray'...
+Note: switching to '118a5a67a9116eb52751e55a33bb27a02da34571'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+38:            ["go", "install", "golang.org/x/mobile/cmd/gomobile@40bd9ace6ce4"]
+45:        ret = subprocess.run(["go", "get", "golang.org/x/mobile@40bd9ace6ce4"])
+go: downloading golang.org/x/mobile v0.0.0-20260120165949-40bd9ace6ce4
+go: downloading golang.org/x/mod v0.32.0
+go: downloading golang.org/x/sync v0.19.0
+go: downloading golang.org/x/tools v0.41.0
+42:        ret = subprocess.run(["gomobile", "version"])
+[libxray-android] Injected Android compatibility APIs into libXray source: /home/runner/work/_temp/libXray/android_compat_wrapper.go
+[libxray-android] Building Android AAR from: /home/runner/work/_temp/libXray
+go: downloading github.com/xtls/xray-core v1.260123.0
+go: downloading google.golang.org/protobuf v1.36.11
+go: downloading gopkg.in/yaml.v3 v3.0.1
+go: downloading github.com/sagernet/sing-shadowsocks v0.2.7
+go: downloading github.com/sagernet/sing v0.5.1
+go: downloading go4.org/netipx v0.0.0-20231129151722-fdeea329fbba
+go: downloading github.com/pires/go-proxyproto v0.9.0
+go: downloading golang.org/x/sys v0.40.0
+go: downloading golang.org/x/crypto v0.47.0
+go: downloading lukechampine.com/blake3 v1.4.1
+go: downloading google.golang.org/grpc v1.78.0
+go: downloading github.com/apernet/quic-go v0.57.2-0.20260111184307-eec823306178
+go: downloading github.com/refraction-networking/utls v1.8.2
+go: downloading golang.org/x/net v0.49.0
+go: downloading github.com/vishvananda/netlink v1.3.1
+go: downloading gvisor.dev/gvisor v0.0.0-20260109181451-4be7c433dae2
+go: downloading github.com/xtls/reality v0.0.0-20251014195629-e4eec4520535
+go: downloading golang.zx2c4.com/wireguard v0.0.0-20231211153847-12269c276173
+go: downloading github.com/cloudflare/circl v1.6.3
+go: downloading github.com/miekg/dns v1.1.72
+go: downloading github.com/gorilla/websocket v1.5.3
+go: downloading github.com/andybalholm/brotli v1.0.6
+go: downloading github.com/klauspost/compress v1.17.4
+go: downloading google.golang.org/genproto/googleapis/rpc v0.0.0-20251029180050-ab9386a59fda
+go: downloading github.com/seiflotfy/cuckoofilter v0.0.0-20240715131351-a2f2c23f1771
+go: downloading github.com/v2fly/ss-bloomring v0.0.0-20210312155135-28617310f63e
+go: downloading github.com/vishvananda/netns v0.0.5
+go: downloading github.com/google/btree v1.1.2
+go: downloading golang.org/x/time v0.12.0
+go: downloading github.com/quic-go/qpack v0.6.0
+go: downloading github.com/juju/ratelimit v1.0.2
+go: downloading github.com/ghodss/yaml v1.0.1-0.20220118164431-d8423dcdf344
+go: downloading github.com/pelletier/go-toml v1.9.5
+go: downloading github.com/klauspost/cpuid/v2 v2.0.12
+go: downloading github.com/dgryski/go-metro v0.0.0-20200812162917-85c65e2d0165
+go: downloading golang.org/x/text v0.33.0
+go: downloading github.com/riobard/go-bloom v0.0.0-20200614022211-cdc8013cb5b3
+go: downloading golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842
+go: downloading gopkg.in/yaml.v2 v2.4.0
+Geo data setup completed successfully.
+gomobile version unknown: cannot test gomobile binary: exit status 1, no required module provides package golang.org/x/mobile/cmd/gomobile; to add it:
+	go get golang.org/x/mobile/cmd/gomobile
+
+go: added golang.org/x/mobile v0.0.0-20260120165949-40bd9ace6ce4
+go: upgraded golang.org/x/mod v0.31.0 => v0.32.0
+go: upgraded golang.org/x/tools v0.40.0 => v0.41.0
