@@ -30,10 +30,25 @@ Future<void> showImport(BuildContext context) {
             err = null;
           });
           final foreign = classifyForeign(ctrl.text);
+          if (foreign == ForeignConfig.openvpn) {
+            final problem = ServerStore.I.addOvpn(ctrl.text);
+            if (problem != null) {
+              set(() {
+                busy = false;
+                err = tr(problem);
+              });
+              HapticFeedback.heavyImpact();
+              return;
+            }
+            HapticFeedback.lightImpact();
+            Navigator.of(ctx).pop();
+            snack(tr('ovpn_added'), tone: 'ok');
+            return;
+          }
           if (foreign != null) {
             set(() {
               busy = false;
-              err = tr(foreign == ForeignConfig.openvpn ? 'foreign_ovpn' : 'foreign_npv');
+              err = tr('foreign_npv');
             });
             HapticFeedback.heavyImpact();
             return;

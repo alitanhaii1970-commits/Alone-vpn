@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:v2ray_box/v2ray_box.dart' as vb;
 import '../core/i18n.dart';
+import '../services/ovpn.dart';
+import 'ovpn.dart';
 import '../core/settings.dart';
 import '../data/catalog.dart';
 import '../models/proxy_config.dart';
@@ -87,6 +89,7 @@ class Server {
   const Server(this.id, this.cfg);
 
   String get link => cfg.originalLink;
+  bool get isOvpn => isOvpnLink(link);
   String get host => cfg.address;
   int get port => cfg.port;
 
@@ -148,6 +151,19 @@ class ServerStore extends ChangeNotifier {
   bool sweeping = false;
 
   Server? _make(String link) {
+    if (isOvpnLink(link)) {
+      try {
+        final cfgText = ovpnConfigOf(link);
+        final hp = hostPortOf(cfgText);
+        final name = ovpnNameOf(link);
+        return Server(
+          sidOf(link),
+          ProxyConfig(id: sidOf(link), name: name.isEmpty ? hp.$1 : name, protocol: ProxyProtocol.unknown, address: hp.$1, port: hp.$2, raw: const <String, dynamic>{}, originalLink: link),
+        );
+      } catch (_) {
+        return null;
+      }
+    }
     ProxyConfig? c;
     try {
       c = ProxyConfig.parse(link);
@@ -271,6 +287,25 @@ class ServerStore extends ChangeNotifier {
   }
 
 
+  /// Imports an OpenVPN profile (.ovpn text). Returns a problem key for tr(), or null when added.
+  String? addOvpn(String config, {String name = ''}) {
+    final cfg = config.replaceAll('\r\n', '\n').trim();
+    if (!RegExp(r'^\s*remote\s+\S+', multiLine: true).hasMatch(cfg)) return 'ovpn_invalid';
+    if (externalFilesIn(cfg).isNotEmpty) return 'ovpn_external';
+    final link = ovpnLink(cfg, name: name);
+    final st = AppSettings.I;
+    if (st.serverLinks.contains(link)) return 'ovpn_dup';
+    final s = _make(link);
+    if (s == null) return 'ovpn_invalid';
+    items.add(s);
+    st.update(() {
+      st.serverLinks = [...st.serverLinks, link];
+      if (byId(st.activeServer) == null) st.activeServer = s.id;
+    });
+    notifyListeners();
+    return null;
+  }
+
   // ───────────── subscriptions ─────────────
   static String _subName(String url) {
     try {
@@ -368,7 +403,7 @@ class ServerStore extends ChangeNotifier {
 
   // ───────────── servers that do not answer ─────────────
   /// UDP-based protocols cannot be judged by a TCP probe, so they are never called "dead".
-  static bool isUdpBased(Server s) => RegExp(r'^(hysteria2?|hy2|tuic|wireguard|wg)://', caseSensitive: false).hasMatch(s.link.trim());
+  static bool isUdpBased(Server s) => s.isOvpn || RegExp(r'^(hysteria2?|hy2|tuic|wireguard|wg)://', caseSensitive: false).hasMatch(s.link.trim());
 
   List<Server> get testable => [for (final s in items) if (!isUdpBased(s)) s];
 
@@ -484,6 +519,11 @@ class Conn extends ChangeNotifier {
   Timer? _stopGrace;
   Timer? _permGrace;
   bool _sawStart = false; // the engine reported starting/started during this attempt
+  Completer<bool>? _ovpnUp;
+  bool _ovpnListening = false;
+
+  /// Set by the shell: asks the user to install OpenVPN for Android; true = they accepted.
+  Future<bool> Function()? askInstallOvpn;
   DateTime _noAdoptUntil = DateTime.fromMillisecondsSinceEpoch(0);
 
   /// Subscribe to the engine as soon as the app starts, so the UI follows the real tunnel
@@ -608,6 +648,11 @@ class Conn extends ChangeNotifier {
     _attach();
     bool alive() => gen == _gen && state == CS.connecting;
 
+    if (srv.isOvpn) {
+      await _connectOvpn(srv, gen);
+      return;
+    }
+
     // 1 · resolve
     if (InternetAddress.tryParse(srv.host) == null) {
       try {
@@ -668,6 +713,83 @@ class Conn extends ChangeNotifier {
       notifyListeners();
       await Future<void>.delayed(const Duration(milliseconds: 600));
       if (!alive()) return;
+    }
+    _up(srv);
+  }
+
+  // ───────────── OpenVPN (through OpenVPN for Android) ─────────────
+  void _listenOvpn() {
+    if (_ovpnListening) return;
+    _ovpnListening = true;
+    OvpnEngine.listen(_onOvpn);
+  }
+
+  void _onOvpn(String s, String msg) {
+    final up = s == 'CONNECTED';
+    final failed = s == 'AUTH_FAILED' || s == 'API_DENIED' || s == 'VPN_DENIED' || s == 'NO_API' || s == 'START_FAILED';
+    final gone = s == 'DISCONNECTED' || s == 'NOPROCESS' || s == 'EXITING';
+    final srv = server;
+    if (srv == null || !srv.isOvpn) return;
+    final c = _ovpnUp;
+    if (up) {
+      if (state == CS.connecting) {
+        if (c != null && !c.isCompleted) c.complete(true);
+      } else if ((state == CS.failed || state == CS.off) && DateTime.now().isAfter(_noAdoptUntil)) {
+        _gen++;
+        _up(srv);
+      }
+    } else if (failed) {
+      LogStore.I.add('err', 'ovpn', '$s $msg'.trim());
+      if (state == CS.connecting && c != null && !c.isCompleted) c.complete(false);
+    } else if (gone && state == CS.on) {
+      _down(user: false);
+      snack(tr('sn_disc'), tone: 'warn');
+      Hx.fail();
+    } else if (gone && state == CS.disconnecting) {
+      final stopped = _stopped;
+      if (stopped != null && !stopped.isCompleted) stopped.complete();
+    }
+  }
+
+  Future<void> _connectOvpn(Server srv, int gen) async {
+    bool alive() => gen == _gen && state == CS.connecting;
+    _listenOvpn();
+    hs = 1;
+    notifyListeners();
+    if (!await OvpnEngine.installed()) {
+      if (!alive()) return;
+      state = CS.off;
+      hs = -1;
+      notifyListeners();
+      final ask = askInstallOvpn;
+      if (ask != null && await ask()) await OvpnEngine.openInstallPage();
+      return;
+    }
+    if (!alive()) return;
+    final cfg = ovpnConfigOf(srv.link);
+    if (needsCredentials(cfg)) {
+      LogStore.I.add('warn', 'ovpn', tr('ovpn_creds'));
+    }
+    _ovpnUp = Completer<bool>();
+    hs = 2;
+    notifyListeners();
+    try {
+      await OvpnEngine.start(cfg);
+    } catch (e) {
+      LogStore.I.add('err', 'ovpn', '$e');
+      if (alive()) _fail(2, srv);
+      return;
+    }
+    if (!alive()) return;
+    hs = 3;
+    notifyListeners();
+    // the user may have to approve two dialogs, so allow plenty of time
+    final up = await _ovpnUp!.future.timeout(const Duration(seconds: 120), onTimeout: () => false);
+    if (!alive()) return;
+    if (!up) {
+      await OvpnEngine.stop();
+      _fail(3, srv);
+      return;
     }
     _up(srv);
   }
@@ -735,6 +857,12 @@ class Conn extends ChangeNotifier {
     notifyListeners();
     Hx.tap();
     _stopped = Completer<void>();
+    if (server?.isOvpn ?? false) {
+      await OvpnEngine.stop();
+      await _stopped!.future.timeout(const Duration(seconds: 6), onTimeout: () {});
+      _down(user: true);
+      return;
+    }
     await Engine.I.stop();
     if (Engine.real) {
       await _stopped!.future.timeout(const Duration(seconds: 4), onTimeout: () {});
@@ -763,7 +891,9 @@ class Conn extends ChangeNotifier {
     _noAdoptUntil = DateTime.now().add(const Duration(seconds: 20));
     _stopGrace?.cancel();
     _permGrace?.cancel();
-    unawaited(Engine.I.stop());
+    if (server?.isOvpn ?? false) unawaited(OvpnEngine.stop()) else unawaited(Engine.I.stop());
+    final c = _ovpnUp;
+    if (c != null && !c.isCompleted) c.complete(false);
     final tunnel = _tunnel;
     if (tunnel != null && !tunnel.isCompleted) tunnel.complete(false);
     state = CS.off;

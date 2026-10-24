@@ -2,6 +2,14 @@
 // define under these names. Written to match the design's voice (fa / en).
 // Keys that exist in the design are never overridden here.
 const Map<String, String> kFaExtra = {
+  'ovpn_added': 'پروفایل OpenVPN اضافه شد. وصل شدنش از طریق برنامه‌ی «OpenVPN for Android» انجام می‌شه.',
+  'ovpn_invalid': 'این فایل پروفایل OpenVPN معتبر نیست (خط remote پیدا نشد).',
+  'ovpn_external': 'پروفایل به فایل‌های جداگونه (ca، cert، key …) اشاره می‌کنه. باید گواهی‌ها داخل خود فایل باشن (بلوک‌های <ca> و <cert>).',
+  'ovpn_dup': 'این پروفایل OpenVPN از قبل اضافه شده.',
+  'ovpn_creds': 'این پروفایل نام کاربری و رمز می‌خواد؛ اگه OpenVPN for Android پرسید همون‌جا وارد کن.',
+  'ovpn_missing_t': 'OpenVPN for Android لازمه',
+  'ovpn_missing_b': 'برای وصل شدن با پروفایل OpenVPN، برنامه‌ی «OpenVPN for Android» (رایگان) باید نصب باشه، چون هسته‌های این برنامه OpenVPN اجرا نمی‌کنن. صفحه‌ی نصبش رو باز کنم؟',
+  'ovpn_install': 'باز کردن صفحه‌ی نصب',
   'subs': 'اشتراک‌ها',
   'subs_sub': 'به‌روزرسانی سرورهای اشتراک با یک دکمه',
   'sub_update_all': 'به‌روزرسانی اشتراک‌ها',
@@ -117,6 +125,14 @@ const Map<String, String> kFaExtra = {
 };
 
 const Map<String, String> kEnExtra = {
+  'ovpn_added': 'OpenVPN profile added. Connecting uses the "OpenVPN for Android" app.',
+  'ovpn_invalid': 'This is not a valid OpenVPN profile (no remote line found).',
+  'ovpn_external': 'The profile points to separate files (ca, cert, key …). The certificates must be inside the file itself (<ca> and <cert> blocks).',
+  'ovpn_dup': 'This OpenVPN profile is already added.',
+  'ovpn_creds': 'This profile asks for a username and password; if OpenVPN for Android asks, enter them there.',
+  'ovpn_missing_t': 'OpenVPN for Android is needed',
+  'ovpn_missing_b': 'To connect with an OpenVPN profile the free "OpenVPN for Android" app must be installed, because this app\'s engines do not run OpenVPN. Open its install page?',
+  'ovpn_install': 'Open install page',
   'subs': 'Subscriptions',
   'subs_sub': 'Refresh a subscription\'s servers with one tap',
   'sub_update_all': 'Update subscriptions',

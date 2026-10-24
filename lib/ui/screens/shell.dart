@@ -3,6 +3,7 @@ import '../../core/scope.dart';
 import '../../core/tokens.dart';
 import '../../data/stores.dart';
 import '../../services/incoming.dart';
+import 'sheets.dart';
 import '../kit/chrome.dart';
 import '../shell_state.dart';
 import 'home.dart';
@@ -42,6 +43,10 @@ class _AppShellState extends State<AppShell> with SingleTickerProviderStateMixin
       ShellState.onTopLevel.value = true;
       ServerStore.I.load();
       IncomingService.start();
+      Conn.I.askInstallOvpn = () {
+        if (!mounted) return Future<bool>.value(false);
+        return confirm(context, title: tr('ovpn_missing_t'), body: tr('ovpn_missing_b'), yes: tr('ovpn_install'));
+      };
     });
   }
 

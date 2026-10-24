@@ -36,9 +36,15 @@ class IncomingService {
     debugPrint('ALONE_INTENT received name="$name" chars=${text.length}');
     if (text.trim().isEmpty) return;
     final foreign = classifyForeign(text, name: name);
+    if (foreign == ForeignConfig.openvpn) {
+      final problem = ServerStore.I.addOvpn(text, name: name.replaceAll(RegExp(r'\.ovpn$', caseSensitive: false), ''));
+      debugPrint('ALONE_INTENT ovpn=${problem ?? 'added'}');
+      snack(problem == null ? tr('ovpn_added') : tr(problem), tone: problem == null ? 'ok' : 'err');
+      return;
+    }
     if (foreign != null) {
       debugPrint('ALONE_INTENT foreign=${foreign.name}');
-      snack(tr(foreign == ForeignConfig.openvpn ? 'foreign_ovpn' : 'foreign_npv'), tone: 'warn');
+      snack(tr('foreign_npv'), tone: 'warn');
       return;
     }
     final r = await ServerStore.I.addText(expandBase64Links(text));
