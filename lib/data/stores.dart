@@ -123,6 +123,14 @@ class Server {
   }
 }
 
+class SubUpdate {
+  final int added;
+  final int removed;
+  final int total;
+  final bool ok;
+  const SubUpdate(this.added, this.removed, this.total, this.ok);
+}
+
 class AddResult {
   final int added;
   final int dup;
@@ -204,13 +212,14 @@ class ServerStore extends ChangeNotifier {
     final tokens = text.split(RegExp(r'\s+')).where((e) => e.isNotEmpty).toList();
     var bad = 0;
     final found = <String>[];
+    final subFetched = <String, List<String>>{};
     for (final tk in tokens) {
       if (RegExp(r'^https?://', caseSensitive: false).hasMatch(tk)) {
         try {
           final list = await SubscriptionService.fetch(tk);
-          for (final c in list) {
-            found.add(c.originalLink);
-          }
+          final fetched = [for (final c in list) c.originalLink];
+          if (fetched.isNotEmpty) subFetched[tk] = fetched;
+          found.addAll(fetched);
         } catch (_) {
           bad++;
         }
@@ -240,6 +249,9 @@ class ServerStore extends ChangeNotifier {
       st.serverLinks = links;
       if (byId(st.activeServer) == null) st.activeServer = items.isEmpty ? '' : items.first.id;
     });
+    for (final e in subFetched.entries) {
+      _registerSub(e.key, e.value);
+    }
     notifyListeners();
     return AddResult(added, dup, bad);
   }
@@ -254,6 +266,132 @@ class ServerStore extends ChangeNotifier {
       st.serverLinks = st.serverLinks.where((l) => sidOf(l) != id).toList();
       st.favs.remove(id);
       if (st.activeServer == id) st.activeServer = items.isEmpty ? '' : items.first.id;
+    });
+    notifyListeners();
+  }
+
+
+  // ───────────── subscriptions ─────────────
+  static String _subName(String url) {
+    try {
+      final u = Uri.parse(url);
+      return u.host.isEmpty ? url : u.host;
+    } catch (_) {
+      return url;
+    }
+  }
+
+  void _registerSub(String url, List<String> links) {
+    final st = AppSettings.I;
+    final i = st.subs.indexWhere((s) => s['url'] == url);
+    final entry = <String, dynamic>{'url': url, 'name': _subName(url), 'at': DateTime.now().millisecondsSinceEpoch, 'links': links.toSet().toList()};
+    st.update(() {
+      if (i >= 0) {
+        st.subs[i] = entry;
+      } else {
+        st.subs.add(entry);
+      }
+    });
+  }
+
+  /// Re-fetches one subscription: adds new servers, removes the ones the provider dropped
+  /// (unless another subscription still lists them). An empty or failed answer changes nothing.
+  Future<SubUpdate> updateSub(String url) async {
+    final st = AppSettings.I;
+    final idx = st.subs.indexWhere((s) => s['url'] == url);
+    if (idx < 0) return const SubUpdate(0, 0, 0, false);
+    List<String> fresh;
+    try {
+      final list = await SubscriptionService.fetch(url);
+      fresh = [for (final c in list) c.originalLink].toSet().toList();
+    } catch (_) {
+      return const SubUpdate(0, 0, 0, false);
+    }
+    if (fresh.isEmpty) return const SubUpdate(0, 0, 0, false);
+    final old = List<String>.from((st.subs[idx]['links'] as List?) ?? const <String>[]);
+    final others = <String>{};
+    for (var i = 0; i < st.subs.length; i++) {
+      if (i == idx) continue;
+      others.addAll(List<String>.from((st.subs[i]['links'] as List?) ?? const <String>[]));
+    }
+    final freshSet = fresh.toSet();
+    final links = <String>[...st.serverLinks];
+    var added = 0;
+    for (final l in fresh) {
+      if (links.contains(l)) continue;
+      final s = _make(l);
+      if (s == null) continue;
+      links.add(l);
+      items.add(s);
+      added++;
+    }
+    var removed = 0;
+    for (final l in old) {
+      if (freshSet.contains(l) || others.contains(l)) continue;
+      if (links.remove(l)) {
+        final id = sidOf(l);
+        items.removeWhere((s) => s.id == id);
+        lat.remove(id);
+        st.favs.remove(id);
+        removed++;
+      }
+    }
+    st.update(() {
+      st.serverLinks = links;
+      st.subs[idx] = <String, dynamic>{...st.subs[idx], 'links': fresh, 'at': DateTime.now().millisecondsSinceEpoch};
+      if (byId(st.activeServer) == null) st.activeServer = items.isEmpty ? '' : items.first.id;
+    });
+    notifyListeners();
+    return SubUpdate(added, removed, fresh.length, true);
+  }
+
+  Future<SubUpdate> updateAllSubs() async {
+    var a = 0, r = 0, n = 0;
+    var any = false;
+    for (final url in [for (final s in AppSettings.I.subs) s['url'] as String]) {
+      final u = await updateSub(url);
+      if (u.ok) {
+        any = true;
+        a += u.added;
+        r += u.removed;
+        n += u.total;
+      }
+    }
+    return SubUpdate(a, r, n, any);
+  }
+
+  void removeSub(String url) {
+    final st = AppSettings.I;
+    st.update(() => st.subs.removeWhere((s) => s['url'] == url));
+    notifyListeners();
+  }
+
+  // ───────────── servers that do not answer ─────────────
+  /// UDP-based protocols cannot be judged by a TCP probe, so they are never called "dead".
+  static bool isUdpBased(Server s) => RegExp(r'^(hysteria2?|hy2|tuic|wireguard|wg)://', caseSensitive: false).hasMatch(s.link.trim());
+
+  List<Server> get testable => [for (final s in items) if (!isUdpBased(s)) s];
+
+  /// After a full probe: servers with no answer (null) or a negative value.
+  List<Server> deadServers() => [
+        for (final s in testable)
+          if (lat.containsKey(s.id) && (lat[s.id] == null || lat[s.id]! < 0)) s,
+      ];
+
+  void removeMany(Iterable<Server> list) {
+    final ids = {for (final s in list) s.id};
+    if (ids.isEmpty) return;
+    items.removeWhere((s) => ids.contains(s.id));
+    for (final id in ids) {
+      lat.remove(id);
+    }
+    final st = AppSettings.I;
+    st.update(() {
+      st.serverLinks = st.serverLinks.where((l) => !ids.contains(sidOf(l))).toList();
+      for (final id in ids) {
+        st.favs.remove(id);
+      }
+      if (byId(st.activeServer) == null) st.activeServer = items.isEmpty ? '' : items.first.id;
     });
     notifyListeners();
   }

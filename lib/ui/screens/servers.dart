@@ -12,6 +12,7 @@ import '../kit/feedback.dart';
 import '../nav.dart';
 import 'home.dart';
 import 'sheets.dart';
+import 'subscriptions.dart';
 
 /// Servers tab (top-level): list with the active rail, latency per row, test-all, pull-to-refresh.
 class ServersTab extends StatelessWidget {
@@ -55,6 +56,17 @@ class _ServerList extends StatelessWidget {
                   IconBtn(Ic.plus, glass: true, label: tr('add'), onTap: () => showImport(context)),
                 ],
               ),
+              if (items.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    children: [
+                      Expanded(child: Btn(tr('sub_update_all'), variant: Bv.tonal, icon: Ic.refresh, wide: true, onTap: () => _updateSubs(context))),
+                      const SizedBox(width: 8),
+                      Expanded(child: Btn(tr('dead_remove'), variant: Bv.tonal, icon: Ic.trash, wide: true, onTap: () => _removeDead(context))),
+                    ],
+                  ),
+                ),
               if (items.isEmpty)
                 Rise(
                   i: 0,
@@ -70,6 +82,53 @@ class _ServerList extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> _updateSubs(BuildContext context) async {
+    if (AppSettings.I.subs.isEmpty) {
+      snack(tr('sub_none'), tone: 'warn');
+      pushScreen<void>(context, const SubscriptionsScreen());
+      return;
+    }
+    snack(tr('sub_updating'), tone: 'info');
+    final r = await ServerStore.I.updateAllSubs();
+    if (r.ok) {
+      Hx.ok();
+      snack(tr('sub_done', {'a': loc(r.added), 'r': loc(r.removed)}), tone: 'ok');
+    } else {
+      Hx.fail();
+      snack(tr('sub_failed'), tone: 'err');
+    }
+  }
+
+  /// Pings every server, then offers to delete the ones that did not answer.
+  Future<void> _removeDead(BuildContext context) async {
+    final s = ServerStore.I;
+    if (s.items.isEmpty) return;
+    if (s.testable.isEmpty) {
+      snack(tr('dead_none_testable'), tone: 'warn');
+      return;
+    }
+    snack(tr('dead_testing', {'n': loc(s.items.length)}), tone: 'info');
+    await s.probeAll();
+    while (s.sweeping) {
+      await Future<void>.delayed(const Duration(milliseconds: 200)); // a sweep started elsewhere
+    }
+    final dead = s.deadServers();
+    if (dead.isEmpty) {
+      snack(tr('dead_all_ok'), tone: 'ok');
+      return;
+    }
+    if (dead.length >= s.testable.length) {
+      snack(tr('dead_all_failed'), tone: 'warn'); // everything failed: far more likely "offline" than "all dead"
+      return;
+    }
+    if (!context.mounted) return;
+    final ok = await confirm(context, title: tr('dead_remove'), body: tr('dead_confirm', {'n': loc(dead.length), 'm': loc(s.items.length)}), yes: tr('dead_delete'));
+    if (!ok) return;
+    s.removeMany(dead);
+    Hx.ok();
+    snack(tr('dead_done', {'n': loc(dead.length)}), tone: 'ok');
   }
 
   double _progress() {

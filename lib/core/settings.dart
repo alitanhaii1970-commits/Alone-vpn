@@ -34,6 +34,8 @@ class AppSettings extends ChangeNotifier {
   String probe = 'tcp'; // tcp | url
   Map<String, bool> rules = {for (final r in kRules) r.id: r.on};
   List<String> serverLinks = <String>[];
+  /// Subscription URLs the servers came from: {url, name, at (ms), links}. Lets one button refresh them.
+  List<Map<String, dynamic>> subs = <Map<String, dynamic>>[];
   List<Map<String, dynamic>> history = <Map<String, dynamic>>[];
 
   bool get fa => lang == 'fa';
@@ -126,6 +128,12 @@ class AppSettings extends ChangeNotifier {
       }
     } catch (_) {}
     try {
+      final ss = p.getString('al.subs');
+      if (ss != null) {
+        subs = [for (final m in (jsonDecode(ss) as List)) Map<String, dynamic>.from(m as Map)];
+      }
+    } catch (_) {}
+    try {
       final hs = p.getString('al.history');
       if (hs != null) {
         history = [for (final m in (jsonDecode(hs) as List)) Map<String, dynamic>.from(m as Map)];
@@ -165,6 +173,7 @@ class AppSettings extends ChangeNotifier {
     p.setString('al.customDns', jsonEncode([for (final c in customDns) {'id': c.id, 'ip': c.ip}]));
     p.setString('al.rules', jsonEncode(rules));
     p.setString('al.history', jsonEncode(history));
+    p.setString('al.subs', jsonEncode(subs));
   }
 }
 

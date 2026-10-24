@@ -17,6 +17,7 @@ import '../kit/feedback.dart';
 import '../kit/inputs.dart';
 import '../kit/pickers.dart';
 import '../nav.dart';
+import 'subscriptions.dart';
 import 'latency.dart';
 import 'log.dart';
 import 'sheets.dart';
@@ -146,6 +147,7 @@ class _SettingsBody extends StatelessWidget {
           ]),
           SectionLabel(tr('al_data')),
           GroupCard(children: [
+          RowTile(grouped: true, icon: Ic.refresh, tone: Tone.primary, label: tr('subs'), sub: tr('subs_sub'), chev: true, onTap: () => pushScreen<void>(context, const SubscriptionsScreen())),
           RowTile(grouped: true, icon: Ic.terminal, tone: Tone.plain, label: tr('al_log'), chev: true, onTap: () => pushScreen<void>(context, const LogScreen())),
           RowTile(grouped: true, icon: Ic.trash, tone: Tone.bad, label: tr('al_clear_servers'), onTap: () async {
             final ok = await confirm(context, title: tr('al_clear_servers'), body: tr('al_clear_servers_b'), yes: tr('al_clear_servers'));
