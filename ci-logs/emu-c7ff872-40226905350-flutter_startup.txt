@@ -1,0 +1,9 @@
+10-25 19:51:01.719  3580  3694 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-25 19:51:02.401  3580  3580 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+10-25 19:51:02.403  3580  3580 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+10-25 19:51:04.486  3580  3580 I flutter : ALONE_ROUTE language lang=fa
+10-25 19:51:06.528  3580  4065 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-25 19:51:06.652  3580  3580 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+10-25 19:51:06.652  3580  3580 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+10-25 19:51:07.879  3580  3580 E ActivityThread: 	at io.flutter.plugins.GeneratedPluginRegistrant.registerWith(r8-map-id-e56a41425190ff9a53826cd61d0e0d4f628852daa6fca3f9978927d0ab8ce362:27)
+10-25 19:51:08.357  3580  3580 I flutter : ALONE_ROUTE language lang=fa
