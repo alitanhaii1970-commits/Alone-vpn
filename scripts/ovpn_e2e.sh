@@ -9,7 +9,7 @@ log()   { echo "[$(date +%H:%M:%S)] $*" | tee -a "$REPORT"; }
 check() { if eval "$2"; then log "PASS  $1"; PASS=$((PASS+1)); else log "FAIL  $1"; FAIL=$((FAIL+1)); fi; }
 shot()  { timeout 25 adb exec-out screencap -p > "$OUT/shots/$1.png" 2>/dev/null; }
 tap()   { timeout 15 adb shell input tap "$1" "$2" >/dev/null 2>&1; sleep 2.5; }
-PKG=$(grep -oE 'applicationId *= *"[^"]+"|applicationId +"[^"]+"' android/app/build.gradle* | grep -oE '"[^"]+"' | tr -d '"' | head -1)
+PKG=com.example.alone_vpn   # the generated Android project is not checked out in this job
 log "package: $PKG"
 adb shell svc power stayon true >/dev/null 2>&1; adb shell settings put system screen_off_timeout 1800000 >/dev/null 2>&1
 adb shell input keyevent KEYCODE_WAKEUP >/dev/null 2>&1; adb shell wm dismiss-keyguard >/dev/null 2>&1
