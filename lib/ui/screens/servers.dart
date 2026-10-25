@@ -61,9 +61,9 @@ class _ServerList extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Row(
                     children: [
-                      Expanded(child: Btn(tr('sub_update_all'), variant: Bv.tonal, icon: Ic.refresh, wide: true, onTap: () => _updateSubs(context))),
+                      Expanded(child: Btn(tr('sub_btn'), variant: Bv.tonal, icon: Ic.refresh, wide: true, onTap: () => _updateSubs(context))),
                       const SizedBox(width: 8),
-                      Expanded(child: Btn(tr('dead_remove'), variant: Bv.tonal, icon: Ic.trash, wide: true, onTap: () => _removeDead(context))),
+                      Expanded(child: Btn(tr('dead_btn'), variant: Bv.tonal, icon: Ic.trash, wide: true, onTap: () => _removeDead(context))),
                     ],
                   ),
                 ),

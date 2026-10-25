@@ -2,6 +2,8 @@
 // define under these names. Written to match the design's voice (fa / en).
 // Keys that exist in the design are never overridden here.
 const Map<String, String> kFaExtra = {
+  'sub_btn': 'به‌روزرسانی اشتراک',
+  'dead_btn': 'حذف بدون پینگ',
   'ovpn_added': 'پروفایل OpenVPN اضافه شد. وصل شدنش از طریق برنامه‌ی «OpenVPN for Android» انجام می‌شه.',
   'ovpn_invalid': 'این فایل پروفایل OpenVPN معتبر نیست (خط remote پیدا نشد).',
   'ovpn_external': 'پروفایل به فایل‌های جداگونه (ca، cert، key …) اشاره می‌کنه. باید گواهی‌ها داخل خود فایل باشن (بلوک‌های <ca> و <cert>).',
@@ -125,6 +127,8 @@ const Map<String, String> kFaExtra = {
 };
 
 const Map<String, String> kEnExtra = {
+  'sub_btn': 'Update subs',
+  'dead_btn': 'Remove dead',
   'ovpn_added': 'OpenVPN profile added. Connecting uses the "OpenVPN for Android" app.',
   'ovpn_invalid': 'This is not a valid OpenVPN profile (no remote line found).',
   'ovpn_external': 'The profile points to separate files (ca, cert, key …). The certificates must be inside the file itself (<ca> and <cert> blocks).',

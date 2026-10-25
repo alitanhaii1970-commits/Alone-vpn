@@ -12,6 +12,7 @@ import 'package:alone_vpn/ui/screens/servers.dart';
 import 'package:alone_vpn/ui/screens/settings.dart';
 import 'package:alone_vpn/ui/screens/shell.dart';
 import 'package:alone_vpn/ui/screens/splash.dart';
+import 'package:alone_vpn/ui/screens/subscriptions.dart';
 
 /// Opens every tab and every pushed screen on small / normal / large phones, with normal and
 /// enlarged text, in English and Persian, and reports every layout exception (overflow, unbounded
@@ -76,6 +77,7 @@ void main() {
             'SettingsScreen': const SettingsScreen(),
             'SplitScreen': const SplitScreen(),
             'RoutingScreen': const RoutingScreen(),
+            'SubscriptionsScreen': const SubscriptionsScreen(),
             'LanguageScreen': const LanguageScreen(),
             'OnbNotif': const OnbNotif(),
             'OnbVpn': const OnbVpn(),
