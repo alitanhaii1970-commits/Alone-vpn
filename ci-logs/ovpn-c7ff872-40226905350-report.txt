@@ -1,0 +1,39 @@
+[19:50:49] package: com.example.alone_vpn
+[19:50:53] OpenVPN for Android versionCode: 224
+[19:51:01] PASS  OpenVPN for Android downloaded and installed
+[19:51:06] PASS  ALONE VPN release APK installs
+[19:51:49] PASS  the .ovpn profile is imported as a server
+[19:51:57] tapping dialog button at 894 1693
+[19:52:06] tapping dialog button at 894 1693
+[19:52:15] tapping dialog button at 894 1693
+[19:52:23] tapping dialog button at 894 1693
+[19:52:31] tapping dialog button at 894 1693
+[19:52:39] tapping dialog button at 894 1693
+[19:52:47] tapping dialog button at 894 1693
+[19:52:55] tapping dialog button at 894 1693
+[19:53:03] tapping dialog button at 894 1693
+[19:53:11] tapping dialog button at 894 1693
+[19:53:19] tapping dialog button at 894 1693
+[19:53:27] tapping dialog button at 894 1693
+[19:53:35] tapping dialog button at 894 1693
+[19:53:43] tapping dialog button at 894 1693
+[19:53:51] tapping dialog button at 894 1693
+[19:53:59] tapping dialog button at 894 1693
+[19:54:06] tapping dialog button at 894 1693
+[19:54:14] tapping dialog button at 894 1693
+[19:54:22] tapping dialog button at 894 1693
+[19:54:30] tapping dialog button at 894 1693
+[19:54:38] tapping dialog button at 894 1693
+[19:54:46] tapping dialog button at 894 1693
+[19:54:54] tapping dialog button at 894 1693
+[19:55:02] tapping dialog button at 894 1693
+[19:55:10] tapping dialog button at 894 1693
+[19:55:18] tapping dialog button at 894 1693
+[19:55:26] tapping dialog button at 894 1693
+[19:55:34] tapping dialog button at 894 1693
+[19:55:41] tapping dialog button at 894 1693
+[19:55:49] tapping dialog button at 894 1693
+10-25 19:51:49.282  4716  4716 I flutter : ALONE_OVPN start requested (4108 chars)
+[19:55:53] PASS  the bridge reached OpenVPN for Android (start requested)
+[19:55:53] FAIL  OpenVPN reports CONNECTED
+[19:55:53] RESULT: 4 passed, 1 failed
