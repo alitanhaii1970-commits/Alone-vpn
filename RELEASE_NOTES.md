@@ -1,6 +1,12 @@
 ## ALONE VPN — beta
 
-**What's new in 1.3.0**
+**What's new in 1.4.0**
+- **A new, calmer design.** Flat surfaces with hairline borders instead of glass gradients, a static background, rounded-rectangle buttons, grouped settings lists with dividers, a lighter dial. It also draws much less per frame.
+- **Subscriptions:** every subscription URL you add is remembered. The new *Subscriptions* screen (Settings, or the button on the Servers tab) refreshes one or all of them with one tap: new servers are added, servers the provider dropped are removed. An empty or failed answer never wipes anything.
+- **Remove servers with no ping:** one button on the Servers tab tests every server and offers to delete the ones that did not answer (no reply or a negative result). UDP servers (Hysteria, TUIC, WireGuard) are never counted as dead, and if *nothing* replies the app assumes you are offline and deletes nothing.
+- **OpenVPN profiles (.ovpn):** import them like any other server (paste, share, open a file). Connecting hands the profile to the free **OpenVPN for Android** app through its official remote API, because Xray and sing-box cannot run OpenVPN; ALONE VPN offers to open its install page if it is missing. The profile must contain its certificates inline. **NPV Tunnel (.npv4) files stay unsupported** (encrypted).
+
+**Earlier: 1.3.0**
 - **Open links and files from other apps:** tapping a vless:// vmess:// ss:// trojan:// … link, using *Share → ALONE VPN* on text, or opening a text file full of links now imports the servers (checked on an Android 14 emulator: link while the app runs, link that starts the app, shared text). Base64 subscription files work too, and the add-config sheet has a **Paste** button.
 - **OpenVPN (.ovpn) and NPV Tunnel (.npv4) files are not supported** — the Xray and sing-box engines don't run OpenVPN and .npv4 files are encrypted. The app now says so clearly instead of a generic error.
 - A cleaner look: Geist typeface for the English UI, calmer tonal buttons instead of heavy dark ones, softer card edges and background, nearly solid bottom bar, sheets and dialogs so nothing shows through them.
@@ -32,7 +38,13 @@ You bring your own server: ALONE VPN is a client and does not provide any.
 
 ---
 
-**تازه‌های ۱.۳.۰**
+**تازه‌های ۱.۴.۰**
+- **دیزاین جدید و آرام‌تر.** سطح‌های تخت با لبه‌ی نازک به‌جای گرادیان شیشه‌ای، پس‌زمینه‌ی ثابت، دکمه‌های مستطیل گرد، لیست‌های گروه‌بندی‌شده‌ی تنظیمات با خط جداکننده و دایال سبک‌تر. در هر فریم هم خیلی کمتر رسم می‌کنه.
+- **اشتراک‌ها:** هر آدرس اشتراکی که اضافه کنی یادش می‌مونه. صفحه‌ی جدید *اشتراک‌ها* (توی تنظیمات یا دکمه‌ی تب سرورها) یکی یا همه رو با یک دکمه به‌روز می‌کنه: سرورهای جدید اضافه و سرورهایی که ارائه‌دهنده برداشته حذف می‌شن. جواب خالی یا ناموفق هیچ‌وقت چیزی رو پاک نمی‌کنه.
+- **حذف سرورهای بدون پینگ:** یه دکمه توی تب سرورها همه‌ی سرورها رو تست می‌کنه و پیشنهاد می‌ده اونایی که جواب ندادن (بدون جواب یا مقدار منفی) حذف بشن. سرورهای UDP (Hysteria، TUIC، WireGuard) هیچ‌وقت «مرده» حساب نمی‌شن و اگه هیچ سروری جواب نده، برنامه فرض می‌کنه اینترنت قطعه و چیزی پاک نمی‌کنه.
+- **پروفایل OpenVPN (‎.ovpn):** مثل بقیه‌ی سرورها وارد می‌شه (چسباندن، اشتراک‌گذاری، باز کردن فایل). وصل شدن، پروفایل رو از طریق API رسمی به برنامه‌ی رایگان **OpenVPN for Android** می‌ده، چون Xray و sing-box نمی‌تونن OpenVPN اجرا کنن؛ اگه نصب نباشه برنامه پیشنهاد می‌ده صفحه‌ی نصبش رو باز کنه. گواهی‌ها باید داخل خود پروفایل باشن. **فایل‌های NPV Tunnel (‎.npv4) همچنان پشتیبانی نمی‌شن** (رمزگذاری‌شده‌ان).
+
+**قبلی: ۱.۳.۰**
 - **باز کردن لینک و فایل از برنامه‌های دیگه:** زدن روی یه لینک vless:// vmess:// ss:// trojan:// …، «اشتراک‌گذاری» متن به ALONE VPN، یا باز کردن یه فایل متنی پر از لینک، سرورها رو وارد می‌کنه (روی امولاتور اندروید ۱۴ تأیید شد: لینک وقتی برنامه بازه، لینکی که برنامه رو راه می‌ندازه، و متن اشتراک‌گذاری‌شده). فایل اشتراک base64 هم کار می‌کنه و توی شیت افزودن کانفیگ دکمه‌ی **چسباندن** هست.
 - **فایل OpenVPN (‎.ovpn) و NPV Tunnel (‎.npv4) پشتیبانی نمی‌شه** — هسته‌های Xray و sing-box OpenVPN اجرا نمی‌کنن و فایل‌های .npv4 رمزگذاری‌شده‌ان. برنامه الان به‌جای خطای کلی، همین رو واضح می‌گه.
 - ظاهر تمیزتر: فونت Geist برای رابط انگلیسی، دکمه‌های ثانویه‌ی سبک به‌جای دکمه‌های تیره‌ی سنگین، لبه‌ها و پس‌زمینه‌ی آرام‌تر، و نوار پایین، شیت‌ها و دیالوگ‌های تقریباً مات تا چیزی از پشتشون دیده نشه.
