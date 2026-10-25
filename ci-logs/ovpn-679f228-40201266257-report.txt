@@ -1,0 +1,8 @@
+[14:32:13] package: com.example.alone_vpn
+[14:32:15] OpenVPN for Android versionCode: 224
+[14:32:23] PASS  OpenVPN for Android downloaded and installed
+[14:32:28] PASS  ALONE VPN release APK installs
+[14:33:04] FAIL  the .ovpn profile is imported as a server
+[14:35:39] FAIL  the bridge reached OpenVPN for Android (start requested)
+[14:35:39] FAIL  OpenVPN reports CONNECTED
+[14:35:39] RESULT: 2 passed, 3 failed
