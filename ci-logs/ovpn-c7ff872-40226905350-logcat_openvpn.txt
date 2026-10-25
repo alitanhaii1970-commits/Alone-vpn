@@ -1,0 +1,30 @@
+10-25 19:51:49.329   531   559 I ActivityManager: Start proc 4997:de.blinkt.openvpn:openvpn/u0a192 for service {de.blinkt.openvpn/de.blinkt.openvpn.api.ExternalOpenVPNService}
+10-25 19:51:49.511  4997  4997 I openvpn:openvpn: Using CollectorTypeCC GC.
+10-25 19:51:49.512  4997  4997 W openvpn:openvpn: Unexpected CPU variant for x86: x86_64.
+10-25 19:51:49.512  4997  4997 W openvpn:openvpn: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-25 19:51:49.569  4997  4997 E openvpn:openvpn: Not starting debugger since process cannot load the jdwp agent.
+10-25 19:51:49.695  4997  4997 D nativeloader: Configuring clns-6 for other apk /data/app/~~9o6BTLCdJ85ULr7U6d4WNw==/de.blinkt.openvpn-jvnvQA-Sc-qVer2XGJ3n_A==/base.apk. target_sdk_version=37, uses_libraries=, library_pa
+10-25 19:51:49.715  4997  4997 V GraphicsEnvironment: ANGLE GameManagerService for de.blinkt.openvpn: false
+10-25 19:51:49.715  4997  4997 V GraphicsEnvironment: de.blinkt.openvpn is not listed in per-application setting
+10-25 19:51:49.966   531  2360 I ActivityTaskManager: START u0 {cmp=de.blinkt.openvpn/.api.ConfirmDialog} with LAUNCH_MULTIPLE from uid 10193 (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+10-25 19:51:49.966   867   903 V WindowManagerShell: Transition requested: android.os.BinderProxy@3d911fb TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=9 displayId=0 isRunning=true baseInten
+10-25 19:51:50.055   531   940 D CoreBackPreview: Window{24c681d u0 Splash Screen de.blinkt.openvpn}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@5be3bbf, mP
+10-25 19:51:50.298   531   559 I ActivityManager: Start proc 5021:de.blinkt.openvpn/u0a192 for next-top-activity {de.blinkt.openvpn/de.blinkt.openvpn.api.ConfirmDialog}
+10-25 19:51:50.423  5021  5021 I .blinkt.openvpn: Using CollectorTypeCC GC.
+10-25 19:51:50.424  5021  5021 W .blinkt.openvpn: Unexpected CPU variant for x86: x86_64.
+10-25 19:51:50.424  5021  5021 W .blinkt.openvpn: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, tremont, kabylake, default
+10-25 19:51:50.429  5021  5021 E .blinkt.openvpn: Not starting debugger since process cannot load the jdwp agent.
+10-25 19:51:50.451   867   903 V WindowManagerShell: onTransitionReady android.os.BinderProxy@3d911fb: {id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{null m=OPEN f=FILLS_TASK|IS_BEHIND_STARTING_WINDOW leash=Surface(name
+10-25 19:51:50.452   867   903 V WindowManagerShell: Transition doesn't have explicit remote, search filters for match for {id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{null m=OPEN f=FILLS_TASK|IS_BEHIND_STARTING_WINDO
+10-25 19:51:50.452   867   903 V WindowManagerShell: start default transition animation, info = {id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{null m=OPEN f=FILLS_TASK|IS_BEHIND_STARTING_WINDOW leash=Surface(name=Activi
+10-25 19:51:50.453   531   548 V WindowManager: Sent Transition #11 createdAt=10-25 19:51:49.954 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=9 displayId=0 isRunning=true baseIn
+10-25 19:51:50.454   531   548 V WindowManager:     info={id=11 t=OPEN f=0x0 trk=0 r=[0@Point(0, 0)] c=[{null m=OPEN f=FILLS_TASK|IS_BEHIND_STARTING_WINDOW leash=Surface(name=ActivityRecord{3338048 u0 de.blinkt.openvpn/.
+10-25 19:51:50.478  5021  5021 D nativeloader: Configuring clns-6 for other apk /data/app/~~9o6BTLCdJ85ULr7U6d4WNw==/de.blinkt.openvpn-jvnvQA-Sc-qVer2XGJ3n_A==/base.apk. target_sdk_version=37, uses_libraries=, library_pa
+10-25 19:51:50.492  5021  5021 V GraphicsEnvironment: ANGLE GameManagerService for de.blinkt.openvpn: false
+10-25 19:51:50.492  5021  5021 V GraphicsEnvironment: de.blinkt.openvpn is not listed in per-application setting
+10-25 19:51:51.202   531  2284 D CoreBackPreview: Window{c3cdeed u0 de.blinkt.openvpn/de.blinkt.openvpn.api.ConfirmDialog}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$
+10-25 19:51:52.468   531   548 I ActivityTaskManager: Displayed de.blinkt.openvpn/.api.ConfirmDialog for user 0: +2s478ms
+10-25 19:51:53.211   531   544 W InputManager-JNI: Input channel object '24c681d Splash Screen de.blinkt.openvpn (client)' was disposed without first being removed with the input manager!
+10-25 19:51:53.214   531  2284 D CoreBackPreview: Window{24c681d u0 Splash Screen de.blinkt.openvpn EXITING}: Setting back callback null
+10-25 19:51:54.708   531   940 D CoreBackPreview: Window{66fb8d8 u0 de.blinkt.openvpn/de.blinkt.openvpn.api.ConfirmDialog}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$
+10-25 19:51:57.047  5021  5163 D ProfileInstaller: Installing profile for de.blinkt.openvpn
