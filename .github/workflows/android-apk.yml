@@ -329,3 +329,56 @@ jobs:
           name: emulator-test-results
           path: /tmp/emu
           retention-days: 7
+
+  ovpn-e2e:
+    name: OpenVPN end-to-end (profile import, OpenVPN for Android hand-off)
+    needs: build-android
+    if: always() && needs.build-android.result == 'success'
+    runs-on: ubuntu-24.04
+    continue-on-error: true
+    timeout-minutes: 40
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Download test APKs
+        uses: actions/download-artifact@v4
+        with:
+          name: alone-test-apks
+          path: apks
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Start a real OpenVPN server
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq openvpn
+          bash scripts/ovpn_server_setup.sh
+
+      - name: Run the OpenVPN scenario on an Android emulator
+        timeout-minutes: 25
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          cores: 3
+          ram-size: 4096M
+          heap-size: 576M
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: bash scripts/ovpn_e2e.sh
+
+      - name: Publish OpenVPN results to the ci-logs branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install -q pillow || true
+          tail -n 120 /tmp/ovpn/server.log > /tmp/ovpn_e2e/server_log_tail.txt 2>/dev/null || true
+          python3 scripts/publish_ci_files.py "ovpn-${GITHUB_SHA::7}-${GITHUB_RUN_ID}" \
+            /tmp/ovpn_e2e/report.txt /tmp/ovpn_e2e/logcat_openvpn.txt /tmp/ovpn_e2e/server_log_tail.txt /tmp/ovpn_e2e/shots/*.png
