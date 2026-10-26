@@ -1,0 +1,12 @@
+[04:13:04] package: com.example.alone_vpn
+[04:13:06] OpenVPN for Android versionCode: 224
+[04:17:20] PASS  OpenVPN for Android downloaded and installed
+[04:17:22] PASS  ALONE VPN release APK installs
+[04:18:02] PASS  the .ovpn profile is imported as a server
+[04:18:10] ticking the trust checkbox at 540 1516
+[04:18:15] tapping dialog button at 894 1693
+[04:18:33] ticking the trust checkbox at 540 1516
+10-26 04:18:02.804  6338  6338 I flutter : ALONE_OVPN start requested (4108 chars)
+[04:22:20] PASS  the bridge reached OpenVPN for Android (start requested)
+[04:22:20] FAIL  OpenVPN reports CONNECTED
+[04:22:20] RESULT: 4 passed, 1 failed
