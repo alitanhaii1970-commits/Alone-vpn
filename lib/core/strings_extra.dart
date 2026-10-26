@@ -2,6 +2,7 @@
 // define under these names. Written to match the design's voice (fa / en).
 // Keys that exist in the design are never overridden here.
 const Map<String, String> kFaExtra = {
+  'ovpn_trust_hint': 'OpenVPN for Android یه بار ازت می‌پرسه به ALONE VPN اعتماد داری؛ تیک «I trust this application» رو بزن و OK کن.',
   'sub_btn': 'به‌روزرسانی اشتراک',
   'dead_btn': 'حذف بدون پینگ',
   'ovpn_added': 'پروفایل OpenVPN اضافه شد. وصل شدنش از طریق برنامه‌ی «OpenVPN for Android» انجام می‌شه.',
@@ -127,6 +128,7 @@ const Map<String, String> kFaExtra = {
 };
 
 const Map<String, String> kEnExtra = {
+  'ovpn_trust_hint': 'OpenVPN for Android will ask once whether you trust ALONE VPN: tick "I trust this application" and press OK.',
   'sub_btn': 'Update subs',
   'dead_btn': 'Remove dead',
   'ovpn_added': 'OpenVPN profile added. Connecting uses the "OpenVPN for Android" app.',

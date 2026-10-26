@@ -26,7 +26,7 @@ try:
 except Exception:
     sys.exit(1)
 for n in root.iter("node"):
-    if pat.fullmatch((n.get("text") or "").strip()) and n.get("clickable") == "true":
+    if pat.fullmatch((n.get("text") or "").strip()) and n.get("clickable") == "true" and n.get("enabled") != "false":
         m = re.findall(r"\d+", n.get("bounds") or "")
         if len(m) == 4:
             print((int(m[0]) + int(m[2])) // 2, (int(m[1]) + int(m[3])) // 2)
@@ -66,7 +66,8 @@ for i in $(seq 1 30); do
   sleep 3
   if adb logcat -d | grep -q 'ALONE_OVPN status=CONNECTED'; then break; fi
   # approve OpenVPN for Android's "allow this app" dialog and, if shown, the Android VPN consent
-  if xy=$(ui_find 'OK|Allow|ALLOW|Yes|Connect'); then log "tapping dialog button at $xy"; shot "dialog_$i"; tap $xy; fi
+  if xy=$(ui_find 'I trust this application\.?'); then log "ticking the trust checkbox at $xy"; shot "trust_$i"; tap $xy; fi
+  if xy=$(ui_find 'OK|Allow|ALLOW|Yes'); then log "tapping dialog button at $xy"; shot "dialog_$i"; tap $xy; fi
 done
 shot 02_after_connect
 adb logcat -d | grep -E "ALONE_OVPN" | cut -c1-200 >> "$REPORT"

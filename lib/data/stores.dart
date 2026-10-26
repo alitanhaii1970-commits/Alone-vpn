@@ -773,6 +773,7 @@ class Conn extends ChangeNotifier {
     _ovpnUp = Completer<bool>();
     hs = 2;
     notifyListeners();
+    snack(tr('ovpn_trust_hint'), tone: 'info');
     try {
       await OvpnEngine.start(cfg);
     } catch (e) {
