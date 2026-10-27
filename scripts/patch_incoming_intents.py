@@ -78,10 +78,6 @@ class MainActivity : FlutterActivity() {
     private val ovpnConn = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             ovpn = IOpenVPNAPIService.Stub.asInterface(service)
-            try {
-                ovpn?.registerStatusCallback(ovpnStatus)
-            } catch (_: Exception) {
-            }
             askApiPermission()
         }
 
@@ -182,7 +178,17 @@ class MainActivity : FlutterActivity() {
         }
     }
 
+    private fun listenToOvpn() {
+        // only allowed once the user has trusted this app, so it is called after askApiPermission()
+        try {
+            ovpn?.registerStatusCallback(ovpnStatus)
+        } catch (e: Exception) {
+            sendOvpn("NO_API", "status callback refused: " + (e.message ?: ""))
+        }
+    }
+
     private fun askVpnPermission() {
+        listenToOvpn()
         try {
             val i = ovpn!!.prepareVPNService()
             if (i != null) startActivityForResult(i, reqVpn) else startNow()

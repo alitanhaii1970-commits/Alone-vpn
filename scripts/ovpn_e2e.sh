@@ -66,15 +66,20 @@ for i in $(seq 1 30); do
   sleep 3
   if adb logcat -d | grep -q 'ALONE_OVPN status=CONNECTED'; then break; fi
   # approve OpenVPN for Android's "allow this app" dialog and, if shown, the Android VPN consent
-  if xy=$(ui_find 'I trust this application\.?'); then log "ticking the trust checkbox at $xy"; shot "trust_$i"; tap $xy; fi
-  if xy=$(ui_find 'OK|Allow|ALLOW|Yes'); then log "tapping dialog button at $xy"; shot "dialog_$i"; tap $xy; fi
+  # OpenVPN for Android asks once whether to trust this app: tick the box, then press OK (only then)
+  if xy=$(ui_find 'I trust this application\.?'); then
+    log "ticking the trust checkbox at $xy"; shot "trust_$i"; tap $xy
+    if ok=$(ui_find 'OK'); then log "pressing OK at $ok"; shot "dialog_$i"; tap $ok; fi
+  fi
 done
 shot 02_after_connect
 adb logcat -d | grep -E "ALONE_OVPN" | cut -c1-200 >> "$REPORT"
 check "the bridge reached OpenVPN for Android (start requested)" "adb logcat -d | grep -q 'ALONE_OVPN start requested'"
 check "OpenVPN reports CONNECTED" "adb logcat -d | grep -q 'ALONE_OVPN status=CONNECTED'"
+has_tun() { adb shell ip -o link 2>/dev/null | grep -Eq '[0-9]+: tun[0-9]+'; }
+check "a tun interface exists (the VPN really started)" "has_tun"
+check "traffic passes through the OpenVPN tunnel (ping the server's tunnel address)" "adb shell ping -c 3 -W 4 10.8.0.1 2>&1 | grep -q ' 0% packet loss'"
 if adb logcat -d | grep -q 'ALONE_OVPN status=CONNECTED'; then
-  check "traffic passes through the OpenVPN tunnel (ping the server's tunnel address)" "adb shell ping -c 3 -W 4 10.8.0.1 2>&1 | grep -q ' 0% packet loss'"
   sleep 2; shot 03_connected
   adb logcat -c
   tap 540 660; sleep 8; shot 04_after_disconnect
