@@ -1,0 +1,20 @@
+10-28 22:31:04.318  5941  5941 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+10-28 22:31:04.326  5941  5941 I AndroidRuntime: Using default boot image
+10-28 22:31:04.326  5941  5941 I AndroidRuntime: Leaving lock profiling enabled
+10-28 22:31:04.523  5941  5941 D AndroidRuntime: Calling main entry com.android.commands.monkey.Monkey
+10-28 22:31:04.653  5941  5941 I AndroidRuntime: VM exiting with result code 0.
+10-28 22:31:05.563  5958  5958 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+10-28 22:31:05.563  5958  5958 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+10-28 22:31:07.276  5958  5958 I flutter : ALONE_ROUTE shell lang=en
+10-28 22:31:12.569  5958  5958 I flutter : SELFTEST: CONNECTING
+10-28 22:31:12.888   534  2361 I ActivityManager: Background started FGS: Allowed [callingPackage: com.example.alone_vpn; callingUid: 10192; uidState: TOP ; uidBFSL: [BFSL]; intent: Intent { act=com.example.v2ray_box.SERVICE cmp=com.example.alone_vpn/com.example.v2ray_box.bg.VPNService }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null: isBindService:true]
+10-28 22:31:12.892  5958  5989 D V2Ray/BoxService: starting service (engine: xray)
+10-28 22:31:13.224  5958  5958 I flutter : SELFTEST: CONNECTED
+10-28 22:31:13.224  5958  5989 D V2Ray/BoxService: Service is now running (engine: xray)
+10-28 22:32:23.247  5958  5958 I flutter : SELFTEST: DISCONNECTED state=CS.off
+10-28 22:32:44.385  6998  6998 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+10-28 22:32:44.392  6998  6998 I AndroidRuntime: Using default boot image
+10-28 22:32:44.393  6998  6998 I AndroidRuntime: Leaving lock profiling enabled
+10-28 22:32:44.794  6998  6998 D AndroidRuntime: Calling main entry com.android.commands.svc.Svc
+10-28 22:32:44.820  6998  6998 D AndroidRuntime: Shutting down VM
+10-28 22:32:44.822  6998  7018 I AndroidRuntime: NOTE: attach of thread 'binder:6998_1' failed
