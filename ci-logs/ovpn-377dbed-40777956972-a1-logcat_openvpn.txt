@@ -1,0 +1,6 @@
+10-28 22:31:07.081   535   929 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+10-28 22:31:07.082   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+10-28 22:31:07.183  5578  6227 I OpenVPN : OpenVPN process exited
+10-28 22:31:07.189   535   929 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+10-28 22:31:07.236  5578  6227 I OpenVPN : Exiting
+10-28 22:31:07.245   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
