@@ -37,7 +37,9 @@ class IncomingService {
     if (text.trim().isEmpty) return;
     final foreign = classifyForeign(text, name: name);
     if (foreign == ForeignConfig.openvpn) {
-      final problem = ServerStore.I.addOvpn(text, name: name.replaceAll(RegExp(r'\.ovpn$', caseSensitive: false), ''));
+      // a shared text has no file name: let the profile be named after its server instead
+      final label = name == 'shared text' ? '' : name.replaceAll(RegExp(r'\.ovpn$', caseSensitive: false), '');
+      final problem = ServerStore.I.addOvpn(text, name: label);
       debugPrint('ALONE_INTENT ovpn=${problem ?? 'added'}');
       snack(problem == null ? tr('ovpn_added') : tr(problem), tone: problem == null ? 'ok' : 'err');
       return;

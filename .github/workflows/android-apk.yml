@@ -319,7 +319,7 @@ jobs:
         run: |
           pip install -q pillow || true
           tail -n 200 /tmp/xray-access.log > /tmp/emu/xray_access_tail.txt 2>/dev/null || true
-          python3 scripts/publish_ci_files.py "emu-${GITHUB_SHA::7}-${GITHUB_RUN_ID}" \
+          python3 scripts/publish_ci_files.py "emu-${GITHUB_SHA::7}-${GITHUB_RUN_ID}-a${GITHUB_RUN_ATTEMPT}" \
             /tmp/emu/report.txt /tmp/emu/logcat_filtered.txt /tmp/emu/flutter_startup.txt /tmp/emu/xray_access_tail.txt /tmp/emu/shots/*.png
 
       - name: Upload emulator results
@@ -380,5 +380,5 @@ jobs:
         run: |
           pip install -q pillow || true
           sudo tail -n 150 /tmp/ovpn/server.log > /tmp/ovpn_e2e/server_log_tail.txt 2>/dev/null || true
-          python3 scripts/publish_ci_files.py "ovpn-${GITHUB_SHA::7}-${GITHUB_RUN_ID}" \
+          python3 scripts/publish_ci_files.py "ovpn-${GITHUB_SHA::7}-${GITHUB_RUN_ID}-a${GITHUB_RUN_ATTEMPT}" \
             /tmp/ovpn_e2e/report.txt /tmp/ovpn_e2e/logcat_openvpn.txt /tmp/ovpn_e2e/server_log_tail.txt /tmp/ovpn_e2e/shots/*.png
