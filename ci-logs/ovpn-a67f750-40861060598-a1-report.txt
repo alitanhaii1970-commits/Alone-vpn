@@ -1,0 +1,20 @@
+[11:12:28] package: com.example.alone_vpn
+[11:12:31] OpenVPN for Android versionCode: 224
+[11:12:41] PASS  OpenVPN for Android downloaded and installed
+[11:12:47] PASS  ALONE VPN release APK installs
+[11:13:29] PASS  the .ovpn profile is imported as a server
+[11:13:37] ticking the trust checkbox at 540 1516
+[11:13:42] pressing OK at 894 1693
+10-29 11:13:29.207  4892  4892 I flutter : ALONE_OVPN start requested (4108 chars)
+10-29 11:13:43.647  4892  4892 I flutter : ALONE_OVPN status=NOPROCESS message=
+10-29 11:13:43.647  4892  4892 I flutter : ALONE_OVPN status=VPN_GENERATE_CONFIG message=
+10-29 11:13:45.874  4892  4892 I flutter : ALONE_OVPN status=WAIT message=,,,,,
+10-29 11:13:46.135  4892  4892 I flutter : ALONE_OVPN status=AUTH message=,,,,,
+10-29 11:13:46.191  4892  4892 I flutter : ALONE_OVPN status=ASSIGN_IP message=,10.8.0.2,,,,
+10-29 11:13:46.458  4892  4892 I flutter : ALONE_OVPN status=CONNECTED message=SUCCESS,10.8.0.2,10.0.2.2,1194,,
+[11:13:52] PASS  the bridge reached OpenVPN for Android (start requested)
+[11:13:52] PASS  OpenVPN reports CONNECTED
+[11:13:53] PASS  a tun interface exists (the VPN really started)
+[11:13:55] PASS  traffic passes through the OpenVPN tunnel (ping the server's tunnel address)
+[11:14:14] PASS  disconnect is reported
+[11:14:14] RESULT: 8 passed, 0 failed
