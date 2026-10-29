@@ -30,7 +30,7 @@ An Android VPN client for VMess / VLESS / Shadowsocks / Trojan with the Xray and
 
 **Install:** download the APK, allow *Install unknown apps* if asked. If you have an older **debug** build installed, uninstall it first (different signing key). Compare with the attached `.sha256` if you like.
 
-**What was tested:** Android 14 emulator in CI — launch, real VPN connection (Shadowsocks), traffic really tunnelled, 5 MB download, clean disconnect and routing restore (15/15 checks), plus 25 automated tests (every tab and screen × 3 phone sizes × 2 text sizes × English/Persian, and settings persistence).
+**What was tested (1.4.0):** Android 14 emulator in CI — launch, first-run persistence, links/shared text from other apps, real VPN connection (Shadowsocks), traffic really tunnelled, 5 MB download, clean disconnect and routing restore (21/21 checks); **OpenVPN** against a real OpenVPN server: import, hand-off to OpenVPN for Android, CONNECTED, ping through the tunnel, disconnect (8/8); plus 37 automated tests (every tab and screen × 3 phone sizes × 2 text sizes × English/Persian, and settings persistence).
 
 **Not tested yet:** physical phones, filtered networks, VMess / VLESS / Trojan / Hysteria servers, kill switch, split tunneling. Please report problems in Issues with your Android version, phone model and the in-app connection log.
 
@@ -66,6 +66,6 @@ You bring your own server: ALONE VPN is a client and does not provide any.
 
 **نصب:** فایل APK رو دانلود کن و اگه اندروید پرسید نصب از این منبع رو اجازه بده. اگه نسخه‌ی **debug** قدیمی نصب داری اول پاکش کن (امضاش فرق داره).
 
-**چی تست شده:** امولاتور اندروید ۱۴ توی CI — اتصال واقعی (Shadowsocks)، عبور واقعی ترافیک، دانلود ۵ مگابایتی، قطع تمیز (۱۵ از ۱۵) و ۲۵ تست خودکار (هر تب و صفحه × ۳ اندازه‌ی گوشی × ۲ اندازه‌ی متن × فارسی/انگلیسی، و ذخیره‌ی تنظیمات).
+**چی تست شده:** امولاتور اندروید ۱۴ توی CI — اتصال واقعی (Shadowsocks)، عبور واقعی ترافیک، دانلود ۵ مگابایتی، قطع تمیز (۲۱ از ۲۱)؛ **OpenVPN** با یه سرور واقعی: وارد کردن، تحویل به OpenVPN for Android، CONNECTED، پینگ از داخل تونل و قطع (۸ از ۸) و ۳۷ تست خودکار (هر تب و صفحه × ۳ اندازه‌ی گوشی × ۲ اندازه‌ی متن × فارسی/انگلیسی، و ذخیره‌ی تنظیمات).
 
 **هنوز تست نشده:** گوشی فیزیکی، شبکه‌ی فیلترشده، سرورهای VMess / VLESS / Trojan / Hysteria، کیل‌سوییچ و تفکیک برنامه‌ها. مشکلات رو با نسخه‌ی اندروید، مدل گوشی و گزارش اتصال داخل برنامه توی Issues بنویس.

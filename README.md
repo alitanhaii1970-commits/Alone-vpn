@@ -18,7 +18,7 @@ powered by the **Xray** and **sing-box** cores, written in Flutter.
 &nbsp;
 <img src="docs/screenshots/home.png" width="250" alt="Home">
 &nbsp;
-<img src="docs/screenshots/language.png" width="250" alt="Language screen">
+<img src="docs/screenshots/language.png" width="250" alt="Servers">
 
 </div>
 
@@ -61,7 +61,9 @@ ALONE VPN is **beta**. Honest summary:
 
 - ✅ Release APK builds in CI and installs.
 - ✅ On an Android 14 emulator in CI: the app starts, connects through the real engine, traffic is really tunnelled (a local Xray/Shadowsocks server sees the requests), a 5 MB download completes, disconnect removes the tunnel and restores routing. **15/15 checks** in the last run.
-- ✅ 25 automated tests (every screen × 3 phone sizes × 2 text sizes × English/Persian, plus settings persistence).
+- ✅ 37 automated tests (every screen × 3 phone sizes × 2 text sizes × English/Persian, settings persistence, subscriptions, dead-server clean-up, OpenVPN profiles).
+- ✅ **OpenVPN** checked against a real OpenVPN server on the emulator: profile import, hand-off to OpenVPN for Android, CONNECTED, a ping through the tunnel and a clean disconnect (8/8). The server's own log shows the client's connection.
+- ✅ Opening links and shared text from other apps, and the first-run language screen appearing only once, are checked on the emulator in every run (21/21 checks).
 - ⚠️ Not yet verified on physical phones, on filtered networks, or with VMess / VLESS / Trojan / Hysteria servers (the end-to-end test uses Shadowsocks).
 - ⚠️ Kill switch and split tunneling are implemented but not covered by the automated tests.
 - ⚠️ **OpenVPN** works through the separately installed OpenVPN for Android app (hand-off), not through an engine inside ALONE VPN. See the release notes for what was verified.
