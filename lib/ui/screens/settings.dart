@@ -17,6 +17,8 @@ import '../kit/feedback.dart';
 import '../kit/inputs.dart';
 import '../kit/pickers.dart';
 import '../nav.dart';
+import 'about.dart';
+import 'diagnostics.dart';
 import 'subscriptions.dart';
 import 'latency.dart';
 import 'log.dart';
@@ -149,6 +151,7 @@ class _SettingsBody extends StatelessWidget {
           GroupCard(children: [
           RowTile(grouped: true, icon: Ic.refresh, tone: Tone.primary, label: tr('subs'), sub: tr('subs_sub'), chev: true, onTap: () => pushScreen<void>(context, const SubscriptionsScreen())),
           RowTile(grouped: true, icon: Ic.terminal, tone: Tone.plain, label: tr('al_log'), chev: true, onTap: () => pushScreen<void>(context, const LogScreen())),
+          RowTile(grouped: true, icon: Ic.wrench, tone: Tone.plain, label: tr('s_diag'), sub: tr('s_diag_d'), chev: true, onTap: () => pushScreen<void>(context, const DiagnosticsScreen())),
           RowTile(grouped: true, icon: Ic.trash, tone: Tone.bad, label: tr('al_clear_servers'), onTap: () async {
             final ok = await confirm(context, title: tr('al_clear_servers'), body: tr('al_clear_servers_b'), yes: tr('al_clear_servers'));
             if (!ok) return;
@@ -163,7 +166,7 @@ class _SettingsBody extends StatelessWidget {
             label: tr('about'),
             sub: 'ALONE VPN · v$kAppVersion beta',
             chev: true,
-            onTap: () => showSheet<void>(context, title: 'ALONE VPN', body: tr('about_b'), builder: (_) => const SizedBox.shrink()),
+            onTap: () => pushScreen<void>(context, const AboutScreen()),
           ),
           ]),
         ],
