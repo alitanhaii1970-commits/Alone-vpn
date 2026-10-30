@@ -1,0 +1,6 @@
+10-30 12:35:42.825  6020  6221 I OpenVPN : OpenVPN process exited
+10-30 12:35:42.830   537  1888 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+10-30 12:35:42.833   537   567 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+10-30 12:35:42.839  6020  6221 I OpenVPN : Exiting
+10-30 12:35:42.841   537   632 D ActivityManager: freezing 6042 de.blinkt.openvpn
+10-30 12:35:43.257  6020  6038 D SharedPreferencesImpl: Time required to fsync /data/user/0/de.blinkt.openvpn/shared_prefs/de.blinkt.openvpn_preferences.xml: [<1: 0, <2: 0, <4: 0, <8: 0, <16: 1, <32: 1, <64: 0, <128: 1, 
