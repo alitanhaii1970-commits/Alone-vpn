@@ -1,0 +1,90 @@
+
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/overflow_probe_test.dart: probe: Home overflow on 360x640 (en)
+ALONE_ROUTE shell lang=en
+PROBE_BEGIN
+PROBE 
+PROBE_END
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [en] splash -> home, then all four tabs render without exceptions
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [fa] splash -> home, then all four tabs render without exceptions
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: fresh install: language screen -> pick English -> next onboarding page
+ALONE_ROUTE language lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+ALONE_ROUTE language lang=fa
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: an .ovpn text survives the ovpn:// link round trip
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: profiles that point to external files are detected, inline ones are not
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: credentials are noticed unless embedded
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: ServerStore imports an OpenVPN profile as a server and rejects bad ones
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/storage_test.dart: FileSettingsStorage: values survive a "restart" (new instance reads the file)
+ALONE_STORE path=/tmp/alone/alone_settings.json
+ALONE_STORE path=/tmp/alone/alone_settings.json
+ALONE_STORE path=/tmp/alone/alone_settings.json
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/storage_test.dart: AppSettings: onboarded and language persist across a reload
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/storage_test.dart: a wrongly typed stored value does not stop the other settings from loading
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/home_layout_test.dart: Home sections are laid out top-to-bottom (server present)
+ALONE_ROUTE shell lang=en
+LAYOUT {ConnectDial: 110..322 x 82..310, Telemetry: 392..448 x 16..377, ActiveServerCard: 448..507 x 16..377, QuickTiles: 519..616 x 16..377, RecentsPanel: 624..731 x 16..377}
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: UDP-based servers are never judged by a TCP test
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: dead servers = no answer or negative; untested and UDP ones are kept
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: removeMany deletes them from the list, the saved links and the active choice
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: OpenVPN profiles are recognised by name and by content
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: NPV Tunnel files are recognised by extension
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: ordinary share links are not foreign
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: a base64 subscription blob expands to its links, other text is left alone
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: subscriptions are remembered and survive a reload
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 100%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 130%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | normal 411x891 | text 100%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | normal 411x891 | text 130%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | large 600x960 | text 100%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | large 600x960 | text 130%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | small 360x640 | text 100%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | small 360x640 | text 130%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | normal 411x891 | text 100%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | normal 411x891 | text 130%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | large 600x960 | text 100%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | large 600x960 | text 130%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+
+🎉 37 tests passed.
