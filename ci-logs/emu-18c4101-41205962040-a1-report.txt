@@ -1,0 +1,4 @@
+[13:51:08] device: Android 14 / SDK 34 / x86_64
+[13:51:15] PASS  release APK installs
+[13:51:51] screenshot 02_launch_9s failed, restarting adb
+[13:51:54] FAIL  app process is alive after 9s
