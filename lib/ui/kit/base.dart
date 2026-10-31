@@ -127,6 +127,10 @@ class Glass extends StatelessWidget {
     final p = context.pal;
     final br = BorderRadius.circular(radius);
     const white = Color(0xFFFFFFFF);
+    // In Flutter a gradient replaces the box colour, so the gradient stops ARE the fill. Keep them
+    // nearly opaque (bars and sheets even more) so the wallpaper never makes text hard to read.
+    final fa = minFill > .9 ? .97 : .93;
+    Color fill(Color over) => alpha(Color.alphaBlend(over, p.container), fa);
     final body = CustomPaint(
       foregroundPainter: _Rim(radius, alpha(white, p.dark ? .22 : .95), alpha(p.primary, p.dark ? .26 : .16)),
       child: DecoratedBox(
@@ -136,15 +140,15 @@ class Glass extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [alpha(white, p.dark ? .075 : .6), alpha(white, 0), alpha(p.primary, p.dark ? .06 : .05)],
+            colors: [fill(alpha(white, p.dark ? .08 : .55)), fill(const Color(0x00FFFFFF)), fill(alpha(p.primary, p.dark ? .08 : .06))],
             stops: const [0, .5, 1],
           ),
-          border: Border.all(color: alpha(edge ?? p.outlineVariant, .75)),
+          border: Border.all(color: alpha(edge ?? p.outlineVariant, .85)),
         ),
         child: padding == null ? child : Padding(padding: padding!, child: child),
       ),
     );
-    final sh = shadows ?? const <BoxShadow>[];
+    final sh = shadows ?? elev(p, 1);
     return sh.isEmpty ? ClipRRect(borderRadius: br, child: body) : CustomPaint(painter: _OuterShadow(radius, sh), child: ClipRRect(borderRadius: br, child: body));
   }
 }
@@ -351,7 +355,10 @@ class CardX extends StatelessWidget {
                   ? LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [alpha(const Color(0xFFFFFFFF), p.dark ? .06 : .5), alpha(const Color(0xFFFFFFFF), 0)],
+                      colors: [
+                        alpha(Color.alphaBlend(alpha(const Color(0xFFFFFFFF), p.dark ? .07 : .5), bg), .94),
+                        alpha(bg, .94),
+                      ],
                       stops: const [0, .55],
                     )
                   : null,

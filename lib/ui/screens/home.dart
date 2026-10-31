@@ -211,8 +211,12 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                             gradient: RadialGradient(
                               center: const Alignment(-.3, -.45),
                               radius: 1.1,
-                              colors: [alpha(cc, .95), alpha(Color.lerp(cc, p.tertiary, .6)!, .85), alpha(p.surface, .97)],
-                              stops: const [0, .62, 1],
+                              colors: [
+                                Color.lerp(cc, const Color(0xFFFFFFFF), .2)!,
+                                cc,
+                                Color.lerp(Color.lerp(cc, p.tertiary, .55)!, const Color(0xFF000000), .38)!,
+                              ],
+                              stops: const [0, .5, 1],
                             ),
                           ),
                           child: Stack(
@@ -240,10 +244,10 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                                         child: SizedBox(
                                           width: 30,
                                           height: 30,
-                                          child: CircularProgressIndicator(strokeWidth: 2.4, color: p.onSurface),
+                                          child: const CircularProgressIndicator(strokeWidth: 2.4, color: Color(0xFFFFFFFF)),
                                         ),
                                       )
-                                    : AppIcon(on ? Ic.shield : Ic.power, key: ValueKey(on), size: 58, color: p.onSurface),
+                                    : AppIcon(on ? Ic.shield : Ic.power, key: ValueKey(on), size: 58, color: const Color(0xFFFFFFFF)),
                               ),
                             ],
                           ),

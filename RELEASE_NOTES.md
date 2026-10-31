@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 1.7.1**
+- **Cards, tiles, buttons and the bottom bar are no longer see-through.** On top of the new wallpapers they were too transparent to read; they now have a nearly solid glass fill with a soft shadow, in both the light and dark themes.
+- The connect dial is now a solid blue-violet button with a white icon.
+- Everything else is the same as 1.7.0 (new icon, wallpapers, home layout).
+
 **What's new in 1.7.0**
 - **New app icon:** the shield-and-globe artwork, in every launcher size.
 - **New wallpapers:** the day lake behind the light theme and the night lake with the moon behind the dark theme, on every screen.
