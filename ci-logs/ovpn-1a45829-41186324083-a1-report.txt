@@ -1,0 +1,4 @@
+[09:10:21] package: com.example.alone_vpn
+[09:10:23] OpenVPN for Android versionCode: 225
+[09:10:32] PASS  OpenVPN for Android downloaded and installed
+[09:10:39] PASS  ALONE VPN release APK installs
