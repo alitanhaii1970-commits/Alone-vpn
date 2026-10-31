@@ -1,0 +1,43 @@
+2026-10-31 13:49:49 Note: --cipher is not set. OpenVPN versions before 2.5 defaulted to BF-CBC as fallback when cipher negotiation failed in this case. If you need this fallback please add '--data-ciphers-fallback BF-CBC' to your configuration and/or add BF-CBC to --data-ciphers.
+2026-10-31 13:49:49 Note: Kernel support for ovpn-dco missing, disabling data channel offload.
+2026-10-31 13:49:49 OpenVPN 2.6.19 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]
+2026-10-31 13:49:49 library versions: OpenSSL 3.0.13 30 Jan 2024, LZO 2.10
+2026-10-31 13:49:49 DCO version: N/A
+2026-10-31 13:49:49 net_route_v4_best_gw query: dst 0.0.0.0
+2026-10-31 13:49:49 net_route_v4_best_gw result: via 10.1.0.1 dev eth0
+2026-10-31 13:49:49 TUN/TAP device tun0 opened
+2026-10-31 13:49:49 net_iface_mtu_set: mtu 1500 for tun0
+2026-10-31 13:49:49 net_iface_up: set tun0 up
+2026-10-31 13:49:49 net_addr_v4_add: 10.8.0.1/24 dev tun0
+2026-10-31 13:49:49 Could not determine IPv4/IPv6 protocol. Using AF_INET
+2026-10-31 13:49:49 Socket Buffers: R=[1048576->1048576] S=[212992->212992]
+2026-10-31 13:49:49 UDPv4 link local (bound): [AF_INET][undef]:1194
+2026-10-31 13:49:49 UDPv4 link remote: [AF_UNSPEC]
+2026-10-31 13:49:49 MULTI: multi_init called, r=256 v=256
+2026-10-31 13:49:49 IFCONFIG POOL IPv4: base=10.8.0.2 size=253
+2026-10-31 13:49:49 Initialization Sequence Completed
+2026-10-31 13:52:52 127.0.0.1:54704 VERIFY OK: depth=1, CN=ci-ca
+2026-10-31 13:52:52 127.0.0.1:54704 VERIFY OK: depth=0, CN=client
+2026-10-31 13:52:52 127.0.0.1:54704 validation failed on peer_info line received from client
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_VER=2.7_master
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_PLAT=android
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_TCPNL=1
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_MTU=1600
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_CIPHERS=AES-256-GCM
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_PROTO=8094
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_LZO_STUB=1
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_COMP_STUB=1
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_COMP_STUBv2=1
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_GUI_VER=de.blinkt.openvpn_0.7.69
+2026-10-31 13:52:52 127.0.0.1:54704 peer info: IV_SSO=openurl,webauth,crtext
+2026-10-31 13:52:52 127.0.0.1:54704 TLS: move_session: dest=TM_ACTIVE src=TM_INITIAL reinit_src=1
+2026-10-31 13:52:52 127.0.0.1:54704 TLS: tls_multi_process: initial untrusted session promoted to trusted
+2026-10-31 13:52:52 127.0.0.1:54704 Control Channel: TLSv1.3, cipher TLSv1.3 TLS_AES_256_GCM_SHA384, peer certificate: 2048 bits RSA, signature: RSA-SHA256, peer temporary key: 253 bits X25519
+2026-10-31 13:52:52 127.0.0.1:54704 [client] Peer Connection Initiated with [AF_INET]127.0.0.1:54704
+2026-10-31 13:52:52 client/127.0.0.1:54704 MULTI_sva: pool returned IPv4=10.8.0.2, IPv6=(Not enabled)
+2026-10-31 13:52:52 client/127.0.0.1:54704 MULTI: Learn: 10.8.0.2 -> client/127.0.0.1:54704
+2026-10-31 13:52:52 client/127.0.0.1:54704 MULTI: primary virtual IP for client/127.0.0.1:54704: 10.8.0.2
+2026-10-31 13:52:52 client/127.0.0.1:54704 SENT CONTROL [client]: 'PUSH_REPLY,route-gateway 10.8.0.1,topology subnet,ping 10,ping-restart 60,ifconfig 10.8.0.2 255.255.255.0,peer-id 0,cipher AES-256-GCM,protocol-flags cc-exit tls-ekm dyn-tls-crypt,tun-mtu 1500' (status=1)
+2026-10-31 13:52:53 client/127.0.0.1:54704 Data Channel: cipher 'AES-256-GCM', peer-id: 0
+2026-10-31 13:52:53 client/127.0.0.1:54704 Timers: ping 10, ping-restart 120
+2026-10-31 13:52:53 client/127.0.0.1:54704 Protocol options: protocol-flags cc-exit tls-ekm dyn-tls-crypt
