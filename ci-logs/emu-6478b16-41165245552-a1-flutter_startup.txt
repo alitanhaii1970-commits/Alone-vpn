@@ -1,0 +1,15 @@
+10-31 03:57:25.979  4162  4206 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-31 03:57:26.167  4162  4162 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+10-31 03:57:26.167  4162  4162 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+10-31 03:57:27.817  4162  4340 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-31 03:57:27.965  4162  4162 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+10-31 03:57:27.965  4162  4162 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+10-31 03:57:28.201  4162  4162 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 1
+10-31 03:57:28.201  4162  4162 W FlutterJNI: Tried to send a platform message to Flutter, but FlutterJNI was detached from native C++. Could not send. Channel: v2ray_box/status. Response ID: 11
+10-31 03:57:28.202  4162  4162 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 3
+10-31 03:57:28.202  4162  4162 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 4
+10-31 03:57:28.203  4162  4162 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 5
+10-31 03:57:28.203  4162  4162 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 8
+10-31 03:57:28.203  4162  4162 W FlutterJNI: Tried to send a platform message response, but FlutterJNI was detached from native C++. Could not send. Response ID: 9
+10-31 03:57:29.505  4162  4162 E ActivityThread: 	at io.flutter.plugins.GeneratedPluginRegistrant.registerWith(r8-map-id-97da4d244c3f3468737cf03206859ed02d3ec05d6d6a4f10eea0070774ed9e34:27)
+10-31 03:57:29.685  4162  4162 I flutter : ALONE_ROUTE language lang=fa
