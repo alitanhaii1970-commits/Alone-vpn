@@ -123,7 +123,7 @@ void main() {
   });
 
   group('state transitions', () {
-    test('connect then disconnect walks connecting -> connected -> disconnected', () async {
+    test('connect then disconnect walks disconnected -> connecting -> connected -> disconnected', () async {
       final manual = FakeEngine(EngineKind.manual);
       final m = _manager(manual, FakeEngine(EngineKind.smart));
       final seen = <LinkState>[];
@@ -133,7 +133,8 @@ void main() {
       });
       expect(await m.connect(EngineKind.manual), ConnectResult.success);
       await m.disconnect(EngineKind.manual);
-      expect(seen, [LinkState.connecting, LinkState.connected, LinkState.disconnected]);
+      // the first entry is the manager announcing the request, before the engine has moved
+      expect(seen, [LinkState.disconnected, LinkState.connecting, LinkState.connected, LinkState.disconnected]);
     });
 
     test('an engine failure is reported with its message', () async {

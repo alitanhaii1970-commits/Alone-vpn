@@ -4,7 +4,9 @@ import 'package:alone_vpn/core/storage.dart';
 import 'package:alone_vpn/core/settings.dart';
 import 'package:alone_vpn/main.dart';
 import 'package:alone_vpn/ui/kit/base.dart';
+import 'package:alone_vpn/ui/screens/connection_cards.dart';
 import 'package:alone_vpn/ui/screens/home.dart';
+import 'package:alone_vpn/ui/screens/home_hero.dart';
 
 /// Emulator screenshots showed the "Recent servers" card painted at the very top of the Home
 /// screen. This checks that, at the LAYOUT level, every Home section sits below the previous one.
@@ -32,13 +34,18 @@ void main() {
     Rect r(Type t) => tester.getRect(find.byType(t));
     final order = <String, Rect>{
       'ConnectDial': r(ConnectDial),
-      'Telemetry': r(Telemetry),
+      'SpeedTiles': r(SpeedTiles),
       'ActiveServerCard': r(ActiveServerCard),
+      'ConnectionCards': r(ConnectionCards),
       'QuickTiles': r(QuickTiles),
       'RecentsPanel': r(RecentsPanel),
     };
     // ignore: avoid_print
     print('LAYOUT ${order.map((k, v) => MapEntry(k, '${v.top.round()}..${v.bottom.round()} x ${v.left.round()}..${v.right.round()}'))}');
+    // the two engine cards: the smart engine is honestly reported as not installed, manual is present
+    expect(find.text('Smart Engine Not Installed'), findsOneWidget);
+    expect(find.text('Smart Connection'), findsOneWidget);
+    expect(find.text('Manual Connection'), findsOneWidget);
     expect(order['QuickTiles']!.height, lessThan(140), reason: 'quick tiles must be one compact row (a bad flex ratio made them 200+ dp tall)');
     // each quick tile's visible background must fill its slot, and the row must reach the right edge
     final tiles = find.descendant(of: find.byType(QuickTiles), matching: find.byType(CardX));
