@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 1.7.0**
+- **New app icon:** the shield-and-globe artwork, in every launcher size.
+- **New wallpapers:** the day lake behind the light theme and the night lake with the moon behind the dark theme, on every screen.
+- Everything from 1.6.0 (new home layout) and 1.5.0 (glass finish) is included. Compiled and tested by CI only; please tell us how it feels on your phone.
+
 **What's new in 1.6.0**
 - **A new home screen, built after the new design:** night mountains-and-lake scenery behind the dark theme, shield logo with a two-tone wordmark, a status capsule under the header, a brighter blue-violet connect dial, download / upload / ping tiles, a server card with the country flag, and a bottom bar whose active tab glows.
 - **Honest numbers:** the capsule says "secure and stable" only while the tunnel is really up, and download / upload / ping show real values from the engine (or "--" when not connected).

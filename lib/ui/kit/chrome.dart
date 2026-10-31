@@ -25,7 +25,6 @@ class AmbientBg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final glowA = p.dark ? .17 : .10;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -34,45 +33,7 @@ class AmbientBg extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               ColoredBox(color: p.surface),
-              if (p.dark) const _NightScene(),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: const Alignment(0, -1.1),
-                    radius: 1.05,
-                    colors: [alpha(p.primary, glowA), alpha(p.primary, glowA * .45), alpha(p.primary, 0)],
-                    stops: const [0, .45, 1],
-                  ),
-                ),
-              ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: const Alignment(1.0, 1.15),
-                    radius: .9,
-                    colors: [alpha(p.tertiary, glowA * .55), alpha(p.tertiary, 0)],
-                  ),
-                ),
-              ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: const Alignment(-1.15, .15),
-                    radius: .75,
-                    colors: [alpha(p.primary, glowA * .55), alpha(p.primary, 0)],
-                  ),
-                ),
-              ),
-              // a faint specular wash across the top, like light on glass
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: const Alignment(0, -.2),
-                    colors: [alpha(const Color(0xFFFFFFFF), p.dark ? .035 : .4), alpha(const Color(0xFFFFFFFF), 0)],
-                  ),
-                ),
-              ),
+              const _Wallpaper(),
             ],
           ),
         ),
@@ -641,44 +602,27 @@ class ScreenFrame extends StatelessWidget {
 double clampd(double v, double a, double b) => math.max(a, math.min(b, v));
 
 
-/// Night landscape behind the dark theme (a pre-rendered image, drawn once). It fades into the
-/// surface colour so the controls below it sit on a plain dark base.
-class _NightScene extends StatelessWidget {
-  const _NightScene();
+/// Full-screen wallpaper: the night lake in the dark theme, the day lake in the light theme.
+/// A pre-rendered image (decoded once, nothing animates). A light veil in the surface colour keeps
+/// text outside the cards readable.
+class _Wallpaper extends StatelessWidget {
+  const _Wallpaper();
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final h = MediaQuery.sizeOf(context).height * .62;
-    return Align(
-      alignment: Alignment.topCenter,
-      child: SizedBox(
-        width: double.infinity,
-        height: h,
-        child: IgnorePointer(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset(
-                'assets/bg/night.jpg',
-                fit: BoxFit.cover,
-                alignment: Alignment.bottomCenter,
-                filterQuality: FilterQuality.low,
-                gaplessPlayback: true,
-                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-              ),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [alpha(p.surface, 0), alpha(p.surface, 0), alpha(p.surface, .88), p.surface],
-                    stops: const [0, .6, .92, 1],
-                  ),
-                ),
-              ),
-            ],
+    return IgnorePointer(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            p.dark ? 'assets/bg/night.jpg' : 'assets/bg/day.jpg',
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.medium,
+            gaplessPlayback: true,
+            errorBuilder: (_, __, ___) => const SizedBox.shrink(),
           ),
-        ),
+          ColoredBox(color: alpha(p.surface, p.dark ? .10 : .26)),
+        ],
       ),
     );
   }
