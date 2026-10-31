@@ -1,0 +1,4 @@
+10-31 08:36:37.136  3542  3605 I flutter : [IMPORTANT:flutter/shell/platform/android/android_context_gl_impeller.cc(104)] Using the Impeller rendering backend (OpenGLES).
+10-31 08:36:37.345  3542  3542 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+10-31 08:36:37.345  3542  3542 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+10-31 08:36:39.051  3542  3542 I flutter : ALONE_ROUTE language lang=fa
