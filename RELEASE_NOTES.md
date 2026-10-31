@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 1.5.0**
+- **Glass look is back, without the lag.** Cards, the bottom bar, sheets and dialogs get a painted glass finish: a light sheen, a lit top edge and a soft accent glow on the lower edge. There is no live blur and nothing animates in the background, so it draws almost as little as the flat design in 1.4.0.
+- A slightly richer background: three soft accent glows and a faint light wash across the top.
+- Everything else (engine, subscriptions, OpenVPN, settings) is unchanged from 1.4.0. This build has been compiled and tested by CI only; please report any slowness on your phone.
+
 **What's new in 1.4.0**
 - **A new, calmer design.** Flat surfaces with hairline borders instead of glass gradients, a static background, rounded-rectangle buttons, grouped settings lists with dividers, a lighter dial. It also draws much less per frame.
 - **Subscriptions:** every subscription URL you add is remembered. The new *Subscriptions* screen (Settings, or the button on the Servers tab) refreshes one or all of them with one tap: new servers are added, servers the provider dropped are removed. An empty or failed answer never wipes anything.

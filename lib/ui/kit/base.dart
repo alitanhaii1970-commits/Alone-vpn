@@ -75,6 +75,37 @@ class _InsetEdges extends CustomPainter {
   bool shouldRepaint(_InsetEdges old) => old.top != top || old.bottom != bottom || old.radius != radius;
 }
 
+/// Edge lighting: a 1px rim that is lit at the top and picks up the accent at the bottom
+/// (the design's specular edge + coloured bounce light). One stroked rrect with a shader: cheap.
+class _Rim extends CustomPainter {
+  final double radius;
+  final Color top;
+  final Color bottom;
+  const _Rim(this.radius, this.top, this.bottom);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) return;
+    final rect = Offset.zero & size;
+    final rr = RRect.fromRectAndRadius(rect, Radius.circular(radius)).deflate(.5);
+    canvas.drawRRect(
+      rr,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..shader = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [top, top.withAlpha(0), bottom],
+          stops: const [0, .5, 1],
+        ).createShader(rect),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_Rim old) => old.radius != radius || old.top != top || old.bottom != bottom;
+}
+
 // ───────────── glass ─────────────
 /// The design's `.glass`: translucent gradient fill, blurred backdrop, lit edge.
 class Glass extends StatelessWidget {
@@ -91,17 +122,27 @@ class Glass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Design v2: a flat, opaque surface with a hairline border. No gradients, inner highlights or
-    // blurs: it reads calmer, nothing shows through it, and it is cheap to draw.
+    // v1.5 painted glass: sheen gradient + lit rim + accent bounce light. There is deliberately no
+    // BackdropFilter (live blur was the cost behind the lag), so it stays nearly as cheap as flat.
     final p = context.pal;
     final br = BorderRadius.circular(radius);
-    final body = DecoratedBox(
-      decoration: BoxDecoration(
-        color: p.container,
-        borderRadius: br,
-        border: Border.all(color: alpha(edge ?? p.outlineVariant, .75)),
+    const white = Color(0xFFFFFFFF);
+    final body = CustomPaint(
+      foregroundPainter: _Rim(radius, alpha(white, p.dark ? .22 : .95), alpha(p.primary, p.dark ? .26 : .16)),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: p.container,
+          borderRadius: br,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [alpha(white, p.dark ? .075 : .6), alpha(white, 0), alpha(p.primary, p.dark ? .06 : .05)],
+            stops: const [0, .5, 1],
+          ),
+          border: Border.all(color: alpha(edge ?? p.outlineVariant, .75)),
+        ),
+        child: padding == null ? child : Padding(padding: padding!, child: child),
       ),
-      child: padding == null ? child : Padding(padding: padding!, child: child),
     );
     final sh = shadows ?? const <BoxShadow>[];
     return sh.isEmpty ? ClipRRect(borderRadius: br, child: body) : CustomPaint(painter: _OuterShadow(radius, sh), child: ClipRRect(borderRadius: br, child: body));
@@ -297,9 +338,26 @@ class CardX extends StatelessWidget {
     final body = Stack(
       fit: StackFit.passthrough,
       children: [
-        DecoratedBox(
-          decoration: BoxDecoration(color: bg, borderRadius: br, border: border),
-          child: Padding(padding: padding, child: child),
+        CustomPaint(
+          foregroundPainter: (surf == Surf.card || surf == Surf.tonal)
+              ? _Rim(radius, alpha(const Color(0xFFFFFFFF), p.dark ? .16 : .85), alpha(p.primary, selected ? .5 : .14))
+              : null,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: br,
+              border: border,
+              gradient: (surf == Surf.card || surf == Surf.tonal)
+                  ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [alpha(const Color(0xFFFFFFFF), p.dark ? .06 : .5), alpha(const Color(0xFFFFFFFF), 0)],
+                      stops: const [0, .55],
+                    )
+                  : null,
+            ),
+            child: Padding(padding: padding, child: child),
+          ),
         ),
       ],
     );

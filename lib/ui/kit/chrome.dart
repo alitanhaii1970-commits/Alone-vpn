@@ -25,7 +25,7 @@ class AmbientBg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final glowA = p.dark ? .13 : .08;
+    final glowA = p.dark ? .17 : .10;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -50,6 +50,25 @@ class AmbientBg extends StatelessWidget {
                     center: const Alignment(1.0, 1.15),
                     radius: .9,
                     colors: [alpha(p.tertiary, glowA * .55), alpha(p.tertiary, 0)],
+                  ),
+                ),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: const Alignment(-1.15, .15),
+                    radius: .75,
+                    colors: [alpha(p.primary, glowA * .55), alpha(p.primary, 0)],
+                  ),
+                ),
+              ),
+              // a faint specular wash across the top, like light on glass
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: const Alignment(0, -.2),
+                    colors: [alpha(const Color(0xFFFFFFFF), p.dark ? .035 : .4), alpha(const Color(0xFFFFFFFF), 0)],
                   ),
                 ),
               ),
