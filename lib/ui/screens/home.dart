@@ -15,6 +15,7 @@ import '../kit/chrome.dart';
 import '../kit/feedback.dart';
 import '../nav.dart';
 import 'latency.dart';
+import 'home_hero.dart';
 import 'log.dart';
 import 'servers.dart';
 import 'sheets.dart';
@@ -206,12 +207,12 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                           height: 158,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: alpha(cc, .62), width: 1.4),
+                            border: Border.all(color: alpha(cc, .85), width: 2),
                             gradient: RadialGradient(
-                              center: const Alignment(-.28, -.42),
-                              radius: 1.05,
-                              colors: [alpha(cc, .78), alpha(cc, .30), alpha(p.surface, .96)],
-                              stops: const [0, .55, 1],
+                              center: const Alignment(-.3, -.45),
+                              radius: 1.1,
+                              colors: [alpha(cc, .95), alpha(Color.lerp(cc, p.tertiary, .6)!, .85), alpha(p.surface, .97)],
+                              stops: const [0, .62, 1],
                             ),
                           ),
                           child: Stack(
@@ -533,18 +534,25 @@ class ActiveServerCard extends StatelessWidget {
           onTap: () => pushScreen<void>(context, const ServersScreen()),
           child: Row(
             children: [
-              const ChipIc(Ic.globe, round: false, sm: true),
-              const SizedBox(width: 11),
+              const ChipIc(Ic.globe, round: true),
+              const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(tr('active_server'), style: context.ty(R.labelM, p.onSurfaceVariant)),
-                    Text(s?.title ?? tr('no_server'), maxLines: 1, overflow: TextOverflow.ellipsis, style: context.ty(R.titleM, p.onSurface)),
+                    Text(s?.title ?? trOr('pick_server', 'انتخاب سرور', 'Choose a server'), maxLines: 1, overflow: TextOverflow.ellipsis, style: context.ty(R.titleM, p.onSurface)),
+                    Text(
+                      s == null
+                          ? trOr('pick_best', 'بهترین سرور را انتخاب کنید', 'Pick the best server for you')
+                          : Conn.I.state == CS.on ? '${tr('k_exit')} · ${s.host}' : '${tr('active_server')} · ${s.proto}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.ty(R.labelM, p.onSurfaceVariant),
+                    ),
                   ],
                 ),
               ),
-              if (s != null) Text(s.proto, style: context.ty(R.labelM, p.outline, true)),
+              if (s != null && s.cc.isNotEmpty) Text(flagEmoji(s.cc), style: const TextStyle(fontSize: 26)),
               const SizedBox(width: 6),
               AppIcon(Ic.chev, size: 16, color: p.outline, flip: true),
             ],
@@ -768,24 +776,19 @@ class HomeTab extends StatelessWidget {
             child: Row(
               children: [
                 IconBtn(Ic.terminal, glass: true, onTap: () => pushScreen<void>(context, const LogScreen())),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text('ALONE VPN', style: context.ty(R.headlineS, context.pal.onSurface)),
-                      Text(tr('tagline'), style: context.ty(R.labelM, context.pal.onSurfaceVariant)),
-                    ],
-                  ),
-                ),
+                const Expanded(child: Center(child: FittedBox(fit: BoxFit.scaleDown, child: BrandHeader()))),
                 IconBtn(Ic.help, glass: true, onTap: () => pushScreen<void>(context, const HelpScreen())),
               ],
             ),
           ),
           const SizedBox(height: Tk.sp3),
+          Rise(i: 1, child: const StatusBanner()),
+          const SizedBox(height: Tk.sp2),
           Rise(i: 1, child: const ConnectDial()),
           Rise(i: 2, child: const DialLabel()),
           const Handshake(),
           const SizedBox(height: Tk.sp4),
-          Rise(i: 3, child: const Telemetry()),
+          Rise(i: 3, child: const SpeedTiles()),
           Rise(i: 4, child: const ActiveServerCard()),
           const SizedBox(height: Tk.sp3),
           Rise(i: 5, child: const QuickTiles()),

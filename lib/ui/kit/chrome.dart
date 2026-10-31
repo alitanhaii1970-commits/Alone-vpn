@@ -34,6 +34,7 @@ class AmbientBg extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               ColoredBox(color: p.surface),
+              if (p.dark) const _NightScene(),
               DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: RadialGradient(
@@ -314,7 +315,7 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final fg = on ? p.onSecondaryContainer : p.onSurfaceVariant;
+    final fg = on ? p.primary : p.onSurfaceVariant;
     return Press(
       radius: Tk.rL,
       onTap: onTap,
@@ -323,6 +324,19 @@ class _NavItem extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
+            Positioned(
+              bottom: 1,
+              child: AnimatedContainer(
+                duration: Tk.fx,
+                width: on ? 26 : 0,
+                height: 2.5,
+                decoration: BoxDecoration(
+                  color: p.primary,
+                  borderRadius: BorderRadius.circular(2),
+                  boxShadow: [BoxShadow(color: alpha(p.primary, .6), blurRadius: 6)],
+                ),
+              ),
+            ),
             Positioned(
               top: 5,
               child: AnimatedScale(
@@ -335,7 +349,11 @@ class _NavItem extends StatelessWidget {
                   child: Container(
                     width: 54,
                     height: 30,
-                    decoration: BoxDecoration(color: p.secondaryContainer, borderRadius: BorderRadius.circular(Tk.rFull)),
+                    decoration: BoxDecoration(
+                      color: alpha(p.primary, .18),
+                      borderRadius: BorderRadius.circular(Tk.rFull),
+                      boxShadow: [BoxShadow(color: alpha(p.primary, .35), blurRadius: 14, spreadRadius: -2)],
+                    ),
                   ),
                 ),
               ),
@@ -621,3 +639,47 @@ class ScreenFrame extends StatelessWidget {
 }
 
 double clampd(double v, double a, double b) => math.max(a, math.min(b, v));
+
+
+/// Night landscape behind the dark theme (a pre-rendered image, drawn once). It fades into the
+/// surface colour so the controls below it sit on a plain dark base.
+class _NightScene extends StatelessWidget {
+  const _NightScene();
+  @override
+  Widget build(BuildContext context) {
+    final p = context.pal;
+    final h = MediaQuery.sizeOf(context).height * .62;
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SizedBox(
+        width: double.infinity,
+        height: h,
+        child: IgnorePointer(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.asset(
+                'assets/bg/night.jpg',
+                fit: BoxFit.cover,
+                alignment: Alignment.bottomCenter,
+                filterQuality: FilterQuality.low,
+                gaplessPlayback: true,
+                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+              ),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [alpha(p.surface, 0), alpha(p.surface, 0), alpha(p.surface, .88), p.surface],
+                    stops: const [0, .6, .92, 1],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

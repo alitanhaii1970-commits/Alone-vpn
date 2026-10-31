@@ -1,7 +1,7 @@
 name: alone_vpn
 description: "ALONE VPN — VMess / VLESS / Shadowsocks / Trojan client with a real VpnService engine."
 publish_to: 'none'
-version: 1.5.0+6
+version: 1.6.0+7
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -32,6 +32,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/brand/
+    - assets/bg/
   fonts:
     - family: Vazirmatn
       fonts:

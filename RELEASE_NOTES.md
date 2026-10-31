@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 1.6.0**
+- **A new home screen, built after the new design:** night mountains-and-lake scenery behind the dark theme, shield logo with a two-tone wordmark, a status capsule under the header, a brighter blue-violet connect dial, download / upload / ping tiles, a server card with the country flag, and a bottom bar whose active tab glows.
+- **Honest numbers:** the capsule says "secure and stable" only while the tunnel is really up, and download / upload / ping show real values from the engine (or "--" when not connected).
+- Glass finish from 1.5.0 is kept (painted, no live blur). Everything else is unchanged. Compiled and tested by CI only; please tell us how it feels on your phone.
+
 **What's new in 1.5.0**
 - **Glass look is back, without the lag.** Cards, the bottom bar, sheets and dialogs get a painted glass finish: a light sheen, a lit top edge and a soft accent glow on the lower edge. There is no live blur and nothing animates in the background, so it draws almost as little as the flat design in 1.4.0.
 - A slightly richer background: three soft accent glows and a faint light wash across the top.
