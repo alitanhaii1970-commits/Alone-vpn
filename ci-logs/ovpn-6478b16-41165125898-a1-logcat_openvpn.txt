@@ -1,0 +1,4 @@
+10-31 03:52:47.818  5232  5590 I OpenVPN : OpenVPN process exited
+10-31 03:52:47.822   532  2393 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+10-31 03:52:47.823   532   562 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+10-31 03:52:48.377  5232  5590 I OpenVPN : Exiting
