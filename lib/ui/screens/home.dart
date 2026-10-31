@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../core/connection/connection_manager.dart';
+import '../../core/connection/vpn_engine.dart';
 import '../../core/i18n.dart';
 import '../../core/icons.dart';
 import '../../core/oklch.dart';
@@ -15,6 +17,7 @@ import '../kit/chrome.dart';
 import '../kit/feedback.dart';
 import '../nav.dart';
 import 'latency.dart';
+import 'connection_cards.dart';
 import 'home_hero.dart';
 import 'log.dart';
 import 'servers.dart';
@@ -196,7 +199,7 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                     radius: 130,
                     pressScale: .92,
                     haptic: false,
-                    onTap: () => Conn.I.toggle(),
+                    onTap: () => ConnectionManager.I.toggle(EngineKind.manual),
                     child: TweenAnimationBuilder<Color?>(
                       tween: ColorTween(end: accent),
                       duration: const Duration(milliseconds: 450),
@@ -794,6 +797,8 @@ class HomeTab extends StatelessWidget {
           const SizedBox(height: Tk.sp4),
           Rise(i: 3, child: const SpeedTiles()),
           Rise(i: 4, child: const ActiveServerCard()),
+          const SizedBox(height: Tk.sp3),
+          Rise(i: 4, child: const ConnectionCards()),
           const SizedBox(height: Tk.sp3),
           Rise(i: 5, child: const QuickTiles()),
           const SizedBox(height: Tk.sp2),
