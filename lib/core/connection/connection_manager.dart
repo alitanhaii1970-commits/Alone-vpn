@@ -79,17 +79,18 @@ class ConnectionManager extends ChangeNotifier {
   Future<ConnectResult> connect(EngineKind kind) async {
     if (_pending != null) return ConnectResult.duplicate;
     final target = engine(kind);
-    await target.refresh();
-    if (!target.installed) return ConnectResult.engineNotInstalled;
-    final before = target.status.state;
-    if (before == LinkState.connected || before == LinkState.preparing || before == LinkState.connecting) {
-      return ConnectResult.alreadyActive;
-    }
+    // Claim the slot before the first await, otherwise two quick taps could both get past the check.
     _pending = kind;
     _cancelRequested = false;
     _errors.remove(kind);
-    notifyListeners();
     try {
+      await target.refresh();
+      if (!target.installed) return ConnectResult.engineNotInstalled;
+      final before = target.status.state;
+      if (before == LinkState.connected || before == LinkState.preparing || before == LinkState.connecting) {
+        return ConnectResult.alreadyActive;
+      }
+      notifyListeners();
       for (final entry in _engines.entries) {
         if (entry.key == kind || !entry.value.status.state.occupiesTunnel) continue;
         if (!await _stopEngine(entry.value)) return ConnectResult.stopFailed;
@@ -103,6 +104,8 @@ class ConnectionManager extends ChangeNotifier {
         target.cancel();
         await _stopEngine(target);
         return ConnectResult.timeout;
+      } on EngineNotInstalled {
+        return ConnectResult.engineNotInstalled;
       } catch (e) {
         _errors[kind] = '$e';
         await _stopEngine(target);
