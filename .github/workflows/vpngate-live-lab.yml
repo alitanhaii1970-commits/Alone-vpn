@@ -1,0 +1,29 @@
+name: VPN Gate live lab (parse real API data)
+
+# Lab, not part of the app. Fetches the real VPN Gate list once, parses and validates it with the
+# app's own code, and reports counts only (no addresses, no profiles).
+on:
+  push:
+    branches: [vpngate-live-lab]
+
+jobs:
+  live:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - name: Run the live test
+        shell: bash
+        run: |
+          set +e
+          VPNGATE_LIVE=1 flutter test test/vpngate_live_test.dart --no-pub 2>&1 | tee /tmp/live.log
+          rc=${PIPESTATUS[0]}
+          body=$(grep -E '^(LIVE:|.*LIVE:)' /tmp/live.log | sed 's/%/%25/g' | sed ':a;N;$!ba;s/\n/%0A/g')
+          echo "::notice title=LIVE exit=$rc::$body"
+          tail -n 12 /tmp/live.log | sed 's/%/%25/g' | sed ':a;N;$!ba;s/\n/%0A/g' | xargs -0 -I{} echo "::notice title=LIVE tail::{}"
+          exit 0
