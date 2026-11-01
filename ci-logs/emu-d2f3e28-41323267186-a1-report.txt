@@ -1,0 +1,46 @@
+[16:08:29] device: Android 14 / SDK 34 / x86_64
+[16:08:37] PASS  release APK installs
+[16:08:49] PASS  app process is alive after 9s
+[16:08:49] PASS  no FATAL EXCEPTION on cold start
+[16:08:49] PASS  no native library load error
+        TOTAL    68893    41504    16792        0   193532    47170    38879     4279
+           TOTAL PSS:    68893            TOTAL RSS:   193532      TOTAL SWAP (KB):        0
+11-01 16:09:05.897  4884  4884 I flutter : ALONE_BOOT onboarded=true lang=en links=0
+11-01 16:09:07.648  4884  4884 I flutter : ALONE_ROUTE shell lang=en
+[16:09:18] PASS  language screen is NOT shown again after a language was chosen
+[16:09:18] PASS  settings file is writable
+[16:09:18] PASS  settings loaded without errors on the second launch
+[16:09:29] PASS  a ss:// link opened from another app is imported (app already running)
+[16:09:51] PASS  a link that starts the app is imported (cold start)
+[16:10:05] PASS  text shared to the app is imported
+11-01 16:09:51.920  5255  5255 I flutter : ALONE_INTENT received name="shared text" chars=50
+11-01 16:09:51.928  5255  5255 I flutter : ALONE_INTENT imported=1 dup=0 bad=2
+[16:10:09] PASS  self-test APK installs (same signing key)
+[16:10:19] PASS  self-test reaches CONNECTING
+[16:10:27] PASS  VPN connected through the real engine
+[16:10:35] PASS  tun interface exists
+[16:10:36] HTTP via VPN -> 'HTTP/1.1 200 OK'
+[16:10:36] PASS  HTTP request works through the VPN
+[16:10:36] PASS  the proxy server saw the request (traffic really tunnelled)
+[16:10:40] throughput via VPN: 5001320 bytes in 3.9s = 10.3 Mbit/s (emulator + shared CI runner: indicative only)
+[16:10:40] PASS  download through the VPN completes (>=4 MB)
+        TOTAL   124791    71608    42640        0   252676    53702    45104     4571
+           TOTAL PSS:   124791            TOTAL RSS:   252676      TOTAL SWAP (KB):        0
+[16:10:42] PASS  no FATAL EXCEPTION while connected
+[16:11:29] PASS  self-test disconnects cleanly
+[16:11:38] PASS  tun interface removed after disconnect (within 40 s)
+[16:11:38] PASS  routing restored after disconnect (default route not via tun)
+[16:11:38] net state after disconnect:
+[16:11:38] net state after disconnect:
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group def
+2: dummy0: <BROADCAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN mode DEFAULT
+3: ifb0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 
+4: ifb1: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 
+5: tunl0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+6: gre0@NONE: <NOARP> mtu 1476 qdisc noop state DOWN mode DEFAULT group default qlen 1000\
+7: gretap0@NONE: <BROADCAST,MULTICAST> mtu 1462 qdisc noop state DOWN mode DEFAULT group d
+8: erspan0@NONE: <BROADCAST,MULTICAST> mtu 1450 qdisc noop state DOWN mode DEFAULT group d
+10.0.0.0/8 dev eth0 proto kernel scope link src 10.0.2.15 
+10.0.2.0/24 dev wlan0 proto kernel scope link src 10.0.2.16 
+[16:11:38] == screen tour
+[16:12:34] RESULT: 21 passed, 0 failed
