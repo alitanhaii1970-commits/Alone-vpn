@@ -11,7 +11,6 @@ import '../../core/scope.dart';
 import '../../core/tokens.dart';
 import '../../core/typography.dart';
 import '../../data/stores.dart';
-import '../../data/vpngate.dart';
 import '../../services/ovpn.dart';
 import '../../services/smart_servers.dart';
 import '../kit/base.dart';
