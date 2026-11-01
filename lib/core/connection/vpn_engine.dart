@@ -26,4 +26,8 @@ abstract class VpnEngine implements Listenable {
 
   /// Aborts an attempt that is still connecting.
   void cancel();
+
+  /// Re-checks whether the engine can run on this device (for example after the user installed
+  /// the OpenVPN app). Must be cheap and safe to call at any time.
+  Future<void> refresh();
 }

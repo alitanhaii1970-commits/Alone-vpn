@@ -42,9 +42,8 @@ void main() {
     };
     // ignore: avoid_print
     print('LAYOUT ${order.map((k, v) => MapEntry(k, '${v.top.round()}..${v.bottom.round()} x ${v.left.round()}..${v.right.round()}'))}');
-    // the two engine cards: the smart engine is honestly reported as not installed, manual is present
-    expect(find.text('Smart Engine Not Installed'), findsOneWidget);
-    expect(find.text('Smart Connection'), findsOneWidget);
+    // the two engine cards: VPN Gate (Smart) and Manual
+    expect(find.text('VPN Gate Global Network'), findsOneWidget);
     expect(find.text('Manual Connection'), findsOneWidget);
     expect(order['QuickTiles']!.height, lessThan(140), reason: 'quick tiles must be one compact row (a bad flex ratio made them 200+ dp tall)');
     // each quick tile's visible background must fill its slot, and the row must reach the right edge

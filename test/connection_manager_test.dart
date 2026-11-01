@@ -13,6 +13,7 @@ class FakeEngine extends ChangeNotifier implements VpnEngine {
   FakeEngine(
     this.kind, {
     this.installed = true,
+    this.installOnRefresh = false,
     this.startTime = Duration.zero,
     this.outcome = LinkState.connected,
     this.stopWorks = true,
@@ -22,7 +23,8 @@ class FakeEngine extends ChangeNotifier implements VpnEngine {
   @override
   final EngineKind kind;
   @override
-  final bool installed;
+  bool installed;
+  final bool installOnRefresh;
   Duration startTime;
   LinkState outcome;
   bool stopWorks;
@@ -36,7 +38,12 @@ class FakeEngine extends ChangeNotifier implements VpnEngine {
   String get label => 'fake-${kind.name}';
 
   @override
-  EngineStatus get status => _s;
+  EngineStatus get status => installed ? _s : EngineStatus.notInstalled;
+
+  @override
+  Future<void> refresh() async {
+    if (installOnRefresh) installed = true;
+  }
 
   void _set(LinkState s, {String? error}) {
     _s = EngineStatus(s, error: error);
@@ -188,22 +195,21 @@ void main() {
 
     test('an engine that is not installed is refused without touching the running one', () async {
       final manual = FakeEngine(EngineKind.manual);
-      final smart = SmartEngine();
+      final smart = FakeEngine(EngineKind.smart, installed: false);
       final m = _manager(manual, smart);
       expect(await m.connect(EngineKind.manual), ConnectResult.success);
       expect(await m.connect(EngineKind.smart), ConnectResult.engineNotInstalled);
       expect(manual.stopCalls, 0);
+      expect(smart.startCalls, 0);
       expect(m.statusOf(EngineKind.manual).state, LinkState.connected);
       expect(m.statusOf(EngineKind.smart).state, LinkState.engineNotInstalled);
     });
 
-    test('the smart placeholder never reports activity and refuses to start', () async {
-      final smart = SmartEngine();
-      expect(smart.installed, isFalse);
-      expect(smart.status.state, LinkState.engineNotInstalled);
-      await expectLater(smart.start(), throwsA(isA<EngineNotInstalled>()));
-      await smart.stop();
-      expect(smart.status.state, LinkState.engineNotInstalled);
+    test('the engine is re-checked before it is refused (the user may have just installed it)', () async {
+      final smart = FakeEngine(EngineKind.smart, installed: false, installOnRefresh: true);
+      final m = _manager(FakeEngine(EngineKind.manual), smart);
+      expect(await m.connect(EngineKind.smart), ConnectResult.success);
+      expect(smart.startCalls, 1);
     });
   });
 

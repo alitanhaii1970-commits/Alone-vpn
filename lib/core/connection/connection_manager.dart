@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../../data/stores.dart';
+import '../../services/ovpn.dart';
+import '../../services/smart_servers.dart';
+import '../../services/vpngate_api.dart';
 import 'engines.dart';
 import 'link_state.dart';
 import 'vpn_engine.dart';
+import 'vpngate_engine.dart';
 
 enum ConnectResult { success, failed, cancelled, timeout, duplicate, alreadyActive, engineNotInstalled, stopFailed }
 
@@ -27,9 +31,17 @@ class ConnectionManager extends ChangeNotifier {
   }
 
   static final ConnectionManager I = ConnectionManager(
+    // a Smart start may try several public relays one after another, so it gets longer than a manual one
+    startTimeout: const Duration(minutes: 5),
     engines: <EngineKind, VpnEngine>{
       EngineKind.manual: XrayEngine(Conn.I),
-      EngineKind.smart: SmartEngine(),
+      EngineKind.smart: VpnGateEngine(
+        tunnel: ConnSmartTunnel(Conn.I),
+        servers: SmartServerManager.I,
+        openVpnInstalled: OvpnEngine.installed,
+        publicIp: () => fetchPublicIp(),
+        ipv6Probe: () => fetchIpv6Probe(),
+      ),
     },
   );
 
@@ -67,6 +79,7 @@ class ConnectionManager extends ChangeNotifier {
   Future<ConnectResult> connect(EngineKind kind) async {
     if (_pending != null) return ConnectResult.duplicate;
     final target = engine(kind);
+    await target.refresh();
     if (!target.installed) return ConnectResult.engineNotInstalled;
     final before = target.status.state;
     if (before == LinkState.connected || before == LinkState.preparing || before == LinkState.connecting) {

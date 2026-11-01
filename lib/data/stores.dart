@@ -175,6 +175,9 @@ class ServerStore extends ChangeNotifier {
     return Server(sidOf(link), c);
   }
 
+  /// A server built from a link but NOT added to the list (used by the Smart engine).
+  Server? transient(String link) => _make(link);
+
   /// Share links the engine understands but the app's own parser does not.
   ProxyConfig? _fallback(String link) {
     final m = RegExp(r'^(hysteria2|hy2|tuic|wireguard|wg|hysteria|hy|socks5|socks|ssh)://', caseSensitive: false).firstMatch(link);
@@ -488,6 +491,10 @@ class ServerStore extends ChangeNotifier {
 // ───────────────────────── connection ─────────────────────────
 enum CS { off, connecting, on, failed, disconnecting }
 
+/// Who started the current session: the user's own saved server (manual), or a transient public-relay
+/// profile started by the Smart engine. Smart profiles are never added to the user's server list.
+enum SessionOrigin { manual, smart }
+
 /// The connection state machine: off → connecting (resolve → tcp → tls →
 /// tunnel) → on, with failed / disconnecting. Resolve and TCP are real
 /// probes; TLS and the tunnel are performed by the engine and reported back.
@@ -532,7 +539,9 @@ class Conn extends ChangeNotifier {
 
   int get secs => since == null ? 0 : DateTime.now().difference(since!).inSeconds;
   bool get busy => state == CS.connecting || state == CS.disconnecting;
-  Server? get server => ServerStore.I.active;
+  SessionOrigin origin = SessionOrigin.manual;
+  Server? _smartServer;
+  Server? get server => _smartServer ?? ServerStore.I.active;
 
   void _attach() {
     if (_attached || !Engine.real) return;
@@ -625,8 +634,10 @@ class Conn extends ChangeNotifier {
     if (state == CS.off || state == CS.failed) return connect();
   }
 
-  Future<void> connect() async {
+  Future<void> connect({Server? smart}) async {
     if (state == CS.on || busy) return;
+    _smartServer = smart;
+    origin = smart == null ? SessionOrigin.manual : SessionOrigin.smart;
     final srv = server;
     if (srv == null) {
       snack(trOr('no_server_toast', 'اول یه سرور اضافه یا انتخاب کن', 'Add or pick a server first'), tone: 'warn');
