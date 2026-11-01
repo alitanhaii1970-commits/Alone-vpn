@@ -1,0 +1,31 @@
+[16:13:29] OpenVPN for Android versionCode: 225
+[16:13:36] PASS  OpenVPN for Android downloaded and installed
+[16:13:43] PASS  Smart test APK installs
+[16:13:44] PASS  no tunnel exists before the test connects
+[16:14:07] ticking the trust checkbox
+[16:14:33] ticking the trust checkbox
+OPENVPN_APP installed=true
+CONNECTING
+CONNECT result=success state=connected attempts=4 country=JP reportedPing=18 reportedMbps=313.7 log=2weeks ipChanged=true ipv6Exposed=false err=null
+HOLD
+EXCLUSION manualResult=failed smart=disconnected manual=disconnected occupying=[]
+DISCONNECT state=disconnected
+RECONNECT result=success state=connected attempts=1 country=JP reportedPing=11 reportedMbps=200.9 log=2weeks ipChanged=true ipv6Exposed=null err=null
+SWITCH result=success state=connected attempts=1 country=KR reportedPing=29 reportedMbps=122.2 log=2weeks ipChanged=true ipv6Exposed=false err=null
+SWITCH countryChanged=true exitChanged=true firstExitDiffers=true firstCountry=JP
+FINAL smart=disconnected occupying=[]
+DONE ok=true
+[16:16:38] PASS  the OpenVPN for Android app is installed (engine present)
+[16:16:38] PASS  real VPN Gate list fetched, a relay was chosen and the tunnel connected
+[16:16:38] PASS  the public IP changed after connecting (verified by the app)
+[16:16:38] PASS  a tun interface existed while connected
+[16:16:38] PASS  mutual exclusion: starting the manual engine stopped the Smart tunnel first
+[16:16:38] PASS  no engine was left holding the tunnel after the exclusion test
+[16:16:38] PASS  disconnect is reported
+[16:16:38] PASS  reconnect works and the public IP changed again
+[16:16:38] PASS  switching country connects to a relay in another country
+[16:16:38] PASS  the public IP differs after the switch
+[16:16:38] PASS  the Smart engine ends disconnected with no engine holding the tunnel
+[16:16:38] PASS  the tunnel is gone at the end
+[16:16:38] PASS  the self-test finished successfully
+[16:16:38] RESULT: 16 passed, 0 failed
