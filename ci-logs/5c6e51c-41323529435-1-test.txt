@@ -1,0 +1,137 @@
+
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a VLESS link and decodes the profile name
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses VMess URL-safe base64 without padding
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse parses a Shadowsocks link with encoded method/password
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/widget_test.dart: ProxyConfig.parse returns null for malformed or unsupported links
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: Conn state mapping every Conn state maps to a typed link state
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: Conn state mapping only the states that hold the tunnel occupy it
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: state transitions connect then disconnect walks disconnected -> connecting -> connected -> disconnected
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: state transitions an engine failure is reported with its message
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: state transitions toggle connects, then disconnects, then can reconnect
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: mutual exclusion the running engine is stopped before the other one starts, never both up
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: mutual exclusion a failed stop blocks the new engine from starting
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: mutual exclusion an engine that is not installed is refused without touching the running one
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: mutual exclusion the engine is re-checked before it is refused (the user may have just installed it)
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: duplicate, cancel, timeout, termination a second request while one is in flight is ignored
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: duplicate, cancel, timeout, termination connecting an engine that is already connected does nothing
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: duplicate, cancel, timeout, termination cancelling while connecting ends cleanly in disconnected
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: duplicate, cancel, timeout, termination a start that never finishes times out and leaves nothing running
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/connection_manager_test.dart: duplicate, cancel, timeout, termination the service being terminated from outside shows up immediately
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/home_layout_test.dart: Home sections are laid out top-to-bottom (server present)
+ALONE_ROUTE shell lang=en
+LAYOUT {ConnectDial: 150..362 x 82..310, SpeedTiles: 432..513 x 16..377, ActiveServerCard: 513..575 x 16..377, ConnectionCards: 587..1106 x 16..377, QuickTiles: 1118..1215 x 16..377, RecentsPanel: 1223..1330 x 16..377}
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: OpenVPN profiles are recognised by name and by content
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: NPV Tunnel files are recognised by extension
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: ordinary share links are not foreign
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/foreign_test.dart: a base64 subscription blob expands to its links, other text is left alone
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [en] splash -> home, then all four tabs render without exceptions
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: [fa] splash -> home, then all four tabs render without exceptions
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_flow_test.dart: fresh install: language screen -> pick English -> next onboarding page
+ALONE_ROUTE language lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/storage_test.dart: FileSettingsStorage: values survive a "restart" (new instance reads the file)
+ALONE_STORE path=/tmp/alone/alone_settings.json
+ALONE_STORE path=/tmp/alone/alone_settings.json
+ALONE_STORE path=/tmp/alone/alone_settings.json
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/storage_test.dart: AppSettings: onboarded and language persist across a reload
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/storage_test.dart: a wrongly typed stored value does not stop the other settings from loading
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: VPN Gate CSV parser reads the documented layout and keeps every field
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: VPN Gate CSV parser a quoted field with a comma does not shift the columns
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: VPN Gate CSV parser rows without a valid profile are dropped with a reason, nothing is repaired
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: VPN Gate CSV parser profile validation names the problem
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: VPN Gate CSV parser an empty or broken answer gives no servers
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager ranks by score, then ping, then speed
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager country choice filters; failed relays are skipped
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager a fresh list is not fetched again; a stale one is
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager when the API is down the cached list is used
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager no cache and no API means no list, honestly
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager an answer with no usable server does not replace a good cache
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_test.dart: SmartServerManager the cache keeps only profiles that still validate
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 100%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/app_smoke_test.dart: fresh install reaches the language screen without exceptions
+ALONE_ROUTE language lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | small 360x640 | text 130%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | normal 411x891 | text 100%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: connects to the best relay and reports the verified public IP
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: an IPv6 address seen from outside is reported as a leak
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: moves on to the next relay when the first one fails
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: a tunnel that is up but does not change the public IP is not a success
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: it is not "connected" while the public IP is still being verified
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: when every relay fails it ends in an error and leaves no tunnel
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: every relay that only "connects" without changing the IP also ends in an error
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: stops after the attempt limit
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: a missing OpenVPN engine is reported, never faked
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: without a readable public IP it refuses to connect
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: without any list (API down, no cache) it ends in an error
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: the cached list is used when the API is down
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: the chosen country limits which relays are tried
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: cancelling while a relay is being tried ends cleanly
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/vpngate_engine_test.dart: stop disconnects, and losing the tunnel from outside is reflected
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | normal 411x891 | text 130%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: an .ovpn text survives the ovpn:// link round trip
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: profiles that point to external files are detected, inline ones are not
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: credentials are noticed unless embedded
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/ovpn_test.dart: ServerStore imports an OpenVPN profile as a server and rejects bad ones
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | large 600x960 | text 100%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: en | large 600x960 | text 130%
+ALONE_ROUTE shell lang=en
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | small 360x640 | text 100%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/overflow_probe_test.dart: probe: Home overflow on 360x640 (en)
+ALONE_ROUTE shell lang=en
+PROBE_BEGIN
+PROBE 
+PROBE_END
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | small 360x640 | text 130%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ Passing tests
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: UDP-based servers are never judged by a TCP test
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: dead servers = no answer or negative; untested and UDP ones are kept
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: removeMany deletes them from the list, the saved links and the active choice
+✅ /home/runner/work/Alone-vpn/Alone-vpn/test/subscriptions_test.dart: subscriptions are remembered and survive a reload
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | normal 411x891 | text 100%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | normal 411x891 | text 130%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | large 600x960 | text 100%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+::group::✅ /home/runner/work/Alone-vpn/Alone-vpn/test/screens_matrix_test.dart: fa | large 600x960 | text 130%
+ALONE_ROUTE shell lang=fa
+::endgroup::
+
+🎉 78 tests passed.
