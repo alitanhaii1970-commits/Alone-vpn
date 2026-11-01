@@ -45,6 +45,7 @@ Future<void> main() async {
     SystemChrome.setPreferredOrientations(const [DeviceOrientation.portraitUp]);
     runApp(const AloneVpnApp());
     unawaited(runSelfTest());
+    unawaited(runSmartSelfTest());
   }, (error, stack) => debugPrint('Uncaught: $error'));
 }
 

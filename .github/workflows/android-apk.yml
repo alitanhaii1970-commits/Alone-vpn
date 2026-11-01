@@ -203,6 +203,9 @@ jobs:
           flutter build apk --release --no-shrink --target-platform android-x64 \
             --dart-define=ALONE_SELFTEST_LINK='ss://YWVzLTI1Ni1nY206Y2l0ZXN0cGFzcw==@10.0.2.2:18388#CI-Test'
           cp build/app/outputs/flutter-apk/app-release.apk /tmp/apks/alone-x64-selftest.apk
+          flutter build apk --release --no-shrink --target-platform android-x64 \
+            --dart-define=ALONE_SELFTEST_SMART=1
+          cp build/app/outputs/flutter-apk/app-release.apk /tmp/apks/alone-x64-smarttest.apk
           # put the real arm64 APK back where the upload step expects it
           cp /tmp/alone-arm64.apk build/app/outputs/flutter-apk/app-release.apk
 
@@ -382,3 +385,49 @@ jobs:
           sudo tail -n 150 /tmp/ovpn/server.log > /tmp/ovpn_e2e/server_log_tail.txt 2>/dev/null || true
           python3 scripts/publish_ci_files.py "ovpn-${GITHUB_SHA::7}-${GITHUB_RUN_ID}-a${GITHUB_RUN_ATTEMPT}" \
             /tmp/ovpn_e2e/report.txt /tmp/ovpn_e2e/logcat_openvpn.txt /tmp/ovpn_e2e/server_log_tail.txt /tmp/ovpn_e2e/shots/*.png
+
+  vpngate-e2e:
+    name: VPN Gate end-to-end (real public relays, real tunnel)
+    needs: build-android
+    if: always() && needs.build-android.result == 'success'
+    runs-on: ubuntu-24.04
+    continue-on-error: true
+    timeout-minutes: 45
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Download test APKs
+        uses: actions/download-artifact@v4
+        with:
+          name: alone-test-apks
+          path: apks
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run the VPN Gate scenario on an Android emulator
+        timeout-minutes: 35
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          cores: 3
+          ram-size: 4096M
+          heap-size: 576M
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: bash scripts/vpngate_e2e.sh
+
+      - name: Publish VPN Gate results to the ci-logs branch
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install -q pillow || true
+          python3 scripts/publish_ci_files.py "vg-${GITHUB_SHA::7}-${GITHUB_RUN_ID}-a${GITHUB_RUN_ATTEMPT}" \
+            /tmp/vg_e2e/report.txt /tmp/vg_e2e/selftest_lines.txt /tmp/vg_e2e/inspect.txt /tmp/vg_e2e/shots/*.png
