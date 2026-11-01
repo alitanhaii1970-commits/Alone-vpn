@@ -1,0 +1,12 @@
+11-01 16:15:40.792   533   866 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:40.794   533   561 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:42.187   533  2308 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:42.188   533   561 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:44.291   533   546 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:44.295   533   561 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:46.343   533   955 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:46.345   533   561 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:48.770   533   547 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:48.771   533   561 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:50.988   533   547 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-01 16:15:50.990   533   561 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
