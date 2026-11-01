@@ -1,5 +1,11 @@
 ## ALONE VPN — beta
 
+**What's new in 1.8.0**
+- **Smart mode: VPN Gate Global Network (beta).** Free public relays run by volunteers, taken from the official VPN Gate API and tunnelled through OpenVPN for Android (install it from Google Play or F-Droid; the Smart card tells you when it is missing). The app picks a relay by quality, tries the next one if it fails, and says "Connected" only after the tunnel is up and your public IP has really changed. Pick a country or leave it on Auto.
+- **Read this first:** these relays are not ALONE servers. Their operators may keep logs and can see your traffic; the card shows each server's own log policy once connected. Ping and speed shown are what VPN Gate reports, not measured by the app. Each refresh of the list downloads about 1.3 MB.
+- Manual mode (your own servers, Xray) is unchanged. A central connection manager now makes sure only one of the two modes can hold the tunnel at a time.
+- Compiled and unit-tested by CI, and the live VPN Gate list was parsed on CI. A real-tunnel test against VPN Gate on an emulator is part of this build's CI run; its result is not part of these notes. Please tell us how Smart mode behaves on your phone.
+
 **What's new in 1.7.1**
 - **Cards, tiles, buttons and the bottom bar are no longer see-through.** On top of the new wallpapers they were too transparent to read; they now have a nearly solid glass fill with a soft shadow, in both the light and dark themes.
 - The connect dial is now a solid blue-violet button with a white icon.
