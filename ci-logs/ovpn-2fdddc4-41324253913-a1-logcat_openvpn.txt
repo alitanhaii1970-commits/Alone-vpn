@@ -1,0 +1,5 @@
+11-01 16:24:06.389  5467  5793 I OpenVPN : OpenVPN process exited
+11-01 16:24:06.410   534  2009 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+11-01 16:24:06.410   534   561 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+11-01 16:24:06.415  5467  5793 I OpenVPN : Exiting
+11-01 16:24:06.784  5467  5484 D SharedPreferencesImpl: Time required to fsync /data/user/0/de.blinkt.openvpn/shared_prefs/de.blinkt.openvpn_preferences.xml: [<1: 0, <2: 0, <4: 0, <8: 2, <16: 0, <32: 1, <64: 0, <128: 0, 
