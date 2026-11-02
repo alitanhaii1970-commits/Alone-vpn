@@ -1,3 +1,11 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+
+/// The official VPN Gate API for apps (CSV of public relays, each with an inline OpenVPN profile).
+const String kVpnGateApi = 'https://www.vpngate.net/api/iphone/';
+
 /// Services that only echo the caller's public IP. Several, tried at the same time, because some of them
 /// are blocked in some countries.
 const List<String> kIpProbes = <String>[
@@ -23,6 +31,7 @@ String? parseIpResponse(String body) {
 
 /// The first valid answer of any probe, or null when none answered.
 Future<String?> fetchPublicIp({http.Client? client, List<String> urls = kIpProbes, Duration timeout = const Duration(seconds: 6)}) async {
+  if (urls.isEmpty) return null;
   final c = client ?? http.Client();
   try {
     final done = Completer<String?>();
@@ -33,13 +42,14 @@ Future<String?> fetchPublicIp({http.Client? client, List<String> urls = kIpProbe
         try {
           final r = await c.get(Uri.parse(u)).timeout(timeout);
           if (r.statusCode == 200) ip = parseIpResponse(r.body);
-        } catch (_) {}
+        } catch (_) {
+          // this probe is blocked or down; the others may still answer
+        }
         if (ip != null && !done.isCompleted) done.complete(ip);
         left--;
         if (left == 0 && !done.isCompleted) done.complete(null);
       }();
     }
-    if (urls.isEmpty) return null;
     return await done.future;
   } finally {
     if (client == null) c.close();
