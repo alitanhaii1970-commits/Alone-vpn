@@ -1,0 +1,8 @@
+[11:17:40] device: Android 14 / SDK 34 / x86_64
+[11:17:47] PASS  release APK installs
+[11:18:00] PASS  app process is alive after 9s
+[11:18:00] PASS  no FATAL EXCEPTION on cold start
+[11:18:00] PASS  no native library load error
+        TOTAL    68953    41492    16820        0   194516    47397    38871     4421
+           TOTAL PSS:    68953            TOTAL RSS:   194516      TOTAL SWAP (KB):        0
+[11:18:31] screenshot 02b_after_language_pick failed, restarting adb
