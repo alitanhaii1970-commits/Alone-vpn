@@ -1,0 +1,46 @@
+Analyzing Alone-vpn...                                          
+
+   info • The import of 'package:flutter/widgets.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/core/settings.dart:4:8 • unnecessary_import
+warning • The value of the field '_statusSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:519:37 • unused_field
+warning • The value of the field '_statsSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:520:36 • unused_field
+warning • The value of the field '_alertsSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:521:45 • unused_field
+  error • Undefined name 'InternetAddress'. Try correcting the name to one that is defined, or defining the name • lib/services/vpngate_api.dart:14:7 • undefined_identifier
+  error • The name 'LineSplitter' isn't a class. Try correcting the name to match an existing class • lib/services/vpngate_api.dart:15:28 • creation_with_non_type
+  error • Undefined name 'InternetAddress'. Try correcting the name to one that is defined, or defining the name • lib/services/vpngate_api.dart:18:11 • undefined_identifier
+  error • Undefined class 'Client'. Try changing the name to the name of an existing class, or creating a class with the name 'Client' • lib/services/vpngate_api.dart:25:32 • undefined_class
+  error • Undefined name 'http'. Try correcting the name to one that is defined, or defining the name • lib/services/vpngate_api.dart:26:23 • undefined_identifier
+  error • The function 'Completer' isn't defined. Try importing the library that defines 'Completer', correcting the name to the name of an existing function, or defining a function named 'Completer' • lib/services/vpngate_api.dart:28:18 • undefined_function
+  error • Undefined class 'Client'. Try changing the name to the name of an existing class, or creating a class with the name 'Client' • lib/services/vpngate_api.dart:51:33 • undefined_class
+  error • Arguments of a constant creation must be constant expressions. Try making the argument a valid constant, or use 'new' to call the constructor • lib/services/vpngate_sources.dart:16:62 • const_with_non_constant_argument
+  error • Undefined name 'kVpnGateApi'. Try correcting the name to one that is defined, or defining the name • lib/services/vpngate_sources.dart:16:62 • undefined_identifier
+warning • The declaration '_InsetEdges' isn't referenced. Try removing the declaration of '_InsetEdges' • lib/ui/kit/base.dart:56:7 • unused_element
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/kit/chrome.dart:9:8 • unused_import
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/kit/pickers.dart:7:8 • unused_import
+warning • Unused import: '../core/scope.dart'. Try removing the import directive • lib/ui/nav.dart:2:8 • unused_import
+warning • Unused import: 'dart:async'. Try removing the import directive • lib/ui/screens/home.dart:1:8 • unused_import
+warning • Unused import: '../../core/palette.dart'. Try removing the import directive • lib/ui/screens/home.dart:8:8 • unused_import
+warning • Unused import: '../../core/palette.dart'. Try removing the import directive • lib/ui/screens/home_hero.dart:6:8 • unused_import
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/latency.dart:15:8 • unused_import
+warning • Unused import: '../../core/oklch.dart'. Try removing the import directive • lib/ui/screens/log.dart:4:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/log.dart:7:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/servers.dart:6:8 • unused_import
+warning • Unused import: '../../core/typography.dart'. Try removing the import directive • lib/ui/screens/servers.dart:7:8 • unused_import
+warning • Unused import: '../../core/oklch.dart'. Try removing the import directive • lib/ui/screens/settings.dart:6:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/settings.dart:9:8 • unused_import
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/ui/screens/settings.dart:44:11 • unused_local_variable
+warning • Unused import: '../../core/scope.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:5:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:6:8 • unused_import
+warning • Unused import: '../../core/typography.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:7:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/shell.dart:4:8 • unused_import
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/ui/screens/shell.dart:66:11 • unused_local_variable
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/usage.dart:14:8 • unused_import
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • test/app_smoke_test.dart:1:8 • unused_import
+warning • The value of the local variable 'current' isn't used. Try removing the variable or using it • test/screens_matrix_test.dart:45:15 • unused_local_variable
+  error • Undefined name 'kVpnGateApi'. Try correcting the name to one that is defined, or defining the name • test/vpngate_sources_test.dart:23:61 • undefined_identifier
+  error • Undefined name 'kVpnGateApi'. Try correcting the name to one that is defined, or defining the name • test/vpngate_sources_test.dart:32:33 • undefined_identifier
+  error • Undefined name 'kVpnGateApi'. Try correcting the name to one that is defined, or defining the name • test/vpngate_sources_test.dart:43:55 • undefined_identifier
+  error • Undefined name 'kVpnGateApi'. Try correcting the name to one that is defined, or defining the name • test/vpngate_sources_test.dart:52:18 • undefined_identifier
+warning • Unused import: 'package:alone_vpn/services/vpngate_sources.dart'. Try removing the import directive • test/vpngate_test.dart:5:8 • unused_import
+
+41 issues found. (ran in 8.6s)
+exit=1
