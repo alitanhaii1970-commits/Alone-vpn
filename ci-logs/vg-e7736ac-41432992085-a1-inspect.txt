@@ -1,0 +1,59 @@
+--- ip link (tun)
+18: tun0: <POINTOPOINT,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN mode DEFAULT group default qlen 500\    link/none 
+--- routes through tun
+10.238.82.252/30 dev tun0 table 1000000018 proto static scope link 
+default dev tun0 table 1018 proto static scope link 
+10.238.82.252/30 dev tun0 table 1018 proto static scope link 
+10.238.82.252/30 dev tun0 proto kernel scope link src 10.238.82.253 
+local 10.238.82.253 dev tun0 table local proto kernel scope host src 10.238.82.253 
+broadcast 10.238.82.255 dev tun0 table local proto kernel scope link src 10.238.82.253 
+fe80::/64 dev tun0 table 1018 proto kernel metric 256 pref medium
+local fe80::819a:b9b0:43ac:c5d6 dev tun0 table local proto kernel metric 0 pref medium
+--- ping 8.8.8.8 through the tunnel
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 118.313/121.897/128.911/4.975 ms
+--- DNS servers configured on networks (configuration only, NOT a leak test)
+  NetworkAgentInfo{network{100}  handle{432902426637}  ni{WIFI CONNECTED extra: } created=2026-11-02T11:17:21.713Z Score(Policies : TRANSPORT_PRIMARY&EVER_EVALUATED&IS_UNMETERED ; KeepConnected : 0)  created 37877  lp{{InterfaceName: wlan0 LinkAddresses: [ fe80::9305:4abc:de15:14df/64,x.x.x.x/24,fec0::87ea:c708:35cb:6bd6/64,fec0::a152:882b:a439:2cb0/64 ] DnsAddresses: [ /x.x.x.x ] Domains: null MTU: 0 ServerAddress: /x.x.x.x TcpBufferSizes: 524288,1048576,2097152,262144,524288,1048576 Routes: [ fe80::/64 -> :: wlan0 mtu 0,::/0 -> fe80::2 wlan0 mtu 0,fec0::/64 -> :: wlan0 mtu 0,x.x.x.x/24 -> x.x.x.x wlan0 mtu 0,x.x.x.x/0 -> x.x.x.x wlan0 mtu 0 ]}}  nc{[ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=30000Kbps Specifier: <WifiNetworkAgentSpecifier [WifiConfiguration=, SSID="AndroidWifi", BSSID=02:15:b2:00:00:01, band=1, mMatchLocalOnlySpecifiers=false]> TransportInfo: <SSID: "AndroidWifi", BSSID: 02:15:b2:00:00:01, MAC: 02:15:b2:00:00:00, IP: /x.x.x.x, Security type: 0, Supplicant state: COMPLETED, Wi-Fi standard: 1, RSSI: -50, Link speed: 1Mbps, Tx Link speed: 1Mbps, Max Supported Tx Link speed: 54Mbps, Rx Link speed: -1Mbps, Max Supported Rx Link speed: 54Mbps, Frequency: 2437MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AndroidWifi"openMLO Information: , Is TID-To-Link negotiation supported by the AP: false, AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -50 OwnerUid: 10157 AdminUids: [10157] SSID: "AndroidWifi" UnderlyingNetworks: Null]}  factorySerialNumber=5}
+  NetworkAgentInfo{network{101}  handle{437197393933}  ni{MOBILE[HSPA] CONNECTED extra: epc.tmobile.com} created=2026-11-02T11:17:27.324Z Score(Policies : EVER_EVALUATED&EVER_VALIDATED&IS_VALIDATED ; KeepConnected : 0)  created 44802 firstValidated 46067 lastValidated 46067  lp{{InterfaceName: eth0 LinkAddresses: [ x.x.x.x/24 ] DnsAddresses: [ /x.x.x.x ] Domains: null MTU: 1500 TcpBufferSizes: 2097152,6291456,16777216,512000,2097152,8388608 Routes: [ x.x.x.x/0 -> x.x.x.x eth0 mtu 1500,x.x.x.x/24 -> x.x.x.x eth0 mtu 0 ]}}  nc{[ Transports: CELLULAR Capabilities: MMS&SUPL&DUN&FOTA&IMS&CBS&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=1800Kbps LinkDnBandwidth>=4300Kbps Specifier: <TelephonyNetworkSpecifier [mSubId = 1]> SubscriptionIds: {1} UnderlyingNetworks: Null]}  factorySerialNumber=4}
+  NetworkAgentInfo{network{102}  handle{441492361229}  ni{VPN CONNECTED extra: } created=2026-11-02T11:19:35.077Z Score(Policies : EVER_EVALUATED&IS_VPN&EVER_VALIDATED&IS_VALIDATED ; KeepConnected : 0)  created 170403 firstValidated 170688 lastValidated 170688  lp{{InterfaceName: tun0 LinkAddresses: [ x.x.x.x/30 ] DnsAddresses: [ /x.x.x.x,/x.x.x.x ] UsePrivateDns: true ValidatedPrivateDnsAddresses: [x.x.x.x] Domains:  MTU: 1500 Routes: [ x.x.x.x/0 -> x.x.x.x tun0 mtu 0,x.x.x.x/30 -> x.x.x.x tun0 mtu 0,x.x.x.x/24 throw mtu 0,fe80::/64 throw mtu 0,fec0::/64 throw mtu 0,::/0 unreachable mtu 0 ]}}  nc{[ Transports: CELLULAR|VPN Capabilities: INTERNET&NOT_RESTRICTED&TRUSTED&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=1800Kbps LinkDnBandwidth>=4300Kbps TransportInfo: <VpnTransportInfo{type=1, sessionId=Remote APP VPN - x.x.x.x/30, bypassable=false longLivedTcpConnectionsExpensive=false}> Uids: <{0-99999}> OwnerUid: 10192 AdminUids: [10192] UnderlyingNetworks: [101]]}  factorySerialNumber=2}
+11-02 11:21:56.061   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:21:56.084   535   658 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:21:56.084   535   658 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:21:56.197   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:21:58.387   535   865 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:21:58.388   535   865 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:21:58.388   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:21:58.389   535   865 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:21:58.389   535   865 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:21:58.389   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:00.820   535  2206 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:00.820   535  2206 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:00.821   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:00.822   535  2206 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:00.822   535  2333 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:00.822   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:02.732   535  2333 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:02.733   535  2333 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:02.733   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:02.734   535  2333 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:02.734   535  2333 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:02.734   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:04.512   535   658 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:04.512   535   658 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:04.513   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:04.513   535   658 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:04.513   535   658 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:04.514   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:06.213   535  2559 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:06.214   535  2559 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:06.214   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:06.215   535  2559 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:06.215   535  2559 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:06.216   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1346787898|null|10192 added an invalid shortcut
+11-02 11:22:07.069  6228  7172 I OpenVPN : OpenVPN process exited
+11-02 11:22:07.070   535   658 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+11-02 11:22:07.070   535   658 W ActivityManager: Foreground service started from background can not have location/camera/microphone access: service de.blinkt.openvpn/.core.OpenVPNService
+11-02 11:22:07.071   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+11-02 11:22:07.097  6228  7172 I OpenVPN : Exiting
+11-02 11:22:07.139   535   565 W ActivityManager: Failed to update http proxy for: de.blinkt.openvpn
