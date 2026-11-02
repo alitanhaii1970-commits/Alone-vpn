@@ -1,0 +1,39 @@
+name: VPN Gate snapshot
+
+# Makes a copy of the official VPN Gate list (only relays whose profile passes the app's validation) and
+# publishes it on the vpngate-data branch, so the app can still get a list where vpngate.net is filtered.
+on:
+  schedule:
+    - cron: '17 */4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vpngate-snapshot
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - name: Build the snapshot from the official API
+        run: dart run tool/make_snapshot.dart /tmp/snapshot.json
+      - name: Publish it on the vpngate-data branch (a single commit, history is not kept)
+        run: |
+          rm -rf /tmp/data && mkdir /tmp/data && cd /tmp/data
+          git init -q
+          git config user.name "ALONE snapshot bot"
+          git config user.email "alone-bot@users.noreply.github.com"
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          cp /tmp/snapshot.json snapshot.json
+          printf 'Copy of the official VPN Gate list (https://www.vpngate.net/api/iphone/), validated and trimmed.\nMade by the "VPN Gate snapshot" workflow. Relays are run by volunteers and are not ALONE servers.\n' > README.txt
+          git checkout -q -b vpngate-data
+          git add -A
+          git commit -q -m "snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -q -f origin vpngate-data
+      - name: Refresh the jsDelivr copy
+        run: curl -fsS "https://purge.jsdelivr.net/gh/${{ github.repository }}@vpngate-data/snapshot.json" || true

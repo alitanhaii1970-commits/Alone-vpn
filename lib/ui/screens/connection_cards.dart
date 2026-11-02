@@ -94,6 +94,24 @@ Color _tone(Pal p, LinkState s) {
   }
 }
 
+String _srcLabel(String? s) {
+  switch (s) {
+    case 'saved':
+      return trOr('vg_src_saved', 'ذخیره‌شده روی گوشی', 'saved on this device');
+    case 'bundled':
+      return trOr('vg_src_bundled', 'همراه برنامه', 'bundled with the app');
+    default:
+      return s ?? '—';
+  }
+}
+
+String _ago(DateTime t) {
+  final d = DateTime.now().difference(t);
+  if (d.inMinutes < 60) return '${loc(d.inMinutes.clamp(0, 59).toInt())} ${trOr('vg_min', 'دقیقه', 'min')}';
+  if (d.inHours < 48) return '${loc(d.inHours)} ${trOr('vg_hour', 'ساعت', 'h')}';
+  return '${loc(d.inDays)} ${trOr('vg_day', 'روز', 'd')}';
+}
+
 String _dur(DateTime since) {
   final d = DateTime.now().difference(since);
   String two(int n) => n.toString().padLeft(2, '0');
@@ -333,6 +351,12 @@ class _SmartCard extends StatelessWidget {
                 Text(err, style: context.ty(R.labelM, p.error)),
               ],
               ...details,
+              if (sm.servers.isNotEmpty && sm.listTime != null)
+                _Kv(
+                  trOr('vg_k_list', 'منبع فهرست', 'List source'),
+                  '${_srcLabel(sm.source)} · ${_ago(sm.listTime!)}',
+                  color: DateTime.now().difference(sm.listTime!) > const Duration(hours: 24) ? p.warn : null,
+                ),
               const SizedBox(height: 8),
               PopupMenuButton<String>(
                 enabled: !st.occupiesTunnel && countries.isNotEmpty,

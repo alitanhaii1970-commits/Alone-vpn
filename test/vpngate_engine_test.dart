@@ -80,7 +80,7 @@ VpnGateEngine _engine(
 }) {
   final e = VpnGateEngine(
     tunnel: t,
-    servers: servers ?? SmartServerManager(storage: MemorySmartCache(), fetcher: () async => _list()),
+    servers: servers ?? SmartServerManager(storage: MemorySmartCache(), fetcher: csvFetcher(_list)),
     openVpnInstalled: () async => installed,
     publicIp: ip ?? () async => t.ipChanged ? _after : _before,
     ipv6Probe: v6 ?? () async => _before,
@@ -183,12 +183,29 @@ void main() {
     expect(t.tried, isEmpty);
   });
 
-  test('without a readable public IP it refuses to connect', () async {
+  test('when the public IP cannot be read beforehand, an exit equal to the relay address still proves the tunnel', () async {
     final t = FakeTunnel(works: {'203.0.113.41'});
+    final e = _engine(t, ip: () async => t.state == LinkState.connected ? t.last?.ip : null);
+    await e.start();
+    expect(e.status.state, LinkState.connected);
+    expect(e.ipBefore, isNull);
+    expect(e.exitIp, '203.0.113.41');
+  });
+
+  test('when the public IP cannot be read beforehand, any other exit address is not proof', () async {
+    final t = FakeTunnel(works: {'203.0.113.41', '203.0.113.42', '203.0.113.43'});
+    final e = _engine(t, ip: () async => t.state == LinkState.connected ? '198.51.100.99' : null);
+    await e.start();
+    expect(e.status.state, LinkState.error);
+    expect(t.state, LinkState.disconnected);
+  });
+
+  test('when the public IP cannot be read at all, nothing is claimed', () async {
+    final t = FakeTunnel(works: {'203.0.113.41', '203.0.113.42', '203.0.113.43'});
     final e = _engine(t, ip: () async => null);
     await e.start();
     expect(e.status.state, LinkState.error);
-    expect(t.tried, isEmpty);
+    expect(t.state, LinkState.disconnected);
   });
 
   test('without any list (API down, no cache) it ends in an error', () async {
@@ -202,7 +219,7 @@ void main() {
 
   test('the cached list is used when the API is down', () async {
     final storage = MemorySmartCache();
-    await SmartServerManager(storage: storage, fetcher: () async => _list()).refresh();
+    await SmartServerManager(storage: storage, fetcher: csvFetcher(_list)).refresh();
     final t = FakeTunnel(works: {'203.0.113.41'});
     final e = _engine(t, servers: SmartServerManager(storage: storage, fetcher: () async => throw Exception('down')));
     await e.start();
@@ -210,7 +227,7 @@ void main() {
   });
 
   test('the chosen country limits which relays are tried', () async {
-    final servers = SmartServerManager(storage: MemorySmartCache(), fetcher: () async => _list());
+    final servers = SmartServerManager(storage: MemorySmartCache(), fetcher: csvFetcher(_list));
     await servers.refresh();
     await servers.setCountry('US');
     final t = FakeTunnel(works: {'203.0.113.41', '203.0.113.42', '203.0.113.43'});

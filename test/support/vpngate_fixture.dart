@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:alone_vpn/data/vpngate.dart';
+import 'package:alone_vpn/services/vpngate_sources.dart';
+
 /// Synthetic test data in the documented VPN Gate CSV layout. Addresses are from the reserved
 /// documentation ranges (RFC 5737); nothing here is a real server.
 String ovpnFixture({String host = '203.0.113.10', int port = 443, String extra = '', bool ca = true, bool client = true}) => [
@@ -31,3 +34,9 @@ String csvRow({
     '$host,$ip,$score,$ping,$speed,$country,$short,5,86400000,100,1000000,$log,"Volunteer, test",,${base64.encode(utf8.encode(config ?? ovpnFixture(host: ip)))}';
 
 String csvOf(List<String> rows) => '*vpn_servers\n$csvHeader\n${rows.join('\n')}\n*\n';
+
+/// A list fetcher that "downloads" [csv] (re-read on every call) and parses it with the app's parser.
+Future<FetchedList> Function() csvFetcher(String Function() csv, {String source = 'test'}) => () async {
+      final p = parseVpnGateCsv(csv());
+      return FetchedList(p.servers, source, null, p.rejected);
+    };

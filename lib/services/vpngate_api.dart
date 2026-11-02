@@ -1,39 +1,46 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-import 'package:http/http.dart' as http;
+/// Services that only echo the caller's public IP. Several, tried at the same time, because some of them
+/// are blocked in some countries.
+const List<String> kIpProbes = <String>[
+  'https://api.ipify.org',
+  'https://icanhazip.com',
+  'https://checkip.amazonaws.com',
+  'https://www.cloudflare.com/cdn-cgi/trace',
+  'https://ifconfig.me/ip',
+];
 
-/// The official VPN Gate API for apps (CSV of public relays, each with an inline OpenVPN profile).
-const String kVpnGateApi = 'https://www.vpngate.net/api/iphone/';
-
-Future<String> fetchVpnGateCsv({http.Client? client, Duration timeout = const Duration(seconds: 30)}) async {
-  final c = client ?? http.Client();
-  try {
-    final r = await c.get(Uri.parse(kVpnGateApi), headers: const {'User-Agent': 'ALONE-VPN'}).timeout(timeout);
-    if (r.statusCode != 200) throw HttpException('VPN Gate API answered HTTP ${r.statusCode}');
-    if (r.bodyBytes.length > 20 * 1024 * 1024) throw const HttpException('VPN Gate API answer is too large');
-    return utf8.decode(r.bodyBytes, allowMalformed: true);
-  } finally {
-    if (client == null) c.close();
+/// A bare address, or a Cloudflare-style `ip=...` line. Null when [body] holds neither.
+String? parseIpResponse(String body) {
+  final t = body.trim();
+  if (InternetAddress.tryParse(t) != null) return t;
+  for (final line in const LineSplitter().convert(body)) {
+    if (line.startsWith('ip=')) {
+      final v = line.substring(3).trim();
+      if (InternetAddress.tryParse(v) != null) return v;
+    }
   }
+  return null;
 }
 
-/// Services that only echo the caller's public IP. Used to prove that the tunnel really changed it.
-const List<String> kIpProbes = <String>['https://api.ipify.org', 'https://icanhazip.com'];
-
-Future<String?> fetchPublicIp({http.Client? client, List<String> urls = kIpProbes, Duration timeout = const Duration(seconds: 8)}) async {
+/// The first valid answer of any probe, or null when none answered.
+Future<String?> fetchPublicIp({http.Client? client, List<String> urls = kIpProbes, Duration timeout = const Duration(seconds: 6)}) async {
   final c = client ?? http.Client();
   try {
+    final done = Completer<String?>();
+    var left = urls.length;
     for (final u in urls) {
-      try {
-        final r = await c.get(Uri.parse(u)).timeout(timeout);
-        final t = r.body.trim();
-        if (r.statusCode == 200 && InternetAddress.tryParse(t) != null) return t;
-      } catch (_) {
-        // try the next probe
-      }
+      () async {
+        String? ip;
+        try {
+          final r = await c.get(Uri.parse(u)).timeout(timeout);
+          if (r.statusCode == 200) ip = parseIpResponse(r.body);
+        } catch (_) {}
+        if (ip != null && !done.isCompleted) done.complete(ip);
+        left--;
+        if (left == 0 && !done.isCompleted) done.complete(null);
+      }();
     }
-    return null;
+    if (urls.isEmpty) return null;
+    return await done.future;
   } finally {
     if (client == null) c.close();
   }

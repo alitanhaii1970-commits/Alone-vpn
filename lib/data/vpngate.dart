@@ -226,3 +226,63 @@ VpnGateParse parseVpnGateCsv(String body) {
   }
   return VpnGateParse(out, rows, rejected);
 }
+
+/// Quality order used everywhere: VPN Gate's own score, then ping, then speed.
+int compareVpnGateQuality(VpnGateServer a, VpnGateServer b) {
+  var d = b.score.compareTo(a.score);
+  if (d != 0) return d;
+  d = (a.pingMs ?? 1 << 30).compareTo(b.pingMs ?? 1 << 30);
+  if (d != 0) return d;
+  return b.speedBps.compareTo(a.speedBps);
+}
+
+/// A copy of the official list made by ALONE's own scheduled job (GitHub Actions), so people who cannot
+/// reach vpngate.net (it is filtered in some countries) can still get it. It contains only profiles that
+/// passed [ovpnProblem]; the app validates them again when it reads them.
+class VpnGateSnapshot {
+  const VpnGateSnapshot(this.generatedAt, this.servers);
+  final DateTime generatedAt;
+  final List<VpnGateServer> servers;
+}
+
+/// Best relays overall plus the best few of every country, so a country choice still works.
+List<VpnGateServer> selectForSnapshot(List<VpnGateServer> all, {int top = 60, int perCountry = 5}) {
+  final sorted = List<VpnGateServer>.of(all)..sort(compareVpnGateQuality);
+  final picked = <String, VpnGateServer>{};
+  for (final s in sorted.take(top)) {
+    picked[s.ip] = s;
+  }
+  final seen = <String, int>{};
+  for (final s in sorted) {
+    final n = seen[s.countryShort] ?? 0;
+    if (n < perCountry) picked[s.ip] = s;
+    seen[s.countryShort] = n + 1;
+  }
+  return picked.values.toList()..sort(compareVpnGateQuality);
+}
+
+String snapshotToJson(List<VpnGateServer> servers, DateTime generatedAt) => jsonEncode(<String, Object?>{
+      'v': 1,
+      'generatedAt': generatedAt.toUtc().toIso8601String(),
+      'source': 'https://www.vpngate.net/api/iphone/',
+      'servers': <Object?>[for (final s in servers) s.toJson()],
+    });
+
+/// Null when [body] is not a snapshot; profiles that fail validation are dropped.
+VpnGateSnapshot? parseSnapshotJson(String body) {
+  try {
+    final j = jsonDecode(body);
+    if (j is! Map || j['v'] != 1) return null;
+    final at = DateTime.tryParse('${j['generatedAt']}');
+    final list = j['servers'];
+    if (at == null || list is! List) return null;
+    final out = <VpnGateServer>[];
+    for (final o in list) {
+      final s = VpnGateServer.fromJson(o);
+      if (s != null) out.add(s);
+    }
+    return VpnGateSnapshot(at, out);
+  } catch (_) {
+    return null;
+  }
+}

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alone_vpn/data/vpngate.dart';
 import 'package:alone_vpn/services/smart_servers.dart';
+import 'package:alone_vpn/services/vpngate_sources.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'support/vpngate_fixture.dart';
@@ -81,13 +82,13 @@ void main() {
         ]);
 
     test('ranks by score, then ping, then speed', () async {
-      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: () async => body());
+      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: csvFetcher(body));
       expect(await m.refresh(), isTrue);
       expect(m.candidates().map((s) => s.ip), ['203.0.113.24', '203.0.113.23', '203.0.113.22', '203.0.113.21']);
     });
 
     test('country choice filters; failed relays are skipped', () async {
-      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: () async => body());
+      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: csvFetcher(body));
       await m.refresh();
       await m.setCountry('KR');
       expect(m.candidates().map((s) => s.ip), ['203.0.113.23', '203.0.113.22']);
@@ -102,7 +103,7 @@ void main() {
     test('a fresh list is not fetched again; a stale one is', () async {
       var calls = 0;
       var now = DateTime(2026, 1, 1, 12);
-      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: () async { calls++; return body(); }, now: () => now);
+      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: () { calls++; return csvFetcher(body)(); }, now: () => now);
       await m.refresh();
       await m.refresh();
       expect(calls, 1);
@@ -113,7 +114,7 @@ void main() {
 
     test('when the API is down the cached list is used', () async {
       final storage = MemorySmartCache();
-      final a = SmartServerManager(storage: storage, fetcher: () async => body());
+      final a = SmartServerManager(storage: storage, fetcher: csvFetcher(body));
       await a.refresh();
       await a.setCountry('JP');
       await a.setConsent();
@@ -135,12 +136,61 @@ void main() {
 
     test('an answer with no usable server does not replace a good cache', () async {
       final storage = MemorySmartCache();
-      final a = SmartServerManager(storage: storage, fetcher: () async => body());
+      final a = SmartServerManager(storage: storage, fetcher: csvFetcher(body));
       await a.refresh();
-      final b = SmartServerManager(storage: storage, fetcher: () async => '<html>oops</html>');
+      final b = SmartServerManager(storage: storage, fetcher: csvFetcher(() => '<html>oops</html>'));
       expect(await b.refresh(force: true), isTrue);
       expect(b.servers, hasLength(4));
       expect(b.lastError, isNotNull);
+    });
+
+    test('with no network and no saved list, the snapshot bundled in the app is used', () async {
+      final servers = parseVpnGateCsv(body()).servers;
+      final m = SmartServerManager(
+        storage: MemorySmartCache(),
+        fetcher: () async => throw Exception('filtered'),
+        bundled: () async => snapshotToJson(servers, DateTime.utc(2026, 11, 1)),
+      );
+      expect(await m.refresh(), isTrue);
+      expect(m.servers, hasLength(4));
+      expect(m.source, 'bundled');
+      expect(m.fromCache, isTrue);
+      expect(m.listTime, DateTime.utc(2026, 11, 1));
+    });
+
+    test('a bundled snapshot older than the saved list does not replace it; a newer one does', () async {
+      final storage = MemorySmartCache();
+      final first = SmartServerManager(storage: storage, fetcher: csvFetcher(body), now: () => DateTime.utc(2026, 11, 10), bundled: () async => null);
+      await first.refresh();
+      final servers = parseVpnGateCsv(body()).servers.take(2).toList();
+
+      final older = SmartServerManager(storage: storage, fetcher: () async => throw Exception('x'), bundled: () async => snapshotToJson(servers, DateTime.utc(2026, 11, 1)));
+      await older.load();
+      expect(older.servers, hasLength(4));
+      expect(older.source, 'saved');
+
+      final newer = SmartServerManager(storage: storage, fetcher: () async => throw Exception('x'), bundled: () async => snapshotToJson(servers, DateTime.utc(2026, 11, 20)));
+      await newer.load();
+      expect(newer.servers, hasLength(2));
+      expect(newer.source, 'bundled');
+    });
+
+    test('a bundled placeholder with no relays is ignored', () async {
+      final m = SmartServerManager(storage: MemorySmartCache(), fetcher: () async => throw Exception('x'), bundled: () async => '{"v":1,"generatedAt":"2000-01-01T00:00:00Z","servers":[]}');
+      expect(await m.refresh(), isFalse);
+      expect(m.servers, isEmpty);
+    });
+
+    test('the source and its time are remembered', () async {
+      final storage = MemorySmartCache();
+      final a = SmartServerManager(storage: storage, fetcher: csvFetcher(body, source: 'vpngate.net'), now: () => DateTime.utc(2026, 11, 2), bundled: () async => null);
+      await a.refresh();
+      expect(a.source, 'vpngate.net');
+      expect(a.listTime, DateTime.utc(2026, 11, 2));
+      final b = SmartServerManager(storage: storage, fetcher: () async => throw Exception('x'), bundled: () async => null);
+      await b.load();
+      expect(b.source, 'saved');
+      expect(b.listTime, DateTime.utc(2026, 11, 2));
     });
 
     test('the cache keeps only profiles that still validate', () async {

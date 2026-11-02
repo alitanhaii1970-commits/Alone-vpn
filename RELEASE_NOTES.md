@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 1.8.1**
+- **Smart mode can now get its server list where vpngate.net is blocked (for example in Iran).** If the official site does not answer, the app uses ALONE's own copy of the list (refreshed every 4 hours by a public GitHub job and published on three different hosts), then the last list saved on your phone, then the list bundled inside the app. The Smart card shows which source is in use and how old it is.
+- Smart mode no longer needs the IP-echo websites to be reachable before it connects. It tries up to 10 relays, and still says "Connected" only with proof that traffic leaves through the relay.
+- **Honest limit:** this could not be tested from inside Iran. Even with a list, many VPN Gate relays (and the OpenVPN protocol itself) are often filtered there. If no relay connects, try again later or use Manual mode.
+
 **What's new in 1.8.0**
 - **Smart mode: VPN Gate Global Network (beta).** Free public relays run by volunteers, taken from the official VPN Gate API and tunnelled through OpenVPN for Android (install it from Google Play or F-Droid; the Smart card tells you when it is missing). The app picks a relay by quality, tries the next one if it fails, and says "Connected" only after the tunnel is up and your public IP has really changed. Pick a country or leave it on Auto.
 - **Read this first:** these relays are not ALONE servers. Their operators may keep logs and can see your traffic; the card shows each server's own log policy once connected. Ping and speed shown are what VPN Gate reports, not measured by the app. Each refresh of the list downloads about 1.3 MB.

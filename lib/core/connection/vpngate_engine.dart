@@ -88,7 +88,7 @@ class VpnGateEngine extends ChangeNotifier implements VpnEngine {
     required this.openVpnInstalled,
     required this.publicIp,
     required this.ipv6Probe,
-    this.maxAttempts = 6,
+    this.maxAttempts = 10,
     this.settle = const Duration(milliseconds: 1500),
   }) {
     tunnel.addListener(_relay);
@@ -195,15 +195,16 @@ class VpnGateEngine extends ChangeNotifier implements VpnEngine {
       final ok = await servers.refresh();
       if (_cancelled) return;
       if (!ok) {
-        _fail(trOr('vg_err_list', 'فهرست سرورهای VPN Gate در دسترس نیست', 'The VPN Gate server list is unavailable'));
+        _fail(trOr(
+          'vg_err_list',
+          'فهرست سرورها در دسترس نیست: نه سایت VPN Gate، نه آینه‌های برنامه، و نه نسخه‌ی همراه برنامه جواب ندادن. اینترنت رو چک کن و دوباره امتحان کن.',
+          'The server list is unavailable: neither vpngate.net, the app mirrors nor the bundled copy answered. Check your internet and try again.',
+        ));
         return;
       }
+      // Without the tunnel some IP-echo services may be blocked; then the proof is stricter (see below).
       final before = await publicIp();
       if (_cancelled) return;
-      if (before == null) {
-        _fail(trOr('vg_err_ip', 'آی‌پی عمومی فعلی خونده نشد؛ اینترنت رو چک کن', 'Could not read the current public IP; check your internet'));
-        return;
-      }
       _ipBefore = before;
       final list = servers.candidates();
       if (list.isEmpty) {
@@ -240,7 +241,10 @@ class VpnGateEngine extends ChangeNotifier implements VpnEngine {
           await tunnel.disconnect();
           return;
         }
-        if (after != null && after != before) {
+        // Proof that traffic really leaves through the relay: the public IP changed. If the IP could not be
+        // read before connecting, only an exit address equal to the relay's own address counts.
+        final proven = after != null && (before != null ? after != before : after == s.ip);
+        if (proven) {
           _exitIp = after;
           final v6 = await ipv6Probe();
           _ipv6Exposed = v6 == null ? null : v6.contains(':');
