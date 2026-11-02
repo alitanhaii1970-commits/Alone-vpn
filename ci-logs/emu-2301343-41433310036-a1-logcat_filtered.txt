@@ -1,0 +1,19 @@
+11-02 11:21:47.854  5878  5878 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-02 11:21:47.857  5878  5878 I AndroidRuntime: Using default boot image
+11-02 11:21:47.857  5878  5878 I AndroidRuntime: Leaving lock profiling enabled
+11-02 11:21:47.942  5878  5878 D AndroidRuntime: Calling main entry com.android.commands.monkey.Monkey
+11-02 11:21:48.011  5878  5878 I AndroidRuntime: VM exiting with result code 0.
+11-02 11:21:48.716  5931  5931 I flutter : ALONE_STORE path=/data/user/0/com.example.alone_vpn/files/alone_settings.json
+11-02 11:21:48.716  5931  5931 I flutter : ALONE_BOOT onboarded=false lang=fa links=0
+11-02 11:21:50.431  5931  5931 I flutter : ALONE_ROUTE shell lang=en
+11-02 11:21:55.721  5931  5931 I flutter : SELFTEST: CONNECTING
+11-02 11:21:56.079   534  1823 I ActivityManager: Background started FGS: Allowed [callingPackage: com.example.alone_vpn; callingUid: 10192; uidState: TOP ; uidBFSL: [BFSL]; intent: Intent { act=com.example.v2ray_box.SERVICE cmp=com.example.alone_vpn/com.example.v2ray_box.bg.VPNService }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null: isBindService:true]
+11-02 11:21:56.104  5931  5961 D V2Ray/BoxService: starting service (engine: xray)
+11-02 11:21:56.362  5931  5961 D V2Ray/BoxService: Service is now running (engine: xray)
+11-02 11:21:56.365  5931  5931 I flutter : SELFTEST: CONNECTED
+11-02 11:23:06.485  5931  5931 I flutter : SELFTEST: DISCONNECTED state=CS.off
+11-02 11:23:51.912  6601  6601 D AndroidRuntime: >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-02 11:23:51.924  6601  6601 I AndroidRuntime: Using default boot image
+11-02 11:23:51.924  6601  6601 I AndroidRuntime: Leaving lock profiling enabled
+11-02 11:23:52.133  6601  6601 D AndroidRuntime: Calling main entry com.android.commands.svc.Svc
+11-02 11:23:52.141  6601  6601 D AndroidRuntime: Shutting down VM
