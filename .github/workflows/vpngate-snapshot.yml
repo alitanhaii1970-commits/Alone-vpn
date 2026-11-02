@@ -21,7 +21,12 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dart-lang/setup-dart@v1
       - name: Build the snapshot from the official API
-        run: dart run tool/make_snapshot.dart /tmp/snapshot.json
+        run: |
+          # run it outside the Flutter package so no `pub get` (and no Flutter SDK) is needed
+          mkdir -p /tmp/snap/tool /tmp/snap/lib/data
+          cp tool/make_snapshot.dart /tmp/snap/tool/
+          cp lib/data/vpngate.dart lib/data/ovpn.dart /tmp/snap/lib/data/
+          cd /tmp/snap && dart run tool/make_snapshot.dart /tmp/snapshot.json
       - name: Publish it on the vpngate-data branch (a single commit, history is not kept)
         run: |
           rm -rf /tmp/data && mkdir /tmp/data && cd /tmp/data
