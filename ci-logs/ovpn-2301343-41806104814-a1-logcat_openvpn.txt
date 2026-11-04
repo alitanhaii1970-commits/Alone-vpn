@@ -1,0 +1,4 @@
+11-04 09:38:40.346  5348  5743 I OpenVPN : OpenVPN process exited
+11-04 09:38:40.357   535  2770 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+11-04 09:38:40.365   535   565 W NotificationService: notification 0|de.blinkt.openvpn|1623130911|null|10192 added an invalid shortcut
+11-04 09:38:40.367  5348  5743 I OpenVPN : Exiting
