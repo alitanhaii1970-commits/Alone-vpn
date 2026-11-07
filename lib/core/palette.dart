@@ -11,11 +11,16 @@ class ThemeSpec {
   final double darkTint;
   final double lightL;
   final double lightTint;
-  const ThemeSpec(this.id, this.h, this.c, this.darkL, this.darkTint, this.lightL, this.lightTint);
+  /// Hue of surfaces, outlines and text when it differs from the accent hue (-1 = same as [h]).
+  final double sh;
+  /// Hue of the "ok / secure" colour.
+  final double okH;
+  const ThemeSpec(this.id, this.h, this.c, this.darkL, this.darkTint, this.lightL, this.lightTint, [this.sh = -1, this.okH = 155]);
 }
 
 const List<ThemeSpec> kThemes = [
-  ThemeSpec('obsidian', 265, .135, .155, .014, .977, .008),
+  // saffron accent on lapis night, turquoise for "secure"
+  ThemeSpec('obsidian', 76, .16, .14, .045, .977, .008, 268, 178),
   ThemeSpec('aqua', 205, .125, .205, .026, .980, .012),
   ThemeSpec('neon', 322, .185, .125, .028, .984, .014),
   ThemeSpec('midnight', 250, .048, .135, .005, .975, .004),
@@ -74,7 +79,7 @@ class Pal {
   Color get shadowAmb => _c[38];
 
   /// Glass fill opacity (the design's --glass-a).
-  double get glassA => dark ? .74 : .82;
+  double get glassA => dark ? .92 : .9;
 
   static Pal lerp(Pal a, Pal b, double t) {
     return Pal._([for (var i = 0; i < a._c.length; i++) Color.lerp(a._c[i], b._c[i], t)!],
@@ -86,11 +91,14 @@ class Pal {
     final sl = dark ? s.darkL : s.lightL;
     final tint = dark ? s.darkTint : s.lightTint;
     final h = s.h;
+    final sh = s.sh < 0 ? s.h : s.sh; // surface hue
+    final h2 = s.sh < 0 ? s.h + 26 : s.sh; // secondary container hue
+    final h3 = s.sh < 0 ? s.h + 64 : s.sh; // tertiary container hue
     final c = s.c;
-    final onL = dark ? .955 : .205;
-    final onvL = dark ? .775 : .445;
-    final olL = dark ? .605 : .575;
-    final olvL = dark ? .335 : .845;
+    final onL = dark ? .965 : .205;
+    final onvL = dark ? .80 : .445;
+    final olL = dark ? .64 : .575;
+    final olvL = dark ? .41 : .845;
     final accL = dark ? .805 : .495;
     final onaccL = dark ? .215 : .995;
     final acccL = dark ? .365 : .905;
@@ -98,56 +106,56 @@ class Pal {
     final stL = dark ? .79 : .505;
     final stcL = dark ? .325 : .915;
     final onstcL = dark ? .94 : .235;
-    final glassA = dark ? .74 : .82;
+    final glassA = dark ? .92 : .9;
     final hiA = dark ? .14 : .88;
 
     Ok lch(double l, double ch, double hh) => Ok.lch(l, ch, hh);
-    final containerHigh = lch(sl + lift * .058, tint, h);
+    final containerHigh = lch(sl + lift * .058, tint, sh);
     final primary = lch(accL, c, h);
-    final outlineVariant = lch(olvL, tint * 1.3, h);
+    final outlineVariant = lch(olvL, tint * 1.3, sh);
 
     final shadowKey = dark
         ? const Color.fromARGB(148, 0, 0, 0)
-        : lch(.28, .03, h).toColor(.18);
+        : lch(.28, .03, sh).toColor(.18);
     final shadowAmb = dark
         ? const Color.fromARGB(87, 0, 0, 0)
-        : lch(.28, .03, h).toColor(.10);
+        : lch(.28, .03, sh).toColor(.10);
 
     final list = <Color>[
-      lch(sl - lift * .030, tint, h).toColor(), // surfaceDim
-      lch(sl, tint, h).toColor(), // surface
-      lch(sl + lift * .130, tint, h).toColor(), // surfaceBright
-      lch(sl - lift * .045, tint, h).toColor(), // containerLowest
-      lch(sl + lift * .020, tint, h).toColor(), // containerLow
-      lch(sl + lift * .036, tint, h).toColor(), // container
+      lch(sl - lift * .030, tint, sh).toColor(), // surfaceDim
+      lch(sl, tint, sh).toColor(), // surface
+      lch(sl + lift * .130, tint, sh).toColor(), // surfaceBright
+      lch(sl - lift * .045, tint, sh).toColor(), // containerLowest
+      lch(sl + lift * .020, tint, sh).toColor(), // containerLow
+      lch(sl + lift * .036, tint, sh).toColor(), // container
       containerHigh.toColor(), // containerHigh
-      lch(sl + lift * .085, tint, h).toColor(), // containerHighest
-      lch(onL, tint * .8, h).toColor(), // onSurface
-      lch(onvL, tint * 1.7, h).toColor(), // onSurfaceVariant
-      lch(olL, tint * 1.5, h).toColor(), // outline
+      lch(sl + lift * .085, tint, sh).toColor(), // containerHighest
+      lch(onL, tint * .8, sh).toColor(), // onSurface
+      lch(onvL, tint * 1.7, sh).toColor(), // onSurfaceVariant
+      lch(olL, tint * 1.5, sh).toColor(), // outline
       outlineVariant.toColor(), // outlineVariant
       primary.toColor(), // primary
       lch(onaccL, c * .30, h).toColor(), // onPrimary
       lch(acccL, c * .88, h).toColor(), // primaryContainer
       lch(onacccL, c * .42, h).toColor(), // onPrimaryContainer
       lch(accL - lift * .055, c * .42, h + 26).toColor(), // secondary
-      lch(sl + lift * .115, c * .30, h + 26).toColor(), // secondaryContainer
-      lch(onacccL, c * .28, h + 26).toColor(), // onSecondaryContainer
+      lch(sl + lift * .115, c * .30, h2).toColor(), // secondaryContainer
+      lch(onacccL, c * .28, h2).toColor(), // onSecondaryContainer
       lch(accL, c * .82, h + 64).toColor(), // tertiary
-      lch(sl + lift * .135, c * .44, h + 64).toColor(), // tertiaryContainer
-      lch(onacccL, c * .34, h + 64).toColor(), // onTertiaryContainer
-      lch(stL, .155, 155).toColor(), // ok
-      lch(stcL, .085, 155).toColor(), // okContainer
-      lch(onstcL, .055, 155).toColor(), // onOkContainer
+      lch(sl + lift * .135, c * .44, h3).toColor(), // tertiaryContainer
+      lch(onacccL, c * .34, h3).toColor(), // onTertiaryContainer
+      lch(stL, .155, s.okH).toColor(), // ok
+      lch(stcL, .085, s.okH).toColor(), // okContainer
+      lch(onstcL, .055, s.okH).toColor(), // onOkContainer
       lch(stL, .150, 78).toColor(), // warn
       lch(stcL, .085, 78).toColor(), // warnContainer
       lch(onstcL, .050, 78).toColor(), // onWarnContainer
       lch(stL, .165, 26).toColor(), // error
       lch(stcL, .095, 26).toColor(), // errorContainer
       lch(onstcL, .055, 26).toColor(), // onErrorContainer
-      lch(onL, tint * .8, h).toColor(), // inverseSurface
-      lch(sl, tint, h).toColor(), // inverseOnSurface
-      lch(sl * .34, tint, h).toColor(.62), // scrim
+      lch(onL, tint * .8, sh).toColor(), // inverseSurface
+      lch(sl, tint, sh).toColor(), // inverseOnSurface
+      lch(sl * .34, tint, sh).toColor(.62), // scrim
       containerHigh.toColor(glassA), // glassFill
       Ok.mix(primary, .26, outlineVariant).toColor(), // glassEdge
       const Color(0xFFFFFFFF).withAlpha((hiA * 255).round()), // glassHi

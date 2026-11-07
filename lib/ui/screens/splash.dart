@@ -150,7 +150,7 @@ class _SplashState extends State<SplashScreen> with TickerProviderStateMixin {
                     width: 112,
                     height: 3,
                     clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(color: alpha(p.onSurface, .10), borderRadius: BorderRadius.circular(Tk.rFull)),
+                    decoration: BoxDecoration(color: alpha(p.onSurface, .10), borderRadius: BorderRadius.zero),
                     child: AnimatedBuilder(
                       animation: _load,
                       builder: (context, _) {
@@ -162,7 +162,7 @@ class _SplashState extends State<SplashScreen> with TickerProviderStateMixin {
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 color: p.primary,
-                                borderRadius: BorderRadius.circular(Tk.rFull),
+                                borderRadius: BorderRadius.zero,
                                 boxShadow: [BoxShadow(color: alpha(p.primary, .8), blurRadius: 10, spreadRadius: -1)],
                               ),
                             ),
@@ -274,7 +274,7 @@ class _Dots extends StatelessWidget {
               height: 6,
               decoration: BoxDecoration(
                 color: i == on ? p.primary : p.outlineVariant,
-                borderRadius: BorderRadius.circular(Tk.rFull),
+                borderRadius: BorderRadius.zero,
                 boxShadow: i == on ? [BoxShadow(color: alpha(p.primary, .76), blurRadius: 10, spreadRadius: -1)] : const [],
               ),
             ),

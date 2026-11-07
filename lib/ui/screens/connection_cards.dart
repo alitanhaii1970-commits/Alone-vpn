@@ -171,7 +171,7 @@ class _StatusRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(width: 9, height: 9, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(width: 9, height: 9, color: color),
         const SizedBox(width: 8),
         Expanded(child: Text(text, maxLines: 2, overflow: TextOverflow.ellipsis, style: context.ty(R.titleS, color))),
       ],
@@ -220,14 +220,13 @@ class _Action extends StatelessWidget {
       height: 44,
       width: double.infinity,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(Tk.rFull),
-        border: enabled ? null : Border.all(color: alpha(p.outline, .4)),
+        shape: cutShape(Tk.rM, side: enabled ? BorderSide.none : BorderSide(color: alpha(p.outline, .4))),
       ),
       child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.ty(R.titleS, fg)),
     );
-    return enabled ? Press(radius: Tk.rFull, onTap: onTap, child: box) : box;
+    return enabled ? Press(radius: Tk.rM, onTap: onTap, child: box) : box;
   }
 }
 

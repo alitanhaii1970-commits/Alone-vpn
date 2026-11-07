@@ -45,11 +45,9 @@ class _AlSwitchState extends State<AlSwitch> {
             curve: Tk.standard,
             width: 48,
             height: 28,
-            decoration: BoxDecoration(
+            decoration: ShapeDecoration(
               color: on ? p.primary : alpha(p.onSurface, .12),
-              borderRadius: BorderRadius.circular(Tk.rFull),
-              border: Border.all(color: on ? const Color(0x00000000) : p.outline, width: 1.5),
-              boxShadow: on ? [glow(p.primary, .62, blur: 16, spread: -3)] : const [],
+              shape: cutShape(Tk.rS, side: BorderSide(color: on ? const Color(0x00000000) : p.outline, width: 1.5)),
             ),
             child: Stack(
               children: [
@@ -70,11 +68,7 @@ class _AlSwitchState extends State<AlSwitch> {
                       child: child,
                     ),
                     child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: on ? p.onPrimary : p.outline,
-                        boxShadow: const [BoxShadow(color: Color(0x4D000000), blurRadius: 3, offset: Offset(0, 1))],
-                      ),
+                      decoration: ShapeDecoration(color: on ? p.onPrimary : p.outline, shape: cutShape(Tk.rXs)),
                     ),
                   ),
                 ),
@@ -110,7 +104,7 @@ class AlCheck extends StatelessWidget {
           height: 21,
           decoration: BoxDecoration(
             color: on ? p.primary : const Color(0x00000000),
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(Tk.rXs),
             border: Border.all(color: on ? p.primary : p.outline, width: 2),
           ),
           child: AnimatedScale(
@@ -154,7 +148,6 @@ class AlRadio extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(color: on ? p.primary : p.outline, width: on ? 6 : 2),
-            boxShadow: on ? [BoxShadow(color: alpha(p.primary, .62), blurRadius: 12, spreadRadius: -2)] : const [],
           ),
         ),
       ),
@@ -198,21 +191,20 @@ class AlSlider extends StatelessWidget {
             alignment: Alignment.centerLeft,
             clipBehavior: Clip.none,
             children: [
-              Container(height: 6, decoration: BoxDecoration(color: alpha(p.onSurface, .12), borderRadius: BorderRadius.circular(Tk.rFull))),
+              Container(height: 6, color: alpha(p.onSurface, .12)),
               Positioned(
                 left: rtl ? x : 0,
                 right: rtl ? 0 : w - x,
-                child: Container(height: 6, decoration: BoxDecoration(color: p.primary, borderRadius: BorderRadius.circular(Tk.rFull))),
+                child: Container(height: 6, color: p.primary),
               ),
               Positioned(
                 left: x - 8,
                 child: Container(
                   width: 16,
                   height: 16,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                  decoration: ShapeDecoration(
                     color: p.primary,
-                    boxShadow: [BoxShadow(color: alpha(p.primary, .14), spreadRadius: 8)],
+                    shape: cutShape(Tk.rXs, side: BorderSide(color: p.surface, width: 2)),
                   ),
                 ),
               ),
@@ -274,11 +266,9 @@ class _AlFieldState extends State<AlField> {
       curve: Tk.standard,
       constraints: const BoxConstraints(minHeight: 46),
       padding: const EdgeInsets.symmetric(horizontal: 14),
-      decoration: BoxDecoration(
-        color: alpha(p.containerHighest, .7),
-        borderRadius: BorderRadius.circular(Tk.rM),
-        border: Border.all(color: border),
-        boxShadow: focus && !widget.invalid ? [BoxShadow(color: alpha(p.primary, .22), spreadRadius: 3)] : const [],
+      decoration: ShapeDecoration(
+        color: p.containerLowest,
+        shape: cutShape(Tk.rM, side: BorderSide(color: border, width: focus || widget.invalid ? 1.5 : 1)),
       ),
       child: Row(
         children: [

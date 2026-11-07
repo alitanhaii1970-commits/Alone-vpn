@@ -66,10 +66,10 @@ class StatusBanner extends StatelessWidget {
                     : trOr('banner_off', 'آماده برای اتصال', 'Ready to connect');
         final c = on ? p.ok : bad ? p.error : busy ? p.warn : p.primary;
         return Glass(
-          radius: Tk.rFull,
+          radius: Tk.rM,
           edge: alpha(c, .6),
           child: Press(
-            radius: Tk.rFull,
+            radius: Tk.rM,
             onTap: () => pushScreen<void>(context, const LogScreen()),
             child: SizedBox(
               height: 46,
@@ -144,9 +144,9 @@ class SpeedTiles extends StatelessWidget {
           children: [
             _tile(context, lead: arrow('↓', p.primary), label: trOr('sp_down', 'سرعت دانلود', 'Download'), value: on ? _mbps(c.rateDown) : '--', unit: 'Mbps', c: p.primary),
             const SizedBox(width: 8),
-            _tile(context, lead: arrow('↑', p.tertiary), label: trOr('sp_up', 'سرعت آپلود', 'Upload'), value: on ? _mbps(c.rateUp) : '--', unit: 'Mbps', c: p.tertiary),
+            _tile(context, lead: arrow('↑', p.ok), label: trOr('sp_up', 'سرعت آپلود', 'Upload'), value: on ? _mbps(c.rateUp) : '--', unit: 'Mbps', c: p.ok),
             const SizedBox(width: 8),
-            _tile(context, lead: AppIcon(Ic.pulse, size: 16, color: p.ok), label: trOr('sp_ping', 'تأخیر (Ping)', 'Ping'), value: on && lat != null ? loc(lat) : '--', unit: 'ms', c: p.ok),
+            _tile(context, lead: AppIcon(Ic.pulse, size: 16, color: on && lat != null ? latTone(p, lat) : p.onSurfaceVariant), label: trOr('sp_ping', 'تأخیر (Ping)', 'Ping'), value: on && lat != null ? loc(lat) : '--', unit: 'ms', c: on && lat != null ? latTone(p, lat) : p.onSurfaceVariant),
           ],
         );
       },

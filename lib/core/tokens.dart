@@ -26,7 +26,9 @@ class Tk {
   // spacing (8dp grid, 4dp half-step)
   static const double sp1 = 4, sp2 = 8, sp3 = 12, sp4 = 16, sp5 = 20, sp6 = 24, sp7 = 32, sp8 = 40;
   // shape
-  static const double rXs = 6, rS = 10, rM = 14, rL = 20, rXl = 28, rFull = 999, rDevice = 42;
+  // (new shape language: these are the size of the 45-degree corner cut, see cutShape in ui/kit/base.dart;
+  // rFull is only kept for old call sites and is clamped to rXl there)
+  static const double rXs = 3, rS = 5, rM = 8, rL = 12, rXl = 14, rFull = 999, rDevice = 42;
   // blur
   static const double blurGlass = 20, blurScrim = 6;
   // durations

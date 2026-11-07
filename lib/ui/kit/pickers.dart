@@ -65,8 +65,9 @@ class _ThemeCell extends StatelessWidget {
     final sl = dark ? spec.darkL : spec.lightL;
     final lift = dark ? 1.0 : -1.0;
     final tint = dark ? .02 : .01;
-    final a = Ok.lch(sl, tint, spec.h).toColor();
-    final b = Ok.lch(sl + lift * .07, tint * 1.4, spec.h).toColor();
+    final sh = spec.sh < 0 ? spec.h : spec.sh;
+    final a = Ok.lch(sl, tint, sh).toColor();
+    final b = Ok.lch(sl + lift * .07, tint * 1.4, sh).toColor();
     final accent = Ok.lch(dark ? .805 : .495, spec.c, spec.h).toColor();
     return CardX(
       padding: const EdgeInsets.all(9),
@@ -86,10 +87,9 @@ class _ThemeCell extends StatelessWidget {
                   aspectRatio: 1,
                   child: AnimatedContainer(
                     duration: Tk.fx,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(on ? Tk.rL : Tk.rM),
+                    decoration: ShapeDecoration(
                       gradient: LinearGradient(begin: const Alignment(-.5, -.87), end: const Alignment(.5, .87), colors: [a, b]),
-                      border: Border.all(color: on ? p.primary : p.glassHi, width: on ? 1.8 : 1),
+                      shape: cutShape(on ? Tk.rL : Tk.rM, side: BorderSide(color: on ? p.primary : p.outlineVariant, width: on ? 1.8 : 1)),
                     ),
                     child: Align(
                       alignment: const Alignment(.64, -.56),

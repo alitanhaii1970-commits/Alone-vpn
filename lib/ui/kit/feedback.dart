@@ -110,13 +110,12 @@ class GroupCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = context.pal;
     return Container(
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: p.container,
-        borderRadius: BorderRadius.circular(Tk.rL),
-        border: Border.all(color: alpha(p.outlineVariant, .75)),
+        shape: cutShape(Tk.rL, side: BorderSide(color: p.outlineVariant)),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(Tk.rL - 1),
+      child: CutClip(
+        cut: Tk.rL - 1,
         child: Column(
           children: [
             for (var i = 0; i < children.length; i++) ...[
@@ -190,7 +189,7 @@ class Bar extends StatelessWidget {
     final p = context.pal;
     return Container(
       height: h,
-      decoration: BoxDecoration(color: alpha(p.onSurface, .08), borderRadius: BorderRadius.circular(Tk.rFull)),
+      decoration: BoxDecoration(color: alpha(p.onSurface, .08)),
       clipBehavior: Clip.antiAlias,
       child: Align(
         alignment: AlignmentDirectional.centerStart,
@@ -200,7 +199,7 @@ class Bar extends StatelessWidget {
           widthFactor: value.clamp(0.0, 1.0),
           child: AnimatedContainer(
             duration: Tk.fx,
-            decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(Tk.rFull)),
+            color: color,
           ),
         ),
       ),
@@ -227,7 +226,7 @@ class EmptyState extends StatelessWidget {
             width: 54,
             height: 54,
             margin: const EdgeInsets.only(bottom: Tk.sp3),
-            decoration: BoxDecoration(color: alpha(p.onSurface, .06), borderRadius: BorderRadius.circular(Tk.rL)),
+            decoration: ShapeDecoration(color: alpha(p.onSurface, .06), shape: cutShape(Tk.rL, side: BorderSide(color: p.outlineVariant))),
             child: Center(child: AppIcon(icon, size: 24, color: p.outline)),
           ),
           Text(title, textAlign: TextAlign.center, style: context.ty(R.titleM, p.onSurface)),
@@ -256,10 +255,9 @@ class Notice extends StatelessWidget {
     final c = toneColor(p, tone);
     return Container(
       padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
+      decoration: ShapeDecoration(
         color: alpha(c, .10),
-        borderRadius: BorderRadius.circular(Tk.rM),
-        border: Border.all(color: alpha(c, .22)),
+        shape: cutShape(Tk.rM, side: BorderSide(color: alpha(c, .5))),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

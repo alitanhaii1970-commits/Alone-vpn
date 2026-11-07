@@ -33,7 +33,7 @@ class AmbientBg extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               ColoredBox(color: p.surface),
-              const _Wallpaper(),
+              const _GridBg(),
             ],
           ),
         ),
@@ -177,11 +177,10 @@ class StatusPill extends StatelessWidget {
                         key: ValueKey('${c.state}-${c.state == CS.connecting ? c.hs : 0}'),
                         height: 34,
                         padding: const EdgeInsets.symmetric(horizontal: 14),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Tk.rFull),
-                          color: alpha(p.containerHighest, .94),
-                          border: Border.all(color: border),
-                          boxShadow: elev(p, 3),
+                        decoration: ShapeDecoration(
+                          color: p.containerHighest,
+                          shape: cutShape(Tk.rM, side: BorderSide(color: border)),
+                          shadows: elev(p, 3),
                         ),
                         child: Center(child: inner),
                       ),
@@ -224,11 +223,7 @@ class _Dot extends StatelessWidget {
   final Color color;
   const _Dot({required this.color});
   @override
-  Widget build(BuildContext context) => Container(
-        width: 8,
-        height: 8,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: color, boxShadow: [BoxShadow(color: alpha(color, .8), blurRadius: 8)]),
-      );
+  Widget build(BuildContext context) => Container(width: 8, height: 8, color: color);
 }
 
 // ───────────── navigation bar ─────────────
@@ -286,37 +281,13 @@ class _NavItem extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Positioned(
-              bottom: 1,
+              top: 0,
               child: AnimatedContainer(
                 duration: Tk.fx,
-                width: on ? 26 : 0,
+                curve: Tk.standard,
+                width: on ? 30 : 0,
                 height: 2.5,
-                decoration: BoxDecoration(
-                  color: p.primary,
-                  borderRadius: BorderRadius.circular(2),
-                  boxShadow: [BoxShadow(color: alpha(p.primary, .6), blurRadius: 6)],
-                ),
-              ),
-            ),
-            Positioned(
-              top: 5,
-              child: AnimatedScale(
-                scale: on ? 1 : .55,
-                duration: const Duration(milliseconds: 440),
-                curve: Tk.bouncy,
-                child: AnimatedOpacity(
-                  opacity: on ? 1 : 0,
-                  duration: Tk.fx,
-                  child: Container(
-                    width: 54,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: alpha(p.primary, .18),
-                      borderRadius: BorderRadius.circular(Tk.rFull),
-                      boxShadow: [BoxShadow(color: alpha(p.primary, .35), blurRadius: 14, spreadRadius: -2)],
-                    ),
-                  ),
-                ),
+                color: p.primary,
               ),
             ),
             // FittedBox: with large system text the icon + label no longer fit the fixed 52 dp item
@@ -398,10 +369,10 @@ class _SnackCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ic = s.tone == 'ok' ? Ic.check : (s.tone == 'err' || s.tone == 'bad') ? Ic.alert : s.tone == 'warn' ? Ic.alert : Ic.info;
-    final col = s.tone == 'ok' ? p.ok : (s.tone == 'err' || s.tone == 'bad') ? p.error : s.tone == 'warn' ? p.warn : p.inverseOnSurface;
+    final col = s.tone == 'ok' ? p.ok : (s.tone == 'err' || s.tone == 'bad') ? p.error : s.tone == 'warn' ? p.warn : p.primary;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      decoration: BoxDecoration(color: p.inverseSurface, borderRadius: BorderRadius.circular(Tk.rM), boxShadow: elev(p, 4)),
+      decoration: ShapeDecoration(color: p.containerHighest, shape: cutShape(Tk.rM, side: BorderSide(color: col)), shadows: elev(p, 4)),
       child: Row(
         children: [
           TweenAnimationBuilder<double>(
@@ -415,7 +386,7 @@ class _SnackCard extends StatelessWidget {
             child: AppIcon(ic, size: 17, color: col),
           ),
           const SizedBox(width: 10),
-          Expanded(child: Text(s.msg, style: context.ty(R.bodyM, p.inverseOnSurface))),
+          Expanded(child: Text(s.msg, style: context.ty(R.bodyM, p.onSurface))),
           if (s.actLabel != null)
             Press(
               radius: Tk.rS,
@@ -483,7 +454,7 @@ Future<T?> showSheet<T>(BuildContext context, {required String title, String? bo
                                 width: 34,
                                 height: 4,
                                 margin: const EdgeInsets.only(top: 4, bottom: 12),
-                                decoration: BoxDecoration(color: p.outlineVariant, borderRadius: BorderRadius.circular(Tk.rFull)),
+                                decoration: BoxDecoration(color: p.outline),
                               ),
                             ),
                             Flexible(
@@ -602,28 +573,46 @@ class ScreenFrame extends StatelessWidget {
 double clampd(double v, double a, double b) => math.max(a, math.min(b, v));
 
 
-/// Full-screen wallpaper: the night lake in the dark theme, the day lake in the light theme.
-/// A pre-rendered image (decoded once, nothing animates). A light veil in the surface colour keeps
-/// text outside the cards readable.
-class _Wallpaper extends StatelessWidget {
-  const _Wallpaper();
+/// Page background: the flat surface with a faint technical grid and a soft accent wash along the
+/// top edge. Static and drawn once (the RepaintBoundary in [AmbientBg] caches it).
+class _GridBg extends StatelessWidget {
+  const _GridBg();
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
     return IgnorePointer(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            p.dark ? 'assets/bg/night.jpg' : 'assets/bg/day.jpg',
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.medium,
-            gaplessPlayback: true,
-            errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-          ),
-          ColoredBox(color: alpha(p.surface, p.dark ? .10 : .26)),
-        ],
+      child: CustomPaint(
+        size: Size.infinite,
+        painter: _GridPainter(alpha(p.onSurface, p.dark ? .045 : .06), alpha(p.primary, p.dark ? .10 : .08)),
       ),
     );
   }
+}
+
+class _GridPainter extends CustomPainter {
+  final Color line;
+  final Color accent;
+  const _GridPainter(this.line, this.accent);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const step = 32.0;
+    final paint = Paint()
+      ..strokeWidth = 1
+      ..color = line;
+    for (double x = 0; x <= size.width; x += step) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+    for (double y = 0; y <= size.height; y += step) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+    final rect = Offset.zero & size;
+    canvas.drawRect(
+      rect,
+      Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.center, colors: [accent, alpha(accent, 0)]).createShader(rect),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GridPainter old) => old.line != line || old.accent != accent;
 }

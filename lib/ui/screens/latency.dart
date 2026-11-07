@@ -68,7 +68,7 @@ class LatencyScreen extends StatelessWidget {
                                     height: 6,
                                     decoration: BoxDecoration(
                                       color: b < latBars(ServerStore.I.lat[items[i].id]) ? latTone(p, ServerStore.I.lat[items[i].id]) : alpha(p.onSurface, .08),
-                                      borderRadius: BorderRadius.circular(Tk.rFull),
+                                      borderRadius: BorderRadius.zero,
                                     ),
                                   ),
                                 ),

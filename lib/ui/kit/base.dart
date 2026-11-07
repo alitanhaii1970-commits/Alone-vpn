@@ -7,107 +7,38 @@ import '../../core/settings.dart';
 import '../../core/tokens.dart';
 import '../../core/typography.dart';
 
-// ───────────── elevation (the design's --elev-1..5 and glows) ─────────────
+// ───────────── shape language: one 45° cut, hairline edges ─────────────
+/// The app's single shape: a rectangle with its four corners cut at 45°. [cut] is the size of the
+/// cut. Anything bigger than the largest token (the old pill, 999) is clamped, so a legacy
+/// `radius: Tk.rFull` turns into a chamfered tag instead of a diamond.
+ShapeBorder cutShape(double cut, {BorderSide side = BorderSide.none}) =>
+    BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(cut > Tk.rXl ? Tk.rXl : cut)), side: side);
+
+/// Clips a child to the cut outline (ripples, the inside of grouped cards).
+class CutClip extends StatelessWidget {
+  final double cut;
+  final Widget child;
+  const CutClip({super.key, required this.cut, required this.child});
+
+  @override
+  Widget build(BuildContext context) => ClipPath(clipper: ShapeBorderClipper(shape: cutShape(cut)), child: child);
+}
+
+/// Elevation. Surfaces are flat and edged by a hairline; only what floats over content (nav bar,
+/// sheets, dialogs, toasts) gets one short shadow.
 List<BoxShadow> elev(Pal p, int n) {
-  BoxShadow s(double dy, double blur, double spread, Color c) =>
-      BoxShadow(color: c, offset: Offset(0, dy), blurRadius: blur, spreadRadius: spread);
-  switch (n) {
-    case 1:
-      return [s(1, 2, 0, p.shadowAmb), s(1, 3, 1, p.shadowAmb)];
-    case 2:
-      return [s(1, 2, 0, p.shadowAmb), s(2, 6, 2, p.shadowAmb)];
-    case 3:
-      return [s(4, 8, 3, p.shadowAmb), s(1, 3, 0, p.shadowKey)];
-    case 4:
-      return [s(6, 10, 4, p.shadowAmb), s(2, 3, 0, p.shadowKey)];
-    default:
-      return [s(8, 14, 6, p.shadowAmb), s(4, 5, 0, p.shadowKey)];
-  }
+  if (n <= 2) return const [];
+  final blur = n == 3 ? 16.0 : 26.0;
+  final dy = n == 3 ? 6.0 : 10.0;
+  return [BoxShadow(color: p.shadowKey, offset: Offset(0, dy), blurRadius: blur)];
 }
 
 BoxShadow glow(Color c, double pct, {double blur = 40, double spread = -8}) =>
     BoxShadow(color: alpha(c, pct), blurRadius: blur, spreadRadius: spread);
 
-/// Paints box shadows only *outside* the shape, like CSS box-shadow (Flutter's
-/// own would show through translucent glass).
-class _OuterShadow extends CustomPainter {
-  final double radius;
-  final List<BoxShadow> shadows;
-  const _OuterShadow(this.radius, this.shadows);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rr = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius));
-    canvas.save();
-    final outer = Path()..addRect(Rect.fromLTWH(-200, -200, size.width + 400, size.height + 400));
-    final hole = Path()..addRRect(rr);
-    canvas.clipPath(Path.combine(PathOperation.difference, outer, hole));
-    for (final sh in shadows) {
-      canvas.drawRRect(rr.shift(sh.offset).inflate(sh.spreadRadius), sh.toPaint());
-    }
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_OuterShadow old) => old.radius != radius || old.shadows != shadows;
-}
-
-/// `inset 0 1px 0 hi, inset 0 -1px 0 shade`: a 1px lit top edge and shaded bottom edge.
-class _InsetEdges extends CustomPainter {
-  final double radius;
-  final Color top;
-  final Color? bottom;
-  const _InsetEdges(this.radius, this.top, this.bottom);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rr = RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius));
-    final base = Path()..addRRect(rr);
-    canvas.drawPath(
-        Path.combine(PathOperation.difference, base, Path()..addRRect(rr.shift(const Offset(0, 1)))), Paint()..color = top);
-    if (bottom != null) {
-      canvas.drawPath(Path.combine(PathOperation.difference, base, Path()..addRRect(rr.shift(const Offset(0, -1)))),
-          Paint()..color = bottom!);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_InsetEdges old) => old.top != top || old.bottom != bottom || old.radius != radius;
-}
-
-/// Edge lighting: a 1px rim that is lit at the top and picks up the accent at the bottom
-/// (the design's specular edge + coloured bounce light). One stroked rrect with a shader: cheap.
-class _Rim extends CustomPainter {
-  final double radius;
-  final Color top;
-  final Color bottom;
-  const _Rim(this.radius, this.top, this.bottom);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (size.isEmpty) return;
-    final rect = Offset.zero & size;
-    final rr = RRect.fromRectAndRadius(rect, Radius.circular(radius)).deflate(.5);
-    canvas.drawRRect(
-      rr,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [top, top.withAlpha(0), bottom],
-          stops: const [0, .5, 1],
-        ).createShader(rect),
-    );
-  }
-
-  @override
-  bool shouldRepaint(_Rim old) => old.radius != radius || old.top != top || old.bottom != bottom;
-}
-
-// ───────────── glass ─────────────
-/// The design's `.glass`: translucent gradient fill, blurred backdrop, lit edge.
+// ───────────── panel ─────────────
+/// The design's `.glass`, now a flat cut-corner panel: a lifted, opaque fill and a hairline edge.
+/// It keeps its old name so every card, bar, sheet and dialog picks up the new look.
 class Glass extends StatelessWidget {
   final Widget child;
   final double radius;
@@ -115,41 +46,22 @@ class Glass extends StatelessWidget {
   final List<BoxShadow>? shadows;
   final Color? edge;
 
-  /// Minimum opacity of the fill. Surfaces that sit over other content (bottom bar, sheets,
-  /// dialogs) use a nearly solid fill so what is behind them does not show through.
+  /// Kept for old call sites: the fill is opaque now, so nothing shows through any more.
   final double minFill;
   const Glass({super.key, required this.child, this.radius = Tk.rL, this.padding, this.shadows, this.edge, this.minFill = .74});
 
   @override
   Widget build(BuildContext context) {
-    // v1.5 painted glass: sheen gradient + lit rim + accent bounce light. There is deliberately no
-    // BackdropFilter (live blur was the cost behind the lag), so it stays nearly as cheap as flat.
     final p = context.pal;
-    final br = BorderRadius.circular(radius);
-    const white = Color(0xFFFFFFFF);
-    // In Flutter a gradient replaces the box colour, so the gradient stops ARE the fill. Keep them
-    // nearly opaque (bars and sheets even more) so the wallpaper never makes text hard to read.
-    final fa = minFill > .9 ? .97 : .93;
-    Color fill(Color over) => alpha(Color.alphaBlend(over, p.container), fa);
-    final body = CustomPaint(
-      foregroundPainter: _Rim(radius, alpha(white, p.dark ? .22 : .95), alpha(p.primary, p.dark ? .26 : .16)),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: p.container,
-          borderRadius: br,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [fill(alpha(white, p.dark ? .08 : .55)), fill(const Color(0x00FFFFFF)), fill(alpha(p.primary, p.dark ? .08 : .06))],
-            stops: const [0, .5, 1],
-          ),
-          border: Border.all(color: alpha(edge ?? p.outlineVariant, .85)),
-        ),
-        child: padding == null ? child : Padding(padding: padding!, child: child),
+    // In Flutter a gradient replaces the box colour, so the gradient stops ARE the fill.
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [p.containerHigh, p.container]),
+        shape: cutShape(radius, side: BorderSide(color: edge ?? p.outlineVariant)),
+        shadows: shadows ?? elev(p, 1),
       ),
+      child: padding == null ? child : Padding(padding: padding!, child: child),
     );
-    final sh = shadows ?? elev(p, 1);
-    return sh.isEmpty ? ClipRRect(borderRadius: br, child: body) : CustomPaint(painter: _OuterShadow(radius, sh), child: ClipRRect(borderRadius: br, child: body));
   }
 }
 
@@ -225,8 +137,8 @@ class _PressState extends State<Press> with TickerProviderStateMixin {
                 widget.child,
                 Positioned.fill(
                   child: IgnorePointer(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(widget.radius),
+                    child: CutClip(
+                      cut: widget.radius,
                       child: CustomPaint(painter: _RipplePainter(_r, () => _pt, p.primary)),
                     ),
                   ),
@@ -295,7 +207,8 @@ class _RipplePainter extends CustomPainter {
 // ───────────── cards ─────────────
 enum Surf { card, tonal, filled, outlined }
 
-/// `.card` / `.tonal` / `.filled` / `.outlined`, with the selected rail.
+/// `.card` / `.tonal` / `.filled` / `.outlined` as flat cut-corner panels. A selected card takes a
+/// full accent edge and a faint accent wash instead of the old side rail.
 class CardX extends StatelessWidget {
   final Widget child;
   final Surf surf;
@@ -318,55 +231,35 @@ class CardX extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final br = BorderRadius.circular(radius);
-    Color bg;
-    Border? border;
+    Color? fill;
+    Gradient? grad;
+    var side = BorderSide.none;
     switch (surf) {
       case Surf.card:
-        bg = selected ? Color.alphaBlend(alpha(p.primary, .13), p.container) : p.container;
-        border = Border.all(color: selected ? alpha(p.primary, .6) : alpha(p.outlineVariant, .75), width: selected ? 1.4 : 1);
+        grad = LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: selected
+              ? [Color.alphaBlend(alpha(p.primary, .18), p.containerHigh), Color.alphaBlend(alpha(p.primary, .08), p.container)]
+              : [p.containerHigh, p.container],
+        );
+        side = BorderSide(color: selected ? p.primary : p.outlineVariant, width: selected ? 1.5 : 1);
         break;
       case Surf.tonal:
-        bg = p.primaryContainer;
+        fill = p.primaryContainer;
+        side = BorderSide(color: alpha(p.primary, .4));
         break;
       case Surf.filled:
-        bg = p.primary;
+        fill = p.primary;
         break;
       case Surf.outlined:
-        bg = const Color(0x00000000);
-        border = Border.all(color: p.outlineVariant);
+        side = BorderSide(color: p.outline);
         break;
     }
-    // passthrough: when the parent gives the card a tight size (Expanded / stretch), the background
-    // must fill it; with the default loose fit it shrank to its content and looked misaligned.
-    final body = Stack(
-      fit: StackFit.passthrough,
-      children: [
-        CustomPaint(
-          foregroundPainter: (surf == Surf.card || surf == Surf.tonal)
-              ? _Rim(radius, alpha(const Color(0xFFFFFFFF), p.dark ? .16 : .85), alpha(p.primary, selected ? .5 : .14))
-              : null,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: bg,
-              borderRadius: br,
-              border: border,
-              gradient: (surf == Surf.card || surf == Surf.tonal)
-                  ? LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        alpha(Color.alphaBlend(alpha(const Color(0xFFFFFFFF), p.dark ? .07 : .5), bg), .94),
-                        alpha(bg, .94),
-                      ],
-                      stops: const [0, .55],
-                    )
-                  : null,
-            ),
-            child: Padding(padding: padding, child: child),
-          ),
-        ),
-      ],
+    // In Flutter a gradient replaces the colour, so only one of the two is ever set.
+    final body = DecoratedBox(
+      decoration: ShapeDecoration(color: fill, gradient: grad, shape: cutShape(radius, side: side)),
+      child: Padding(padding: padding, child: child),
     );
     if (onTap == null && onLongPress == null) return body;
     return Press(radius: radius, onTap: onTap, onLongPress: onLongPress, child: body);
@@ -420,16 +313,14 @@ class ChipIc extends StatelessWidget {
     final p = context.pal;
     final c = toneColor(p, tone);
     final size = sm ? 30.0 : 38.0;
-    final rad = round ? Tk.rFull : (sm ? Tk.rS : Tk.rM);
     final plain = tone == Tone.plain;
     return Container(
       width: size,
       height: size,
       alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: plain ? alpha(p.onSurface, .08) : alpha(c, .15),
-        borderRadius: BorderRadius.circular(rad),
-        border: Border.all(color: plain ? p.outlineVariant : alpha(c, tone == Tone.primary ? .18 : .22)),
+      decoration: ShapeDecoration(
+        color: plain ? alpha(p.onSurface, .08) : alpha(c, .14),
+        shape: cutShape(sm ? Tk.rXs : Tk.rS, side: BorderSide(color: plain ? p.outlineVariant : alpha(c, .55))),
       ),
       child: custom ?? AppIcon(icon, size: sm ? 15 : 18, color: c),
     );
@@ -477,7 +368,7 @@ class BadgeX extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: BoxDecoration(color: alpha(c, .18), borderRadius: BorderRadius.circular(Tk.rXs)),
+        decoration: ShapeDecoration(color: alpha(c, .16), shape: cutShape(Tk.rXs, side: BorderSide(color: alpha(c, .5)))),
         child: Text(
           text,
           style: TextStyle(
@@ -513,7 +404,7 @@ class Btn extends StatelessWidget {
     final p = context.pal;
     Color bg;
     Color fg;
-    Border? border;
+    var border = BorderSide.none;
     switch (variant) {
       case Bv.filled:
         bg = p.primary;
@@ -522,12 +413,12 @@ class Btn extends StatelessWidget {
       case Bv.tonal:
         bg = alpha(p.primary, p.dark ? .14 : .12);
         fg = p.primary;
-        border = Border.all(color: alpha(p.primary, .28));
+        border = BorderSide(color: alpha(p.primary, .55));
         break;
       case Bv.outlined:
         bg = const Color(0x00000000);
         fg = p.onSurface;
-        border = Border.all(color: p.outline);
+        border = BorderSide(color: p.outline);
         break;
       case Bv.text:
         bg = const Color(0x00000000);
@@ -536,7 +427,7 @@ class Btn extends StatelessWidget {
       case Bv.danger:
         bg = alpha(p.error, p.dark ? .14 : .10);
         fg = p.error;
-        border = Border.all(color: alpha(p.error, .30));
+        border = BorderSide(color: alpha(p.error, .55));
         break;
     }
     final h = variant == Bv.text ? 40.0 : (tall ? 52.0 : 46.0);
@@ -551,10 +442,10 @@ class Btn extends StatelessWidget {
     final body = Container(
       height: h,
       padding: EdgeInsets.symmetric(horizontal: variant == Bv.text ? 12 : 20),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(Tk.rM + 2), border: border),
+      decoration: ShapeDecoration(color: bg, shape: cutShape(Tk.rM, side: border)),
       child: Center(widthFactor: wide ? null : 1, child: row),
     );
-    return Press(radius: Tk.rM + 2, onTap: onTap, child: body);
+    return Press(radius: Tk.rM, onTap: onTap, child: body);
   }
 }
 
@@ -581,10 +472,9 @@ class Segmented extends StatelessWidget {
         final bounded = c.maxWidth.isFinite;
         return Container(
           padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            color: alpha(p.containerLowest, .8),
-            borderRadius: BorderRadius.circular(Tk.rFull),
-            border: Border.all(color: p.outlineVariant),
+          decoration: ShapeDecoration(
+            color: p.containerLowest,
+            shape: cutShape(Tk.rS, side: BorderSide(color: p.outlineVariant)),
           ),
           child: Row(
             mainAxisSize: bounded ? MainAxisSize.max : MainAxisSize.min,
@@ -614,7 +504,7 @@ class _SegBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = context.pal;
     return Press(
-      radius: Tk.rFull,
+      radius: Tk.rXs + 1,
       pressScale: .94,
       onTap: onTap,
       child: AnimatedContainer(
@@ -623,10 +513,9 @@ class _SegBtn extends StatelessWidget {
         height: 34,
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: on ? p.primary : const Color(0x00000000),
-          borderRadius: BorderRadius.circular(Tk.rFull),
-          boxShadow: on ? elev(p, 1) : const [],
+          shape: cutShape(Tk.rXs + 1),
         ),
         child: AnimatedDefaultTextStyle(
           duration: Tk.fx,
@@ -651,7 +540,7 @@ class FChip extends StatelessWidget {
     final p = context.pal;
     final fg = on ? p.onSecondaryContainer : p.onSurfaceVariant;
     return Press(
-      radius: Tk.rFull,
+      radius: Tk.rS,
       pressScale: .93,
       onTap: onTap,
       child: AnimatedContainer(
@@ -659,10 +548,9 @@ class FChip extends StatelessWidget {
         curve: Tk.standard,
         height: 32,
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
+        decoration: ShapeDecoration(
           color: on ? p.secondaryContainer : const Color(0x00000000),
-          borderRadius: BorderRadius.circular(Tk.rFull),
-          border: Border.all(color: on ? const Color(0x00000000) : p.outlineVariant),
+          shape: cutShape(Tk.rS, side: BorderSide(color: on ? p.primary : p.outlineVariant)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -684,17 +572,22 @@ class Hair extends StatelessWidget {
       Container(height: 1, margin: const EdgeInsets.symmetric(vertical: Tk.sp2), color: context.pal.outlineVariant);
 }
 
-/// The micro-caps section label (`.t-micro`, upper-cased in English).
+/// Section label: a short accent bar and the text. No capitals and no tracking (Persian letters join).
 class SectionLabel extends StatelessWidget {
   final String text;
   const SectionLabel(this.text, {super.key});
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final fa = context.st.fa;
     return Padding(
-      padding: const EdgeInsetsDirectional.only(start: 4, top: 14, bottom: 8),
-      child: Text(fa ? text : text.toUpperCase(), style: context.ty(R.micro, p.onSurfaceVariant)),
+      padding: const EdgeInsetsDirectional.only(start: 2, top: 16, bottom: 8),
+      child: Row(
+        children: [
+          Container(width: 3, height: 12, color: p.primary),
+          const SizedBox(width: 8),
+          Flexible(child: Text(text, style: context.ty(R.labelL, p.onSurfaceVariant))),
+        ],
+      ),
     );
   }
 }

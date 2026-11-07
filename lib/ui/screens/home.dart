@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../../core/connection/connection_manager.dart';
 import '../../core/connection/vpn_engine.dart';
@@ -23,8 +24,9 @@ import 'log.dart';
 import 'servers.dart';
 import 'sheets.dart';
 
-/// The connect dial: track + sweep ring (progress), breathing glow, the orbit
-/// and pulses while connected, a wave on success, a shake on failure.
+/// The connect dial: a tick ring whose lit part follows the handshake, a flat disc that takes the
+/// state colour, one ring that leaves the disc when the tunnel comes up, and a shake on failure.
+/// It is the only round thing in the app. Nothing loops: idle and connected are completely still.
 class ConnectDial extends StatefulWidget {
   const ConnectDial({super.key});
   @override
@@ -32,20 +34,14 @@ class ConnectDial extends StatefulWidget {
 }
 
 class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin {
-  late final AnimationController _bob = AnimationController(vsync: this, duration: const Duration(seconds: 7))..repeat();
-  late final AnimationController _glow = AnimationController(vsync: this, duration: const Duration(milliseconds: 4800))..repeat();
-  late final AnimationController _spin = AnimationController(vsync: this, duration: const Duration(seconds: 28))..repeat();
-  late final AnimationController _pulse = AnimationController(vsync: this, duration: const Duration(milliseconds: 3200));
   late final AnimationController _wave = AnimationController(vsync: this, duration: const Duration(milliseconds: 1050));
   late final AnimationController _shake = AnimationController(vsync: this, duration: const Duration(milliseconds: 760));
-  late final AnimationController _burst = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
   CS? _last;
 
   @override
   void dispose() {
-    for (final c in [_bob, _glow, _spin, _pulse, _wave, _shake, _burst]) {
-      c.dispose();
-    }
+    _wave.dispose();
+    _shake.dispose();
     super.dispose();
   }
 
@@ -55,17 +51,13 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
     _last = s;
     if (s == CS.on) {
       _wave.forward(from: 0);
-      _burst.forward(from: 0);
-      _pulse.repeat(); // the pulses only run while connected
-    } else {
-      _pulse.stop();
-      if (s == CS.failed && was != null) _shake.forward(from: 0);
+    } else if (s == CS.failed && was != null) {
+      _shake.forward(from: 0);
     }
   }
 
-  // Performance rule for this widget: everything that moves every frame is a static picture
-  // inside its own RepaintBoundary, and only its transform / opacity is animated. The GPU then
-  // just re-composites cached layers instead of re-drawing blurred shadows and gradients.
+  // Performance rule for this widget: what moves is a cached picture inside its own
+  // RepaintBoundary and only its transform / opacity is animated.
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
@@ -89,28 +81,7 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
-              // soft coloured glow under the button, breathing
-              IgnorePointer(
-                child: AnimatedBuilder(
-                  animation: _glow,
-                  child: RepaintBoundary(
-                    child: TweenAnimationBuilder<Color?>(
-                      tween: ColorTween(end: accent),
-                      duration: const Duration(milliseconds: 500),
-                      builder: (context, col, _) => Container(
-                        width: 150,
-                        height: 150,
-                        decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [glow(col ?? accent, on ? .42 : .30, blur: 54, spread: -4)]),
-                      ),
-                    ),
-                  ),
-                  builder: (context, child) {
-                    final g = Curves.easeInOut.transform(_glow.value);
-                    return Opacity(opacity: .72 + .28 * g, child: Transform.scale(scale: .96 + .1 * g, child: child));
-                  },
-                ),
-              ),
-              // progress ring (handshake steps)
+              // tick ring: the lit ticks follow the handshake steps
               IgnorePointer(
                 child: RepaintBoundary(
                   child: TweenAnimationBuilder<double>(
@@ -118,86 +89,37 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                     duration: const Duration(milliseconds: 1350),
                     curve: Tk.standard,
                     builder: (context, v, _) => CustomPaint(
-                      size: const Size(196, 196),
-                      painter: _Ring(v, accent, p.onSurface, on ? 1 : 0),
+                      size: const Size(204, 204),
+                      painter: _Ticks(v, accent, p.outlineVariant),
                     ),
                   ),
                 ),
               ),
-              // expanding pulses while connected
-              if (on)
-                for (final off in const [0.0, 1.05, 2.1])
-                  IgnorePointer(
-                    child: AnimatedBuilder(
-                      animation: _pulse,
-                      child: RepaintBoundary(
-                        child: Container(
-                          width: 160,
-                          height: 160,
-                          decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: alpha(p.ok, .46), width: 1)),
-                        ),
-                      ),
-                      builder: (context, child) {
-                        final t = ((_pulse.value - off / 3.2) % 1.0 + 1.0) % 1.0;
-                        final o = (t < .18 ? t / .18 * .6 : (1 - t) * .6 * (1 - t) / .82).clamp(0.0, 1.0);
-                        return Opacity(opacity: o, child: Transform.scale(scale: .97 + .73 * t, child: child));
-                      },
-                    ),
-                  ),
-              // orbiting dots while connected
-              IgnorePointer(
-                child: AnimatedOpacity(
-                  opacity: on ? 1 : 0,
-                  duration: const Duration(milliseconds: 380),
-                  child: AnimatedBuilder(
-                    animation: _spin,
-                    child: RepaintBoundary(
-                      child: SizedBox(
-                        width: 228,
-                        height: 228,
-                        child: Stack(children: [
-                          for (final a in const [0.0, 120.0, 238.0])
-                            Align(
-                              alignment: Alignment.center,
-                              child: Transform.translate(
-                                offset: const Offset(0, -114),
-                                child: Transform.rotate(
-                                  angle: a * 3.1415926 / 180,
-                                  child: Container(width: 5, height: 5, decoration: BoxDecoration(shape: BoxShape.circle, color: p.ok, boxShadow: [BoxShadow(color: p.ok, blurRadius: 9)])),
-                                ),
-                              ),
-                            ),
-                        ]),
-                      ),
-                    ),
-                    builder: (context, child) => Transform.rotate(angle: _spin.value * 6.2832 * 2.4, child: child),
-                  ),
-                ),
-              ),
-              // success wave
+              // success: one ring leaves the disc
               IgnorePointer(
                 child: AnimatedBuilder(
                   animation: _wave,
                   child: RepaintBoundary(
-                    child: Container(width: 158, height: 158, decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: p.ok, width: 1.6))),
+                    child: Container(width: 150, height: 150, decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: p.ok, width: 1.5))),
                   ),
                   builder: (context, child) {
                     final t = _wave.value;
                     if (t == 0 || t >= 1) return const SizedBox.shrink();
                     return Opacity(
                       opacity: (t < .6 ? .9 - .5 * (t / .6) : .3 * (1 - (t - .6) / .4)).clamp(0.0, 1.0),
-                      child: Transform.scale(scale: .94 + 1.46 * t, child: child),
+                      child: Transform.scale(scale: .94 + .5 * t, child: child),
                     );
                   },
                 ),
               ),
-              // the button: floats, shakes on failure, pops on success
+              // the disc: flat, edged in the state colour; shakes on failure
               AnimatedBuilder(
-                animation: Listenable.merge([_bob, _shake, _burst]),
+                animation: _shake,
                 child: RepaintBoundary(
                   child: Press(
-                    radius: 130,
-                    pressScale: .92,
+                    radius: 75,
+                    ripple: false,
+                    pressScale: .94,
                     haptic: false,
                     onTap: () => ConnectionManager.I.toggle(EngineKind.manual),
                     child: TweenAnimationBuilder<Color?>(
@@ -206,53 +128,20 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                       builder: (context, col, _) {
                         final cc = col ?? accent;
                         return Container(
-                          width: 158,
-                          height: 158,
+                          width: 150,
+                          height: 150,
+                          alignment: Alignment.center,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: alpha(cc, .85), width: 2),
-                            gradient: RadialGradient(
-                              center: const Alignment(-.3, -.45),
-                              radius: 1.1,
-                              colors: [
-                                Color.lerp(cc, const Color(0xFFFFFFFF), .2)!,
-                                cc,
-                                Color.lerp(Color.lerp(cc, p.tertiary, .55)!, const Color(0xFF000000), .38)!,
-                              ],
-                              stops: const [0, .5, 1],
-                            ),
+                            color: Color.alphaBlend(alpha(cc, on ? .20 : .10), p.containerHigh),
+                            border: Border.all(color: cc, width: 2),
                           ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              // glassy highlight
-                              Positioned.fill(
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: const Alignment(.15, .15),
-                                      colors: [alpha(Colors.white, .30), alpha(Colors.white, 0)],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 380),
-                                switchInCurve: Tk.bouncy,
-                                child: busy
-                                    ? RepaintBoundary(
-                                        key: const ValueKey('busy'),
-                                        child: SizedBox(
-                                          width: 30,
-                                          height: 30,
-                                          child: const CircularProgressIndicator(strokeWidth: 2.4, color: Color(0xFFFFFFFF)),
-                                        ),
-                                      )
-                                    : AppIcon(on ? Ic.shield : Ic.power, key: ValueKey(on), size: 58, color: const Color(0xFFFFFFFF)),
-                              ),
-                            ],
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 380),
+                            switchInCurve: Tk.bouncy,
+                            child: busy
+                                ? SizedBox(key: const ValueKey('busy'), width: 30, height: 30, child: CircularProgressIndicator(strokeWidth: 2.4, color: cc))
+                                : AppIcon(on ? Ic.shield : Ic.power, key: ValueKey(on), size: 56, color: cc),
                           ),
                         );
                       },
@@ -260,15 +149,9 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
                   ),
                 ),
                 builder: (context, child) {
-                  final b = Curves.easeInOut.transform(_bob.value);
                   final s = _shake.value;
-                  final shakeDx = _shake.isAnimating || s > 0 ? (s < .14 ? -7 * s / .14 : (s < .31 ? 6 * (s - .14) / .17 : -4 * (1 - (s - .31) / .69))) : 0.0;
-                  final bu = _burst.value;
-                  final bScale = _burst.isAnimating ? (bu < .24 ? .88 + .25 * bu / .24 : 1.13 - .17 * (bu - .24) / .76) : 1.0;
-                  return Transform.translate(
-                    offset: Offset(shakeDx, -4 * (b < .5 ? b * 2 : (1 - b) * 2)),
-                    child: Transform.scale(scale: bScale, child: child),
-                  );
+                  final dx = _shake.isAnimating || s > 0 ? (s < .14 ? -7 * s / .14 : (s < .31 ? 6 * (s - .14) / .17 : -4 * (1 - (s - .31) / .69))) : 0.0;
+                  return Transform.translate(offset: Offset(dx, 0), child: child);
                 },
               ),
             ],
@@ -279,50 +162,36 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
   }
 }
 
-class _Ring extends CustomPainter {
+/// 72 ticks around the disc (a longer one every 6th); the first `sweep` share of them is lit.
+class _Ticks extends CustomPainter {
   final double sweep;
-  final Color ring;
-  final Color track;
-  final double on;
-  const _Ring(this.sweep, this.ring, this.track, this.on);
+  final Color lit;
+  final Color dim;
+  const _Ticks(this.sweep, this.lit, this.dim);
+
   @override
   void paint(Canvas canvas, Size size) {
-    final r = Offset.zero & size;
-    final rect = r.deflate(1.6);
-    canvas.drawCircle(
-        rect.center,
-        rect.width / 2,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.8
-          ..color = alpha(track, .09));
-    if (sweep > 0) {
-      canvas.drawArc(
-          rect,
-          -1.5708,
-          6.2832 * sweep.clamp(0.0, 1.0),
-          false,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.8
-            ..strokeCap = StrokeCap.round
-            ..color = ring
-            ..maskFilter = MaskFilter.blur(BlurStyle.normal, 3.4 * (.4 + .6 * on)));
-      canvas.drawArc(
-          rect,
-          -1.5708,
-          6.2832 * sweep.clamp(0.0, 1.0),
-          false,
-          Paint()
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.8
-            ..strokeCap = StrokeCap.round
-            ..color = ring);
+    final c = size.center(Offset.zero);
+    final r = size.width / 2 - 1;
+    const n = 72;
+    final litPaint = Paint()
+      ..strokeWidth = 2
+      ..color = lit;
+    final dimPaint = Paint()
+      ..strokeWidth = 1.2
+      ..color = dim;
+    final s = sweep.clamp(0.0, 1.0);
+    for (var i = 0; i < n; i++) {
+      final a = -math.pi / 2 + 2 * math.pi * i / n;
+      final d = Offset(math.cos(a), math.sin(a));
+      final long = i % 6 == 0;
+      final isLit = (i + 1) / n <= s + 0.0001;
+      canvas.drawLine(c + d * (r - (long ? 13 : 8)), c + d * r, isLit ? litPaint : dimPaint);
     }
   }
 
   @override
-  bool shouldRepaint(_Ring old) => old.sweep != sweep || old.ring != ring || old.on != on;
+  bool shouldRepaint(_Ticks old) => old.sweep != sweep || old.lit != lit || old.dim != dim;
 }
 
 /// Four handshake segments: resolve → tcp → tls → tunnel.
@@ -408,14 +277,14 @@ class _HsSegState extends State<_HsSeg> with SingleTickerProviderStateMixin {
         return Container(
           height: 3,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: widget.base, borderRadius: BorderRadius.circular(Tk.rFull)),
+          decoration: BoxDecoration(color: widget.base),
           child: Align(
             alignment: AlignmentDirectional.centerStart,
             child: AnimatedFractionallySizedBox(
               duration: Tk.spatial,
               curve: Tk.standard,
               widthFactor: f,
-              child: DecoratedBox(decoration: BoxDecoration(color: fill, borderRadius: BorderRadius.circular(Tk.rFull))),
+              child: ColoredBox(color: fill),
             ),
           ),
         );
@@ -734,7 +603,7 @@ class ServerRow extends StatelessWidget {
             Container(
               width: 7,
               height: 7,
-              decoration: BoxDecoration(shape: BoxShape.circle, color: sel ? p.primary : p.outline, boxShadow: sel ? [BoxShadow(color: p.primary, blurRadius: 8)] : const []),
+              color: sel ? p.primary : p.outline,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -756,7 +625,7 @@ class ServerRow extends StatelessWidget {
               Text(latText(ms), style: context.ty(R.labelM, ms == null ? p.outline : tone, true)),
             const SizedBox(width: 6),
             Press(
-              radius: Tk.rFull,
+              radius: Tk.rS,
               onTap: () {
                 ServerStore.I.remove(server.id);
                 snack(tr('deleted'), tone: 'info');
