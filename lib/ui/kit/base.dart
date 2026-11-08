@@ -240,13 +240,13 @@ class CardX extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: selected
-              ? [Color.alphaBlend(alpha(p.primary, .18), p.containerHigh), Color.alphaBlend(alpha(p.primary, .08), p.container)]
+              ? [Color.alphaBlend(alpha(p.primary, .07), p.containerHigh), Color.alphaBlend(alpha(p.primary, .03), p.container)]
               : [p.containerHigh, p.container],
         );
         side = BorderSide(color: selected ? p.primary : p.outlineVariant, width: selected ? 1.5 : 1);
         break;
       case Surf.tonal:
-        fill = p.primaryContainer;
+        fill = Color.alphaBlend(alpha(p.primary, .08), p.containerHigh);
         side = BorderSide(color: alpha(p.primary, .4));
         break;
       case Surf.filled:
@@ -319,8 +319,8 @@ class ChipIc extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: ShapeDecoration(
-        color: plain ? alpha(p.onSurface, .08) : alpha(c, .14),
-        shape: cutShape(sm ? Tk.rXs : Tk.rS, side: BorderSide(color: plain ? p.outlineVariant : alpha(c, .55))),
+        color: plain ? alpha(p.onSurface, .08) : alpha(c, .10),
+        shape: cutShape(sm ? Tk.rXs : Tk.rS, side: BorderSide(color: plain ? p.outlineVariant : alpha(c, .45))),
       ),
       child: custom ?? AppIcon(icon, size: sm ? 15 : 18, color: c),
     );
@@ -368,7 +368,7 @@ class BadgeX extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: ShapeDecoration(color: alpha(c, .16), shape: cutShape(Tk.rXs, side: BorderSide(color: alpha(c, .5)))),
+        decoration: ShapeDecoration(color: alpha(c, .12), shape: cutShape(Tk.rXs, side: BorderSide(color: alpha(c, .45)))),
         child: Text(
           text,
           style: TextStyle(
@@ -411,7 +411,7 @@ class Btn extends StatelessWidget {
         fg = p.onPrimary;
         break;
       case Bv.tonal:
-        bg = alpha(p.primary, p.dark ? .14 : .12);
+        bg = Color.alphaBlend(alpha(p.primary, .08), p.containerHigh);
         fg = p.primary;
         border = BorderSide(color: alpha(p.primary, .55));
         break;
@@ -425,7 +425,7 @@ class Btn extends StatelessWidget {
         fg = p.primary;
         break;
       case Bv.danger:
-        bg = alpha(p.error, p.dark ? .14 : .10);
+        bg = Color.alphaBlend(alpha(p.error, .08), p.containerHigh);
         fg = p.error;
         border = BorderSide(color: alpha(p.error, .55));
         break;

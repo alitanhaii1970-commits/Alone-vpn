@@ -12,6 +12,7 @@ import '../../core/typography.dart';
 import '../../data/catalog.dart';
 import '../../data/stores.dart';
 import 'base.dart';
+import 'world_map.dart';
 
 // ───────────── ambient background ─────────────
 /// Surface colour, two soft top/bottom glows, three slowly drifting colour
@@ -33,7 +34,7 @@ class AmbientBg extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               ColoredBox(color: p.surface),
-              const _GridBg(),
+              const WorldBackdrop(),
             ],
           ),
         ),
@@ -571,48 +572,3 @@ class ScreenFrame extends StatelessWidget {
 }
 
 double clampd(double v, double a, double b) => math.max(a, math.min(b, v));
-
-
-/// Page background: the flat surface with a faint technical grid and a soft accent wash along the
-/// top edge. Static and drawn once (the RepaintBoundary in [AmbientBg] caches it).
-class _GridBg extends StatelessWidget {
-  const _GridBg();
-  @override
-  Widget build(BuildContext context) {
-    final p = context.pal;
-    return IgnorePointer(
-      child: CustomPaint(
-        size: Size.infinite,
-        painter: _GridPainter(alpha(p.onSurface, p.dark ? .045 : .06), alpha(p.primary, p.dark ? .10 : .08)),
-      ),
-    );
-  }
-}
-
-class _GridPainter extends CustomPainter {
-  final Color line;
-  final Color accent;
-  const _GridPainter(this.line, this.accent);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const step = 32.0;
-    final paint = Paint()
-      ..strokeWidth = 1
-      ..color = line;
-    for (double x = 0; x <= size.width; x += step) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
-    }
-    for (double y = 0; y <= size.height; y += step) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
-    final rect = Offset.zero & size;
-    canvas.drawRect(
-      rect,
-      Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.center, colors: [accent, alpha(accent, 0)]).createShader(rect),
-    );
-  }
-
-  @override
-  bool shouldRepaint(_GridPainter old) => old.line != line || old.accent != accent;
-}

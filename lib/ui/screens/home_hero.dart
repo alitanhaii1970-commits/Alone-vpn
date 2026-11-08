@@ -67,7 +67,7 @@ class StatusBanner extends StatelessWidget {
         final c = on ? p.ok : bad ? p.error : busy ? p.warn : p.primary;
         return Glass(
           radius: Tk.rM,
-          edge: alpha(c, .6),
+          edge: alpha(c, .38),
           child: Press(
             radius: Tk.rM,
             onTap: () => pushScreen<void>(context, const LogScreen()),
@@ -107,7 +107,7 @@ class SpeedTiles extends StatelessWidget {
     return Expanded(
       child: Glass(
         radius: Tk.rL,
-        edge: alpha(c, .55),
+        edge: alpha(c, .34),
         padding: const EdgeInsets.fromLTRB(8, 11, 8, 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,

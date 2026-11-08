@@ -16,6 +16,7 @@ import '../../data/stores.dart';
 import '../kit/base.dart';
 import '../kit/chrome.dart';
 import '../kit/feedback.dart';
+import '../kit/world_map.dart';
 import '../nav.dart';
 import 'latency.dart';
 import 'connection_cards.dart';
@@ -37,6 +38,31 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
   late final AnimationController _wave = AnimationController(vsync: this, duration: const Duration(milliseconds: 1050));
   late final AnimationController _shake = AnimationController(vsync: this, duration: const Duration(milliseconds: 760));
   CS? _last;
+  final GlobalKey _anchor = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _publish());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _publish());
+  }
+
+  /// Tells the backdrop where the dial really is, so the map sits behind it on every phone.
+  /// Not while the page is scrolled: the background stays put when the content moves.
+  void _publish() {
+    if (!mounted) return;
+    if ((Scrollable.maybeOf(context)?.position.pixels ?? 0) > 1) return;
+    final ro = _anchor.currentContext?.findRenderObject();
+    if (ro is! RenderBox || !ro.attached || !ro.hasSize) return;
+    final c = ro.localToGlobal(ro.size.center(Offset.zero));
+    final old = DialAnchor.center.value;
+    if (old == null || (old - c).distance > 1) DialAnchor.center.value = c;
+  }
 
   @override
   void dispose() {
@@ -75,12 +101,28 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
             : on
                 ? 1.0
                 : 0.0;
-        return SizedBox(
+        WidgetsBinding.instance.addPostFrameCallback((_) => _publish());
+        // The top padding leaves room for the map above the dial (see WorldBackdrop).
+        return Padding(
+          padding: const EdgeInsets.only(top: 44),
+          child: SizedBox(
+          key: _anchor,
           height: 212,
           child: Stack(
             alignment: Alignment.center,
             clipBehavior: Clip.none,
             children: [
+              // a soft bloom in the state colour grounds the dial on the map
+              IgnorePointer(
+                child: Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(colors: [alpha(accent, .22), alpha(accent, 0)]),
+                  ),
+                ),
+              ),
               // tick ring: the lit ticks follow the handshake steps
               IgnorePointer(
                 child: RepaintBoundary(
@@ -156,6 +198,7 @@ class _ConnectDialState extends State<ConnectDial> with TickerProviderStateMixin
               ),
             ],
           ),
+        ),
         );
       },
     );
