@@ -1,5 +1,12 @@
 ## ALONE VPN — beta
 
+**What's new in 1.9.0**
+- **A new look, top to bottom: dark, high-contrast, technical.** A lapis-blue night with a saffron accent; turquoise appears only when something is secure. Panels, buttons, chips, switches, sheets and the bottom bar now have cut corners and hairline edges instead of soft glass, and the photo wallpaper is replaced by a faint grid.
+- **New connect dial:** a ring of ticks that lights up with each handshake step, and a flat disc in the state colour. Nothing animates while idle or connected; only the moment the tunnel comes up (one ring) and a failure (a shake) are animated.
+- Text and borders have more contrast in the dark theme. The other five themes keep their colours and get the new shapes. The light theme still works.
+- Nothing changed in the engines, Smart mode, subscriptions or how settings behave.
+- Compiled and tested by CI, including the emulator run (screenshots checked). It has not been tried on many phones yet, so please tell us how it feels.
+
 **What's new in 1.8.1**
 - **Smart mode can now get its server list where vpngate.net is blocked (for example in Iran).** If the official site does not answer, the app uses ALONE's own copy of the list (refreshed every 4 hours by a public GitHub job and published on three different hosts), then the last list saved on your phone, then the list bundled inside the app. The Smart card shows which source is in use and how old it is.
 - Smart mode no longer needs the IP-echo websites to be reachable before it connects. It tries up to 10 relays, and still says "Connected" only with proof that traffic leaves through the relay.
