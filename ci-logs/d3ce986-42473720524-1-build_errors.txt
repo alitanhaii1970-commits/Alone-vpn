@@ -1,0 +1,37 @@
+97:[  +12 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/build.gradle.kts' doesn't provide an AGP version. Checking settings.
+98:[        ] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/settings.gradle.kts' provides AGP version: 9.1.0
+118:[ +199 ms] The client will now receive all logging from the daemon (pid: 39699). The daemon log file: /home/runner/.gradle/daemon/9.3.1/daemon-39699.out.log
+860:[+93301 ms] > Task :gradle:compileKotlin FAILED
+862:[        ] FAILURE: Build failed with an exception.
+863:[   +1 ms] * What went wrong:
+864:[        ] Execution failed for task ':gradle:compileKotlin'.
+865:[        ] > Could not isolate parameters org.jetbrains.kotlin.gradle.internal.transforms.BuildToolsApiClasspathEntrySnapshotTransform$Parameters_Decorated@792f86d of artifact transform BuildToolsApiClasspathEntrySnapshotTransform
+866:[        ]    > Could not isolate value org.jetbrains.kotlin.gradle.internal.transforms.BuildToolsApiClasspathEntrySnapshotTransform$Parameters_Decorated@792f86d of type BuildToolsApiClasspathEntrySnapshotTransform.Parameters
+867:[        ]       > Could not resolve all files for configuration ':gradle:kotlinBuildToolsApiClasspath'.
+868:[        ]          > Could not download kotlin-compiler-embeddable-2.2.21.jar (org.jetbrains.kotlin:kotlin-compiler-embeddable:2.2.21)
+869:[        ]             > Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.2.21/kotlin-compiler-embeddable-2.2.21.jar'.
+870:[        ]                > Could not GET 'https://github.com/JetBrains/kotlin/releases/download/v2.2.21/kotlin-compiler-embeddable-2.2.21.jar'.
+879:[        ] org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':gradle:compileKotlin'.
+907:[        ] Caused by: org.gradle.internal.operations.BuildOperationQueueFailure: There was a failure while populating the build operation queue: Could not isolate parameters org.jetbrains.kotlin.gradle.internal.transforms.BuildToolsApiClasspathEntrySnapshotTransform$Parameters_Decorated@792f86d of artifact transform BuildToolsApiClasspathEntrySnapshotTransform
+999:[        ] Caused by: org.gradle.api.internal.artifacts.transform.VariantTransformConfigurationException: Could not isolate parameters org.jetbrains.kotlin.gradle.internal.transforms.BuildToolsApiClasspathEntrySnapshotTransform$Parameters_Decorated@792f86d of artifact transform BuildToolsApiClasspathEntrySnapshotTransform
+1025:[        ] Caused by: org.gradle.internal.snapshot.impl.IsolationException: Could not isolate value org.jetbrains.kotlin.gradle.internal.transforms.BuildToolsApiClasspathEntrySnapshotTransform$Parameters_Decorated@792f86d of type BuildToolsApiClasspathEntrySnapshotTransform.Parameters
+1030:[        ] Caused by: org.gradle.api.internal.artifacts.ivyservice.TypedResolveException: Could not resolve all files for configuration ':gradle:kotlinBuildToolsApiClasspath'.
+1061:[        ] Caused by: org.gradle.internal.resolve.ArtifactResolveException: Could not download kotlin-compiler-embeddable-2.2.21.jar (org.jetbrains.kotlin:kotlin-compiler-embeddable:2.2.21)
+1098:[        ] Caused by: org.gradle.api.resources.ResourceException: Could not get resource 'https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.2.21/kotlin-compiler-embeddable-2.2.21.jar'.
+1106:[        ] Caused by: org.gradle.internal.resource.transport.http.HttpRequestException: Could not GET 'https://github.com/JetBrains/kotlin/releases/download/v2.2.21/kotlin-compiler-embeddable-2.2.21.jar'.
+1166:[        ] Retrying Gradle Build: #1, wait time: 100ms
+1167:[ +101 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/build.gradle.kts' doesn't provide an AGP version. Checking settings.
+1168:[        ] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/settings.gradle.kts' provides AGP version: 9.1.0
+1173:[ +215 ms] The client will now receive all logging from the daemon (pid: 39699). The daemon log file: /home/runner/.gradle/daemon/9.3.1/daemon-39699.out.log
+1174:[        ] Starting 2nd build in daemon [uptime: 2 mins 1.295 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 8 GiB, non-heap usage: 3% of 4 GiB]
+3729:[        ] w: file:///home/runner/work/Alone-vpn/Alone-vpn/android/app/build.gradle.kts:7:1: 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+8353:[        ] If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+8464:[        ] [   +1 ms] aot_android_asset_bundle: Starting due to {}
+8472:[        ] [   +1 ms] aot_android_asset_bundle: Complete
+9480:[        ] Compilation mode: in-process compilation
+10968:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #0: starting
+10993:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #1: starting
+13491:[        ] Compilation mode: in-process compilation
+13847:[        ] Compilation mode: in-process compilation
+14394:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #0: shutdown
+14395:[        ] AAPT2 aapt2-9.1.0-14792394-linux Daemon #1: shutdown
