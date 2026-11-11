@@ -1,0 +1,13 @@
+OPENVPN_APP installed=true
+CONNECTING
+OPENVPN_APP installed=true
+CONNECTING
+CONNECT result=success state=connected attempts=1 country=JP reportedPing=16 reportedMbps=132.5 log=2weeks ipChanged=true ipv6Exposed=false err=null
+HOLD
+EXCLUSION manualResult=failed smart=disconnected manual=disconnected occupying=[]
+DISCONNECT state=disconnected
+RECONNECT result=success state=connected attempts=1 country=JP reportedPing=16 reportedMbps=132.5 log=2weeks ipChanged=true ipv6Exposed=false err=null
+SWITCH result=success state=connected attempts=2 country=KR reportedPing=32 reportedMbps=90.6 log=2weeks ipChanged=true ipv6Exposed=false err=null
+SWITCH countryChanged=true exitChanged=true firstExitDiffers=true firstCountry=JP
+FINAL smart=disconnected occupying=[]
+DONE ok=true
