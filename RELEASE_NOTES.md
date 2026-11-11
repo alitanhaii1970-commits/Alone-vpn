@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 1.8.2**
+- **New bottom bar.** One glass pill now glides between Home, Servers, Usage and Settings on a spring, stretches while it travels, and the tapped tab shows a soft ring. The active icon lights up as the pill arrives.
+- Nothing else changed: Smart mode, Manual mode and the list sources are the same as 1.8.1.
+- Compiled and unit-tested by CI. The bar was not yet checked on a real phone; please tell us how it feels.
+
 **What's new in 1.8.1**
 - **Smart mode can now get its server list where vpngate.net is blocked (for example in Iran).** If the official site does not answer, the app uses ALONE's own copy of the list (refreshed every 4 hours by a public GitHub job and published on three different hosts), then the last list saved on your phone, then the list bundled inside the app. The Smart card shows which source is in use and how old it is.
 - Smart mode no longer needs the IP-echo websites to be reachable before it connects. It tries up to 10 relays, and still says "Connected" only with proof that traffic leaves through the relay.
