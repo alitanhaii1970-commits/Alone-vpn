@@ -1,5 +1,10 @@
 ## ALONE VPN — beta
 
+**What's new in 2.0.0**
+- **New bottom bar.** One glass pill glides between Home, Servers, Usage and Settings on a spring, stretches while it moves, and the tapped tab shows a soft ring.
+- Smart mode (VPN Gate), Manual mode (Xray) and the list sources are the same as 1.8.1.
+- Compiled and unit-tested by CI. The bar has not yet been checked on a real phone; please tell us how it feels.
+
 **What's new in 1.8.2**
 - **New bottom bar.** One glass pill now glides between Home, Servers, Usage and Settings on a spring, stretches while it travels, and the tapped tab shows a soft ring. The active icon lights up as the pill arrives.
 - Nothing else changed: Smart mode, Manual mode and the list sources are the same as 1.8.1.
