@@ -1,6 +1,8 @@
 import '../shell_state.dart';
 import 'dart:math' as math;
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 import '../../core/i18n.dart';
 import '../../core/icons.dart';
 import '../../core/oklch.dart';
@@ -232,7 +234,7 @@ class _Dot extends StatelessWidget {
 }
 
 // ───────────── navigation bar ─────────────
-class NavBar extends StatelessWidget {
+class NavBar extends StatefulWidget {
   final int index;
   final ValueChanged<int> onSelect;
   const NavBar({super.key, required this.index, required this.onSelect});
@@ -245,20 +247,115 @@ class NavBar extends StatelessWidget {
   ];
 
   @override
+  State<NavBar> createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
+  // One glass pill that glides between the tabs. A spring drives the position, and the pill is
+  // stretched while it moves (the "liquid" feel) and settles back when it arrives.
+  late final AnimationController _ctrl = AnimationController.unbounded(vsync: this, value: widget.index.toDouble());
+  double _from = 0;
+  double _to = 0;
+  int? _lastTapIndex;
+  Offset? _tapAt;
+
+  @override
+  void initState() {
+    super.initState();
+    _to = widget.index.toDouble();
+    _from = _to;
+  }
+
+  @override
+  void didUpdateWidget(covariant NavBar old) {
+    super.didUpdateWidget(old);
+    if (old.index != widget.index) _glideTo(widget.index.toDouble());
+  }
+
+  void _glideTo(double target) {
+    _from = _ctrl.value;
+    _to = target;
+    _ctrl.animateWith(SpringSimulation(
+      const SpringDescription(mass: 1, stiffness: 420, damping: 30),
+      _ctrl.value,
+      target,
+      _ctrl.velocity,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  void _select(int i, Offset at) {
+    _lastTapIndex = i;
+    _tapAt = at;
+    widget.onSelect(i);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    return Glass(minFill: .95, 
+    final n = NavBar._items.length;
+    return Glass(
+      minFill: .95,
       radius: Tk.rXl,
       shadows: elev(p, 3),
       child: SizedBox(
         height: 62,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Row(
-            children: [
-              for (var i = 0; i < _items.length; i++)
-                Expanded(child: _NavItem(icon: _items[i].$1, label: tr(_items[i].$2), on: i == index, onTap: () => onSelect(i))),
-            ],
+          child: LayoutBuilder(
+            builder: (context, box) {
+              final slot = box.maxWidth / n;
+              return AnimatedBuilder(
+                animation: _ctrl,
+                builder: (context, _) {
+                  final v = _ctrl.value.clamp(0.0, n - 1.0).toDouble();
+                  // how far the pill is still travelling: 0 at rest, up to 1 mid-flight
+                  final travel = (1 - (v - v.roundToDouble()).abs() * 2).clamp(0.0, 1.0);
+                  final stretch = 1 + .16 * travel;
+                  final pill = slot * .86;
+                  return Stack(
+                    children: [
+                      Positioned(
+                        left: v * slot + (slot - pill) / 2 - (pill * (stretch - 1)) / 2,
+                        top: 4,
+                        bottom: 4,
+                        width: pill * stretch,
+                        child: IgnorePointer(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: alpha(p.primary, .18),
+                              borderRadius: BorderRadius.circular(Tk.rFull),
+                              border: Border.all(color: alpha(const Color(0xFFFFFFFF), p.dark ? .18 : .5)),
+                              boxShadow: [BoxShadow(color: alpha(p.primary, .30), blurRadius: 14, spreadRadius: -3)],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          for (var i = 0; i < n; i++)
+                            Expanded(
+                              child: _NavItem(
+                                icon: NavBar._items[i].$1,
+                                label: tr(NavBar._items[i].$2),
+                                // emphasis follows the pill, so the active icon lights up as the pill arrives
+                                emphasis: (1 - (v - i).abs()).clamp(0.0, 1.0),
+                                ripple: _lastTapIndex == i ? _tapAt : null,
+                                onTap: (at) => _select(i, at),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
         ),
       ),
@@ -266,82 +363,93 @@ class NavBar extends StatelessWidget {
   }
 }
 
-class _NavItem extends StatelessWidget {
+class _NavItem extends StatefulWidget {
   final Ic icon;
   final String label;
-  final bool on;
-  final VoidCallback onTap;
-  const _NavItem({required this.icon, required this.label, required this.on, required this.onTap});
+  final double emphasis; // 0 = resting, 1 = fully active (follows the moving pill)
+  final Offset? ripple; // where the last tap landed, for the ring that spreads out of it
+  final ValueChanged<Offset> onTap;
+  const _NavItem({required this.icon, required this.label, required this.emphasis, required this.onTap, this.ripple});
+
+  @override
+  State<_NavItem> createState() => _NavItemState();
+}
+
+class _NavItemState extends State<_NavItem> with SingleTickerProviderStateMixin {
+  late final AnimationController _rip = AnimationController(vsync: this, duration: const Duration(milliseconds: 380));
+
+  @override
+  void didUpdateWidget(covariant _NavItem old) {
+    super.didUpdateWidget(old);
+    if (widget.ripple != null && widget.ripple != old.ripple) _rip.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    _rip.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final p = context.pal;
-    final fg = on ? p.primary : p.onSurfaceVariant;
-    return Press(
-      radius: Tk.rL,
-      onTap: onTap,
-      child: SizedBox(
-        height: 52,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              bottom: 1,
-              child: AnimatedContainer(
-                duration: Tk.fx,
-                width: on ? 26 : 0,
-                height: 2.5,
-                decoration: BoxDecoration(
-                  color: p.primary,
-                  borderRadius: BorderRadius.circular(2),
-                  boxShadow: [BoxShadow(color: alpha(p.primary, .6), blurRadius: 6)],
+    final e = widget.emphasis;
+    final fg = Color.lerp(p.onSurfaceVariant, p.primary, e)!;
+    return LayoutBuilder(
+      builder: (context, box) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: (d) => widget.onTap(d.localPosition),
+        child: SizedBox(
+          height: 52,
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              if (widget.ripple != null)
+                AnimatedBuilder(
+                  animation: _rip,
+                  builder: (context, _) {
+                    final t = Curves.easeOutCubic.transform(_rip.value);
+                    final r = box.maxWidth * (.2 + .5 * t);
+                    return Positioned(
+                      left: widget.ripple!.dx - r,
+                      top: widget.ripple!.dy - r,
+                      width: 2 * r,
+                      height: 2 * r,
+                      child: IgnorePointer(
+                        child: Opacity(
+                          opacity: (1 - t) * .35,
+                          child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: alpha(p.primary, .5))),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      child: Center(
+                        child: Transform.scale(
+                          scale: 1 + .14 * e,
+                          child: AppIcon(widget.icon, size: 22, color: fg),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      widget.label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.ty(R.labelM, fg, e > .5),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            Positioned(
-              top: 5,
-              child: AnimatedScale(
-                scale: on ? 1 : .55,
-                duration: const Duration(milliseconds: 440),
-                curve: Tk.bouncy,
-                child: AnimatedOpacity(
-                  opacity: on ? 1 : 0,
-                  duration: Tk.fx,
-                  child: Container(
-                    width: 54,
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: alpha(p.primary, .18),
-                      borderRadius: BorderRadius.circular(Tk.rFull),
-                      boxShadow: [BoxShadow(color: alpha(p.primary, .35), blurRadius: 14, spreadRadius: -2)],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            // FittedBox: with large system text the icon + label no longer fit the fixed 52 dp item
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 30,
-                  child: Center(
-                    child: AnimatedScale(
-                      scale: on ? 1.04 : 1,
-                      duration: const Duration(milliseconds: 400),
-                      curve: Tk.bouncy,
-                      child: AppIcon(icon, size: 18, color: fg),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(label, maxLines: 1, softWrap: false, style: context.ty(R.labelS, fg)),
-              ],
-            ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
