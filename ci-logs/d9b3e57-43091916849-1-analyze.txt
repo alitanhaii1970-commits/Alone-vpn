@@ -1,0 +1,58 @@
+Analyzing Alone-vpn...                                          
+
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/core/icons.dart:1:1 • deprecated_member_use
+   info • The import of 'package:flutter/widgets.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/foundation.dart'. Try removing the import directive • lib/core/settings.dart:4:8 • unnecessary_import
+warning • The value of the field '_statusSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:519:37 • unused_field
+warning • The value of the field '_statsSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:520:36 • unused_field
+warning • The value of the field '_alertsSub' isn't used. Try removing the field, or using it • lib/data/stores.dart:521:45 • unused_field
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/main.dart:2:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/kit/base.dart:1:1 • deprecated_member_use
+warning • The declaration '_InsetEdges' isn't referenced. Try removing the declaration of '_InsetEdges' • lib/ui/kit/base.dart:56:7 • unused_element
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/kit/chrome.dart:3:1 • deprecated_member_use
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/kit/chrome.dart:10:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/kit/feedback.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/kit/inputs.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/kit/pickers.dart:1:1 • deprecated_member_use
+warning • Unused import: '../../core/settings.dart'. Try removing the import directive • lib/ui/kit/pickers.dart:7:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/nav.dart:1:1 • deprecated_member_use
+warning • Unused import: '../core/scope.dart'. Try removing the import directive • lib/ui/nav.dart:2:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/connection_cards.dart:1:1 • deprecated_member_use
+warning • Unused import: 'dart:async'. Try removing the import directive • lib/ui/screens/home.dart:1:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/home.dart:2:1 • deprecated_member_use
+warning • Unused import: '../../core/palette.dart'. Try removing the import directive • lib/ui/screens/home.dart:8:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/home_hero.dart:1:1 • deprecated_member_use
+warning • Unused import: '../../core/palette.dart'. Try removing the import directive • lib/ui/screens/home_hero.dart:6:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/latency.dart:1:1 • deprecated_member_use
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/latency.dart:15:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/log.dart:1:1 • deprecated_member_use
+warning • Unused import: '../../core/oklch.dart'. Try removing the import directive • lib/ui/screens/log.dart:4:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/log.dart:7:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/servers.dart:1:1 • deprecated_member_use
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/servers.dart:6:8 • unused_import
+warning • Unused import: '../../core/typography.dart'. Try removing the import directive • lib/ui/screens/servers.dart:7:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/settings.dart:1:1 • deprecated_member_use
+warning • Unused import: '../../core/oklch.dart'. Try removing the import directive • lib/ui/screens/settings.dart:6:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/settings.dart:9:8 • unused_import
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/ui/screens/settings.dart:44:11 • unused_local_variable
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/sheets.dart:1:1 • deprecated_member_use
+warning • Unused import: '../../core/scope.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:5:8 • unused_import
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:6:8 • unused_import
+warning • Unused import: '../../core/typography.dart'. Try removing the import directive • lib/ui/screens/sheets.dart:7:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/shell.dart:2:1 • deprecated_member_use
+warning • Unused import: '../../core/tokens.dart'. Try removing the import directive • lib/ui/screens/shell.dart:4:8 • unused_import
+warning • The value of the local variable 'p' isn't used. Try removing the variable or using it • lib/ui/screens/shell.dart:66:11 • unused_local_variable
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/splash.dart:3:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/subscriptions.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/ui/screens/usage.dart:1:1 • deprecated_member_use
+warning • Unused import: '../nav.dart'. Try removing the import directive • lib/ui/screens/usage.dart:14:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • test/app_flow_test.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • test/app_smoke_test.dart:1:1 • deprecated_member_use
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • test/app_smoke_test.dart:1:8 • unused_import
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • test/home_layout_test.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • test/overflow_probe_test.dart:1:1 • deprecated_member_use
+   info • 'package:flutter/material.dart' is deprecated and shouldn't be used. Use package:material_ui/material_ui.dart instead. This feature was deprecated after v3.47.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • test/screens_matrix_test.dart:1:1 • deprecated_member_use
+warning • The value of the local variable 'current' isn't used. Try removing the variable or using it • test/screens_matrix_test.dart:45:15 • unused_local_variable
+warning • Unused import: 'package:alone_vpn/services/vpngate_sources.dart'. Try removing the import directive • test/vpngate_test.dart:5:8 • unused_import
+
+53 issues found. (ran in 4.7s)
+exit=0
