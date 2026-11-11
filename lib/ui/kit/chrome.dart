@@ -1,6 +1,5 @@
 import '../shell_state.dart';
 import 'dart:math' as math;
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 import '../../core/i18n.dart';
@@ -254,16 +253,12 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
   // One glass pill that glides between the tabs. A spring drives the position, and the pill is
   // stretched while it moves (the "liquid" feel) and settles back when it arrives.
   late final AnimationController _ctrl = AnimationController.unbounded(vsync: this, value: widget.index.toDouble());
-  double _from = 0;
-  double _to = 0;
   int? _lastTapIndex;
   Offset? _tapAt;
 
   @override
   void initState() {
     super.initState();
-    _to = widget.index.toDouble();
-    _from = _to;
   }
 
   @override
@@ -273,8 +268,6 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
   }
 
   void _glideTo(double target) {
-    _from = _ctrl.value;
-    _to = target;
     _ctrl.animateWith(SpringSimulation(
       const SpringDescription(mass: 1, stiffness: 420, damping: 30),
       _ctrl.value,
