@@ -1,0 +1,8 @@
+[09:55:33] device: Android 14 / SDK 34 / x86_64
+[09:55:39] PASS  release APK installs
+[09:55:52] PASS  app process is alive after 9s
+[09:55:52] PASS  no FATAL EXCEPTION on cold start
+[09:55:52] PASS  no native library load error
+        TOTAL    72150    45304    16408        0   197824    51765    43510     4368
+           TOTAL PSS:    72150            TOTAL RSS:   197824      TOTAL SWAP (KB):        0
+[09:56:38] screenshot 02c_second_launch failed, restarting adb
