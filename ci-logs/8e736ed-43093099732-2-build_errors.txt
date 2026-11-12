@@ -1,0 +1,23 @@
+99:[  +10 ms] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/build.gradle.kts' doesn't provide an AGP version. Checking settings.
+100:[        ] LocalFile: '/home/runner/work/Alone-vpn/Alone-vpn/android/settings.gradle.kts' provides AGP version: 9.3.1
+119:[   +3 ms] The client will now receive all logging from the daemon (pid: 39738). The daemon log file: /home/runner/.gradle/daemon/9.5.0/daemon-39738.out.log
+3372:[        ] w: file:///home/runner/work/Alone-vpn/Alone-vpn/android/app/build.gradle.kts:7:1: 'fun Project.android(configure: Action<BaseAppModuleExtension>): Unit' is deprecated. Replaced by com.android.build.api.dsl.ApplicationExtension.
+8047:[        ] If you are a plugin author, please migrate your plugin to Built-in Kotlin using this guide: https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-plugin-authors
+8674:[        ] Compilation mode: in-process compilation
+10017:[        ] AAPT2 aapt2-9.3.1-15703166-linux Daemon #0: starting
+11107:[        ] [        ] aot_android_asset_bundle: Starting due to {}
+11114:[ +499 ms] [ +436 ms] aot_android_asset_bundle: Complete
+11146:[        ] Compilation mode: in-process compilation
+11296:[        ] AAPT2 aapt2-9.3.1-15703166-linux Daemon #1: starting
+12178:[        ] Compilation mode: in-process compilation
+13960:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keep public class com.google.vending.licensing.ILicensingService`
+13961:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keep public class com.android.vending.licensing.ILicensingService`
+13962:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keep public class com.google.android.vending.licensing.ILicensingService`
+13963:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keepclassmembers class * {
+13966:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keep class android.support.annotation.Keep`
+13967:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keep @android.support.annotation.Keep class * {
+13970:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+13973:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+13976:[        ] INFO: R8: Android Gradle plugin 9.3.1 (extracted file: /home/runner/work/Alone-vpn/Alone-vpn/build/app/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.3.1): Proguard configuration rule does not match anything: `-keepclasseswithmembers class * {
+14100:[        ] AAPT2 aapt2-9.3.1-15703166-linux Daemon #0: shutdown
+14101:[        ] AAPT2 aapt2-9.3.1-15703166-linux Daemon #1: shutdown
