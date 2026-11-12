@@ -1,0 +1,4 @@
+[09:55:55] OpenVPN for Android versionCode: 225
+[09:56:01] PASS  OpenVPN for Android downloaded and installed
+[09:56:05] PASS  Smart test APK installs
+[09:56:05] PASS  no tunnel exists before the test connects
